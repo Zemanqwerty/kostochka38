@@ -1,0 +1,170 @@
+{% extends "base.html" %}   
+{% load static %}
+       
+{% block title %}
+	Гамма, разработанная специально для щенков
+{% endblock %} 
+
+{% block head_title %}
+    Гамма, разработанная специально для щенков
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'royal/level2_cat.css' %}" type="text/css" />
+
+<div class="container">
+    <h1 class="category">Гамма, разработанная специально для щенков</h1>
+    <div class='way'>
+        <a href='/'>Главная</a> &rarr; <span>Гамма, разработанная специально для щенков</span>
+    </div>
+    <div class="page">
+        <div class="wrapper royal-level2">
+            <hr class="header-rule">
+            <div class="header header--logo">
+                <div class="row">
+                    <div class="col col--30">
+                        <img class="header__logo" src="{% static 'royal/level_3_pappy/logo.png' %}" alt="Logo">
+                    </div>
+                </div>
+            </div>
+    
+          <div class="section section--intro brand-intro">
+            <div class="row brand-row-header">
+                <div class="col col--50">
+                    <img src="{% static 'royal/level_3_pappy/dog_header.jpg' %}" alt="dog" />
+                </div>
+                
+                <div class="col col--50">
+                    <h1 class="level3-heading">ГАММА, РАЗРАБОТАННАЯ<br/><span class="grey-heading">СПЕЦИАЛЬНО ДЛЯ ЩЕНКОВ</span></h1>
+                    <label class="button brand-button--header dog-pappy">
+                        ПОДОБРАТЬ КОРМ
+                    </label>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <hr class="header-separator-main">
+    
+          <!-- =================================================== -->
+          <!-- ACCORDION -->
+          <!-- =================================================== -->
+    
+          <input type="checkbox" id="accordion-trigger-1" class="accordion-trigger" />
+    
+        <div class="section section--accordion subsection-acc bg-subsection-gray-dark">
+            <div class="row subsection-row-main">
+                <div class="col col--100 subsection-content subsection-head subsection-gray-dark">
+                </div>
+            </div>
+    
+            <div class="row subsection-row-main">
+                <div class="col col--50 subsection-content">
+                    <p>
+                        У здоровых собак здоровые щенки. В процессе лактации суки вырабатывают очень много молока (в 2–3 раза больше собственного веса), в этот период их потребность в нутриентах и энергии сильно возрастает. Эксперты ROYAL CANIN® разработали специальную рецептуру для беременных и кормящих собак и их щенков.
+                    </p>
+                </div>
+                <div class="col col--50 subsection-content">
+                    <img class="packaging" src="{% static 'royal/level_3_pappy/dog_packs.png' %}" alt="dog food packets" />
+                </div>
+            </div>
+        </div>
+        <div class="section section--accordion subsection-acc">
+            <div class="row subsection-row-main">
+                <div class="col col--50 subsection-content">
+                     <div class="subsection-icon-container">
+                        <img src="{% static 'royal/level_3_pappy/icon_scales.png' %}" alt="scales" />
+                        <div class="icon-text">
+                            <h4>БАЛАНС НУТРИЕНТОВ</h4>
+                            <p>
+                               Каждый нутриент в питании для щенка выполняет свою особую функцию. Протеины, липиды, углеводы, витамины и минералы должны быть правильно сбалансированы, ведь их недостаток, как и избыток, могут привести к серьезным проблемам.
+                            </p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col col--50 subsection-content">
+                    <div class="subsection-icon-container">
+                        <img src="{% static 'royal/level_3_pappy/icon_gray.png' %}" alt="scales" />
+                        <div class="icon-text">
+                            <h4>ЗДОРОВОЕ РАЗВИТИЕ</h4>
+                            <p>
+                                Щенки разных пород нуждаются в
+                                разном питании. Необходимо учитывать среднестатистический размер собак данной породы, возраст щенка, его чувствительность к тем или иным компонентам и другие особенности. Именно поэтому специалисты ROYAL CANIN® разработали корма для щенков на основе кривых роста каждой породы.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row subsection-row-main">
+                <div class="col col--50 subsection-content last-subsection" style="padding-bottom: 0">
+                    <div class="subsection-kibble-container">
+                        <img style="margin-top: 0" src="{% static 'royal/level_3_pappy/dog_bottom_left.jpg' %}" alt="dog" />
+                        <div class="kibble-text">
+                            <img src="{% static 'royal/level_3_pappy/dog_kibble1.png' %}" alt="kibble" />
+                            <p>
+                               Каждый продукт имеет форму, размер, текстуру и плотность крокет, в соответствии с потребностями вашего щенка
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mobile-separator">
+                <div class="col col--50 subsection-content last-subsection">
+                    <h3>
+                        СПЕЦИАЛЬНОЕ ПИТАНИЕ ДЛЯ ЩЕНКА В САМЫЙ ВАЖНЫЙ ПЕРВЫЙ ГОД ЕГО ЖИЗНИ
+                    </h3>
+                </div>
+            </div>
+    
+    
+        </div>
+        <hr class="content-separator-main">
+        <div class="section section--accordion subsection-last footer-pappy">
+            <div class="row subsection-row-main">
+                
+                <div class="col col--20 subsection-content">
+                     <div class="footer-icon-cont">
+                        <a href="/c/korm-dlya-sobak/?page=1&f-age=schenok&f-size=krupnaya&producer_filter=royal-canin" target="_blank">
+                            <div class="footer-icon" id="footer-1"></div>
+                        </a>
+                    </div>
+                </div>
+                    
+                <div class="col col--20 subsection-content">
+                    <div class="footer-icon-cont">
+                         <a href="/c/korm-dlya-sobak/?page=1&f-age=schenok&f-size=krupnaya&producer_filter=royal-canin" target="_blank">
+                            <div class="footer-icon" id="footer-2"></div>
+                         </a>
+                    </div>
+                </div>
+                
+                 <div class="col col--20 subsection-content">
+                    <div class="footer-icon-cont">
+                         <a href="/c/korm-dlya-sobak/?page=1&f-age=schenok&f-size=srednyaya&producer_filter=royal-canin" target="_blank">
+                            <div class="footer-icon" id="footer-3"></div>
+                         </a>
+                    </div>
+                </div>
+                
+                 <div class="col col--20 subsection-content">
+                    <div class="footer-icon-cont">
+                         <a href="/c/korm-dlya-sobak/?page=1&f-age=schenok&f-size=malenkaya&producer_filter=royal-canin" target="_blank">
+                            <div class="footer-icon" id="footer-4"></div>
+                         </a>
+                    </div>
+                </div>
+                
+                 <div class="col col--20 subsection-content">
+                    <div class="footer-icon-cont">
+                         <a href="/c/korm-dlya-sobak/?page=1&f-age=schenok&f-size=malenkaya&producer_filter=royal-canin" target="_blank">
+                             <div class="footer-icon" id="footer-5"></div>
+                         </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

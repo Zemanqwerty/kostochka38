@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+
+{% block head %}
+    <meta content="{{ new.social_short }}" name="description">
+{% endblock%} 
+
+{% block title %}
+    {{ new.title }}
+{% endblock %}   
+
+{% block head_title %}{{ new.title }}{% endblock%}
+        
+{% block content %} 
+<div class="container">
+    <h1 class="category">{{ new.title }}</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; {% if new.complete %}<a href='/news'>Новости</a>{% else %}<a href='/promo/'>Акции</a>{% endif %} &rarr; <span>{{ new.title }}</span>
+    </div>
+
+    <div class="page action">
+
+        <div id="news_block" class='light{% if new.status == '1' %} superuser{% endif %}'>
+            <div class="meta">
+                <p class='date'>
+                    Опубликовано <span>{{ new.date|ru_strftime:"%d %B %Y" }} в {{ new.date|date:"H:i" }}</span>
+                </p>
+                <i class="fa fa-circle"></i>
+                <!-- кнопки соц. сетей -->
+                <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+                <div class="yashare-auto-init"
+                    data-yashareL10n="ru"
+                    data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus"
+                    data-yashareTheme="counter"
+                    data-yasharetype="small"
+                    data-yashareTitle="{{ new.title }}"
+                    data-yashareImage="http://kostochka38.ru/staticfiles/images/logo_big.png"
+                    data-yashareDescription="{{ new.social_short }}"
+                ></div>
+                <!-- конец кнопки соц. сетей -->
+                <br class="clear">
+            </div>
+            <div class="paper_body">
+                {{ new.body|safe }}
+                <p>{% if new.complete %}<span class="complete">Акция завершена</span>{% endif %}</p>
+
+            </div>  
+            
+        </div>
+
+    {% if new.get_item %}
+        <hr class="small-big">
+        <h3>Товар, участвующий в акции</h3>
+        <div class="catalog-goods">
+            <ul class="catalog-goods-container">
+                {% for item in new.get_item %}
+                    {% include 'items_card_no_group.html' with item=item.item type='action' left=left %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+

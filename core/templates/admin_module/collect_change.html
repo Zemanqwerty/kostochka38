@@ -1,0 +1,91 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% load intfilter %}
+{% load i18n %}
+{% block extrahead %}
+  <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+  <link rel="stylesheet" href="{% static 'kostochka38/css/admin-chosen.css' %}" />
+{% endblock %}
+{% block title %}Подсчет курьера | {% trans 'Django site admin' %}{% endblock %}
+
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/mz/">{% trans 'Home' %}</a> &rsaquo; Сдача</div>{% endblock %}
+{% block content %}
+    <style>
+        td, th{
+            font-size: 13px !important;
+            line-height: 18px !important;
+        }
+    </style>
+    <h3>{{ now }} - {{ courier_name }}</h3>
+    <table class="paleblue" width="950px" border=1 cellpadding="2px" style="border-collapse: collapse !important; font-size: 110%;">
+        {% for i in zakazs %}
+            <tr>
+                <td align="center" style="text-align: center;">{{ forloop.counter }}</td>
+                <td align="center" style="text-align: center;">#{{ i.id }}</td>
+                <td >
+                    {{ i.city }}, {{ i.street }} {{ i.dom }}{% if i.appart %} - {{ i.appart }}{% endif %}
+                    {% if i.extra %}<br><b>!!</b> <i>{{ i.extra }}</i>{% endif %}
+                </td>
+                <td style="text-align: right;{% if i.paid_client %} color: orange{% else %}{% if i.paytype == 1 %} color: green;{% endif %}{% endif %}">{{ i.k_oplate }}&nbsp;р.&nbsp;({{ i.for_check_sum }}&nbsp;р.)</td>
+                <td style="text-align: right;">{% if i.paid_client %}ОПЛАЧЕН{% else %}{% if i.paytype == 1 %}картой{% endif %}{% if i.paytype == 2 %}карта / нал{% endif %}{% if i.paytype == 4 %}НЕ ОПЛАЧЕН!{% endif %}{% endif %}</td>
+                <td style="text-align: center;">{% if i.change %}{{ i.change }}{% else %}0{% endif %}&nbsp;р.</td>
+            </tr>
+        {% endfor %}
+
+        <tr>
+            <td align="center"></td>
+            <td></td>
+            <td></td>
+            <td style="text-align: right; background: #ddd;"></td>
+            <td style="text-align: center; background: #ddd;"></td>
+            <td style="text-align: center; background: #ddd;"></td>
+        </tr>
+        <tr>
+            <td align="center"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="text-align: right;">сумма:</td>
+            <td style="text-align: center;"><b>{{ changes }}&nbsp;р.</b></td>
+        </tr>
+
+    </table>
+    <br>
+
+    <h3>Детализация</h3>
+    <table class="paleblue" width="300px" border=1 cellpadding="3px" style="border-collapse: collapse !important;">
+        <!--<tr>
+            <td style="text-align: right">1000 руб.</td>
+            <td>0 шт</td>
+        </tr>-->
+        <tr>
+            <td style="text-align: right">500 руб.</td>
+            <td>{{ changes_dict.500 }} шт</td>
+        </tr>
+        <tr>
+            <td style="text-align: right">100 руб.</td>
+            <td>{{ changes_dict.100 }} шт</td>
+        </tr>
+        <tr>
+            <td style="text-align: right">50 руб.</td>
+            <td>{{ changes_dict.50 }} шт</td>
+        </tr>
+        <tr>
+            <td style="background: #eee;"></td>
+            <td style="background: #eee;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: right">10 руб.</td>
+            <td>{{ changes_dict.10 }} шт</td>
+        </tr>        <tr>
+            <td style="text-align: right">5 руб.</td>
+            <td>{{ changes_dict.5 }} шт</td>
+        </tr>        <tr>
+            <td style="text-align: right">2 руб.</td>
+            <td>{{ changes_dict.2 }} шт</td>
+        </tr>        <tr>
+            <td style="text-align: right">1 руб.</td>
+            <td>{{ changes_dict.1 }} шт</td>
+        </tr>
+    </table>
+{% endblock %}

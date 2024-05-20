@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+{% load humanize %}  
+{% load pytils_numeral %}
+{% load intfilter %}
+{% load static %}
+
+
+{% block extra_styles %}
+  <link rel="stylesheet" href="{% static 'kostochka38/css/checkboxes.css' %}?v{{ vers }}" type="text/css" />
+{% endblock %}
+{% block title %}
+    Оформление заказа
+{% endblock %}
+
+{% block head_title %}
+     Оформление заказа
+{% endblock %}
+
+{% block way %}
+
+{% endblock %}
+
+{% block extra_footer %}
+    <script type="application/javascript" src="{% static 'kostochka38/js/jquery.inputmask.3d267cff6083d1d5ee6425a54348dfb63f20cebf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'kostochka38/js/check_phone.js' %}?v2"></script>
+    <script type="text/javascript" src="{% static 'kostochka38/js/cart.js' %}?v2"></script>
+{% endblock %}
+
+{% block content %}  
+<div class="container">
+    <h1 class="category">Оформление заказа</h1>
+    <div id='cart_way' class='step1'>
+        <span class='active'><span class="text">Корзина</span></span> <i class="fa fa-long-arrow-right"></i>
+        <span><span class="text">Оформление заказа</span><span class="background-icon"><i class="fa fa-pencil"></i></span></span>
+    </div>
+
+    <div class="page oficial">
+        <form name='registration_cart_form' action='' id='registration_cart_form' method='POST' autocomplete="off">
+            <div class='cart_registration'>
+                {% if errors %}
+                    <div class='cerror'>{{ errors.text|safe }}</div>
+                {% endif %}
+
+                {% if not_registration %}
+                    <h3>Регистрационные данные</h3>
+                    <a href='#' id='fast_login'>Я уже зарегистрирован</a>
+
+                    <div class="form-container">
+                        <label class="for_check_box"><input autocomplete="off" type="checkbox" value="1" class="no_need_registration" name="no_need_registration"> <b>Оформить без регистрации</b>
+                        </label>
+                    </div>
+                    <div class="registratopn_wrapper">
+                        <div class="form-container">
+                            <label for="username"><b>E-mail</b></label>
+                            <input autocomplete="off" {% if errors.username_1 %}class='ierror'{% endif %} {% if errors.username_2 %}class='ierror'{% endif %} {% if errors.username_3 %}class='ierror'{% endif %} type='text' name='username' id='username' value='{{ username }}'>
+                        </div>
+
+                        <div class="form-container">
+                            <label for="password_1">Пароль</label>
+                            <input autocomplete="off" {% if errors.password_1 %}class='ierror'{% endif %} {% if errors.password_2 %}class='ierror'{% endif %} id='password_1' type='password' name='password_1'>
+                        </div>
+
+                        <div class="form-container">
+                            <label for="password_2">Пароль (повторно)</label>
+                            <input autocomplete="off" id='password_2' type='password' name='password_2'>
+                        </div>
+
+                        <div class="form-container captcha-inside{% if errors.captcha %} ierror{% endif %}">
+                            <label for="id_captcha_1">Введите символы</label>
+                            {{ form.captcha }}
+                        </div>
+                        <br>
+                    </div>
+                {% endif %}
+
+                <!--  АДРЕС -->
+                <h3>Данные для доставки</h3>
+
+                <div class="form-container">
+                    <label for="phone"><b>Телефон</b></label>
+                    <input id='phone' {% if errors.phone %}class='ierror'{% endif %} value='{% if data.phone %}{{ data.phone|format_numbers }}{% else %}+7(___)___-__-__{% endif %}' class='cart_form' name="phone" type="tel">
+                    {% if not not_registration %}<br>
+                    <p class="help-text"><i>* достаточно заполнить только телефон</i></p>{% endif %}
+                </div>
+
+                <div class="wrapper_show_aditional">
+                    <a href="#" class="show_aditional">Указать детали доставки</a>
+                </div>
+
+                <div class="aditional">
+                    <div class="form-container">
+                        <label for="street" class="lite_weight">Улица</label>
+                        <input id='street' {% if errors.street %}class='ierror'{% endif %} value='{% if data.street %}{{ data.street }}{% endif %}' class='cart_form' name="street">
+                    </div>
+                    <div class="form-container">
+                        <label for="dom" class="lite_weight">Номер дома</label>
+                        <input id='dom' {% if errors.dom %}class='ierror'{% endif %} value='{% if data.dom %}{{ data.dom }}{% endif %}' class='cart_form' name="dom">
+                    </div>
+                    <div class="form-container">
+                        <label for="appart" class="lite_weight">Квартира</label>
+                        <input id='appart' {% if errors.appart %}class='ierror'{% endif %} value='{% if data.appart %}{{ data.appart }}{% endif %}' class='cart_form' name="appart">
+                    </div>
+                    <div class="form-container">
+                        <label for="fio" class="lite_weight">Имя</label>
+                        <input id='fio' {% if errors.fio %}class='ierror'{% endif %} value='{% if data.fio %}{{ data.fio }}{% endif %}' class='cart_form' name="fio">
+                    </div>
+                    <div class="form-container">
+                        <label for="desired_time" class="lite_weight">Время доставки</label>
+                        <div class="row mw435px">
+                            <div class="col-xs-4">
+                                <input class="checkbox-budget" type="radio" name="desired_time" id="budget-4"
+                                       value="10:00 - 14:00">
+                                <label class="for-checkbox-budget orange-border" for="budget-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">Утром <br><span class="big-time">10:00 - 14:00</span></h5>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-xs-4">
+                                <input checked="checked" class="checkbox-budget" type="radio" name="desired_time" id="budget-5"
+                                       value="14:00 - 18:00">
+                                <label class="for-checkbox-budget orange-border" for="budget-5">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">Днём <br><span class="big-time">14:00 - 18:00</span></h5>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-xs-4">
+                                <input class="checkbox-budget" type="radio" name="desired_time" id="budget-6"
+                                       value="18:00 - 22:00">
+                                <label class="for-checkbox-budget orange-border" for="budget-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">Вечером <br><span class="big-time">18:00 - 22:00</span></h5>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-container">
+                        <label for="paytype" class="lite_weight">Способ оплаты</label>
+                        <div class="row mw435px">
+                            <div class="col-xs-4">
+                                <input class="checkbox-budget paytype-checkbox" type="radio" name="paytype"
+                                       id="budget-1" value="0" {% if data.paytype == 0 or not data.paytype %}
+                                       checked="checked"{% endif %}>
+                                <label class="for-checkbox-budget orange-border" for="budget-1">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title checkout-title text-center">Наличными</h5>
+                                            <p class="description">при получении</p>
+                                            <i class="fad checkout-icon fa-wallet"></i>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-xs-4">
+                                <input class="checkbox-budget paytype-checkbox" type="radio" name="paytype"
+                                       id="budget-2" value="1" {% if data.paytype == 1 or data.paytype == 4 %}
+                                       checked="checked"{% endif %}>
+                                <label class="for-checkbox-budget orange-border" for="budget-2">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title checkout-title text-center">Картой</h5>
+                                            <p class="description">при получении</p>
+                                            <i class="fad checkout-icon fa-scanner-keyboard"></i>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-xs-4 hidden">
+                                <input class="checkbox-budget paytype-checkbox" type="radio" name="paytype"
+                                       id="budget-3" value="4">
+                                <label class="for-checkbox-budget orange-border" for="budget-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title checkout-title text-center">Онлайн</h5>
+                                            <p class="description">на сайте</p>
+                                            <i class="fad checkout-icon fa-credit-card-front"></i>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="col-xs-12 hidden payment_notification">
+                                <div class="alert alert-warning checkout-alert">
+                                    Вы получите ссылку на оплату на e-mail после
+                                    проверки заказа оператором.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-container">
+                        <label for="delivery_type" class="lite_weight">Способ доставки</label>
+                        <div class="row mw435px">
+                            <div class="col-xs-4">
+                                <input checked="checked" class="checkbox-budget delivery-checkbox" type="radio" name="delivery_type"
+                                       id="delivery-type-courier" value="-1">
+                                <label class="for-checkbox-budget orange-border" for="delivery-type-courier">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title checkout-title text-center">Курьером</h5>
+                                            <p class="description">
+                                                {% if dostavka == 0 %}
+                                                    бесплатно
+                                                {% else %}
+                                                    {{ dostavka|intspace }} <i class="far fa-ruble-sign" aria-hidden="true"></i>
+                                                {% endif %}
+                                            </p>
+                                            <i class="fad checkout-icon fa-hand-holding-box"></i>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            {% for warehouse in warehouses %}
+                                <div class="col-xs-4">
+                                    <input class="checkbox-budget delivery-checkbox" type="radio" name="delivery_type"
+                                           id="delivery-type-{{ warehouse.id }}" value="{{ warehouse.id }}">
+                                    <label class="for-checkbox-budget orange-border"
+                                           for="delivery-type-{{ warehouse.id }}">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title checkout-title text-center">
+                                                    Самовывоз</h5>
+                                                <p class="description">{{ warehouse.address }}</p>
+                                                {% if warehouse.type == 0 %}
+                                                    <i class="fad checkout-icon fa-warehouse-alt"></i>
+                                                {% elif warehouse.type == 1 %}
+                                                    <i class="fad checkout-icon fa-store-alt"></i>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            {% endfor %}
+                            <div class="col-xs-12 hidden delivery_notification">
+                                <div class="alert alert-warning checkout-alert">
+                                    Срок сборки заказа 1-3 дня. Ожидайте звонка оператора
+                                    и сообщения о готовности заказа.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-container">
+                        <label for="comment" class="lite_weight"><span class='toppadding'>Комментарий по доставке</span></label>
+                        <textarea name='comment' id='comment' rows='4' cols='58'>{{ data.comment }}</textarea>
+                    </div>
+                    <div class="form-container">
+                        <label for="promocode" class="lite_weight">Промокод</label>
+                        <input id='promocode' {% if errors.promocode %}class='ierror'{% endif %} value='{{ data.promocode }}' class='cart_form' name="promocode">
+                    </div>
+                </div>
+
+                <div class="form-container">
+                        <input type="hidden" name="city" value="Иркутск">
+                        <span class="error_phone">пожалуйста, заполните телефон</span>
+
+                        <div id='next_button'>Оформить заказ</div>
+                        <div id='next_button_loader'>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                            <span class="sr-only">Загрузка...</span>
+                        </div>
+
+                </div>
+                <div class="urtext">
+                    <p>
+                        Нажимая кнопку «Оформить заказ», я подтверждаю свою дееспособность, согласие на получение
+                        информации о заказе и об изменении статуса заказа, согласие на обработку персональных данных в соответствии
+                        с указанным <a href="/privacy/" target="_blank">здесь</a> текстом.
+                    </p>
+                </div>
+
+                <input type='hidden' value='{% if not_registration %}0{% else %}1{% endif %}' id='type' name='type'>
+
+            </div>
+            <div class='clear'></div>  
+        </form> 
+	</div>
+</div>
+{% endblock %}

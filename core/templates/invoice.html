@@ -1,0 +1,245 @@
+{% load humanize %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load intfilter %}
+{% load static %}
+
+<html>
+<head>
+    <title>Счет на оплату №{{ zakaz.id }}</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <style>
+        body { width: 210mm; margin-left: auto; margin-right: auto; font-size: 11pt; font-family: Helvetica}
+        table.invoice_bank_rekv { border-collapse: collapse; border: 1px solid #999; }
+        table.invoice_bank_rekv > tbody > tr > td, table.invoice_bank_rekv > tr > td { border: 1px solid #999; }
+        table.invoice_items { border: 1px solid; border-collapse: collapse;}
+        table.invoice_items td, table.invoice_items th { border: 1px solid;}
+
+        @font-face { font-family: sans-serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+        @font-face { font-family: serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+        @font-face { font-family: Helvetica; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+
+        html {
+            font-family: Helvetica;
+            }
+
+        body, div {
+            font: normal 10px/20px Helvetica, sans-serif;
+            }
+        table {
+            border-collapse: collapse;
+            }
+        .v-center{
+            vertical-align: middle;
+        }
+        table.border, table.border td{
+            border: 1px solid #aaa;
+            border-collapse: collapse;
+            font-size: 9px;
+            line-height: 8px;
+        }
+        table.border.padding td{
+            padding: 5px 0;
+        }
+        @page {
+              size: a4;
+              margin: 1cm 1.7cm 1cm 2.5cm;
+              @frame footer {
+                -pdf-frame-content: footerContent;
+                bottom: 0.3cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 1cm;
+                font-size: 9px;
+                color: #eee;
+              }
+              @frame header {
+                -pdf-frame-content: HeaderContent;
+                top: 1cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 2cm;
+                font-size: 9px;
+                color: #eee;
+              }
+            }
+    </style>
+</head>
+<body>
+<table width="100%">
+    <tr>
+        <td>&nbsp;</td>
+        <td style="width: 155mm;">
+            <!--
+            <div style="width:155mm; ">Внимание! Оплата данного счета означает согласие с условиями поставки товара. Уведомление об оплате  обязательно, в противном случае не гарантируется наличие товара на складе. Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</div>
+            -->
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div style="text-align:left;  font-weight:normal; color: #999;">
+                Образец заполнения платежного поручения
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<table width="100%" cellpadding="2" cellspacing="2" class="invoice_bank_rekv border" border='1px'>
+    <tr>
+        <td colspan="2" rowspan="2" style="min-height:13mm; width: 105mm;">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="height: 13mm;">
+                <tr>
+                    <td valign="top">
+                        <div style="font-size:10pt; line-height: 20pt;">Байкальский банк Сбербанка России</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom" style="">
+                        <div style="font-size:10pt; line-height: 10pt;">Банк получателя</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="min-height:7mm;height:auto; width: 25mm;">
+            <div>БИK</div>
+        </td>
+        <td rowspan="2" style="vertical-align: top; width: 60mm;">
+            <div style=" height: 7mm; line-height: 7mm; font-size: 11pt; vertical-align: middle;">042520607</div>
+            <div style="font-size: 11pt;">30101810900000000607</div>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 25mm;">
+            <div>Сч. №</div>
+        </td>
+    </tr>
+    <tr>
+        <td style="min-height:6mm;  height:auto; width: 50mm;">
+            <div style="font-size: 11px; line-height: 11px">ИНН 3811186048</div>
+        </td>
+        <td style="min-height:6mm; height:auto; width: 55mm;">
+            <div style="font-size: 11px; line-height: 11px">КПП 381101001</div>
+        </td>
+        <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 25mm;">
+            <div>Сч. №</div>
+        </td>
+        <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 60mm;">
+            <div style="font-size: 11pt;">40702810218350003560</div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="min-height:13mm; height:auto;">
+
+            <table border="0" cellpadding="0" cellspacing="0" style="height: 13mm; width: 105mm;">
+                <tr>
+                    <td valign="top">
+                        <div style="font-size:10pt;">ООО "Косточка38"</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom" style="height: 3mm;">
+                        <div style="font-size: 10pt; line-height: 10pt;">Получатель</div>
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+<br/>
+
+<div style="font-weight: bold; text-align: center; margin-top: 15px; font-size: 16pt; ">
+    Счет на оплату № {{ zakaz.id }} от {{ zakaz.date|ru_strftime:"%d %B %Y г." }}
+</div>
+<br/>
+
+<table width="100%" cellpadding="2">
+    <tr>
+        <td style="width: 30mm; vertical-align: top;">
+            Поставщик:
+        </td>
+        <td>
+            <div style="font-weight:bold;  padding-left:2px;">
+                ООО "Косточка38", ИНН 3811186048, КПП 381101001, 664047, Россия, Иркутская обл., г. Иркутск, ул. Карла Либкнехта, д.154, кв.21
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 30mm;  vertical-align: top;">
+            Покупатель:
+        </td>
+        <td>
+            <div style="font-weight:bold;  padding-left:2px;">
+                {{ zakaz.owner.name_plat }}{% if zakaz.owner.inn_plat %}, ИНН {{ zakaz.owner.inn_plat }}{% endif %}{% if zakaz.owner.kpp_plat %}, КПП {{ zakaz.owner.kpp_plat }}{% endif %}{% if zakaz.owner.address_plat %}, КПП {{ zakaz.owner.address_plat }}{% endif %}
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<table class="invoice_items border padding" border='1px' width="100%" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th class="v-center" style="width:13mm;">№</th>
+            <th class="v-center" style="width:25mm;">Код</th>
+            <th class="v-center" align="left">Товар</th>
+            <th class="v-center" style="width:20mm;">Кол-во</th>
+            <th class="v-center" style="width:17mm;">Ед.</th>
+            <th class="v-center" style="width:27mm;">Цена</th>
+            <th class="v-center" style="width:27mm;">Сумма</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in result %}
+            <tr>
+                <th style="width:13mm;">{{ forloop.counter }}</th>
+                <th style="width:25mm;">{{ i.goods.article }}</th>
+                <th align="left">{{ i.goods.deckitem.producer.title }}, {{ i.goods.deckitem.title }}, {{ i.goods.weight }}</th>
+                <th style="width:20mm;">{{ i.quantity }}</th>
+                <th style="width:17mm;">шт</th>
+                <th style="width:27mm;" align="right">{{ i.price_sale|floatformat:2|intspace }}</th>
+                <th style="width:27mm;" align="right">{{ i.summ_sale|floatformat:2|intspace }}</th>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table style="margin-top: 20px" border="0" width="100%" cellpadding="1" cellspacing="1">
+    <tr>
+        <td></td>
+        <td style="width:57mm; text-align:right;">Итого без НДС:</td>
+        <td style="width:27mm; text-align:right;">{{ full_sum|floatformat:2|intspace }}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td style="width:57mm; font-weight:bold;  text-align:right;">Всего к оплате:</td>
+        <td style="width:27mm; font-weight:bold;  text-align:right;">{{ full_sum|floatformat:2|intspace }}</td>
+    </tr>
+</table>
+
+<div>
+    Всего наименований {{ result|length }} на сумму {{ full_sum|floatformat:2|intspace }} рубл{{ zakaz.all_summ|choose_plural:"ь,я,ей" }}.<br />
+    {{ zakaz.all_summ|in_words|capfirst }} рубл{{ zakaz.all_summ|choose_plural:"ь,я,ей" }} {{ skidka_na_meloch_100 }} копеек
+</div>
+
+{% if edo %}
+    <img width="100%" src="{{ path }}/static/kostochka38/images/edo.png">
+{% else %}
+    <hr>
+    <table border="0" width="100%" cellpadding="1" cellspacing="1">
+        <tr>
+            <td style="width: 100mm" align="left">
+                Руководитель ______________ (Мартыненко В.И.)
+            </td>
+            <td style="width: 100mm" align="right">
+                Главный бухгалтер ____________ (Мартыненко В.И.)
+            </td>
+        </tr>
+</table>
+
+    <div style="width: 85mm; margin-top: 30px; text-align:center;">М.П.</div>
+{% endif %}
+
+</body>
+</html>

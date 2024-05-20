@@ -1,0 +1,7 @@
+{% extends "admin_tools/dashboard/module.html" %}
+{% load chart_tags %}
+{% load static %}
+
+{% block module_content %}
+    {% line_chart module.values module.captions '700x300' %}
+{% endblock %}

@@ -1,0 +1,690 @@
+{% load static %}
+{% load intfilter %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <!-- Необходимые мета-теги всегда на первом месте -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'kostochka38/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kostochka38/css/admin/couries_orders.css' %}?v2">
+    <title>СБОРКА заказов</title>
+  </head>
+  <body>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-7"> <h3>Собери меня</h3></div>
+            <div class="col-xs-5 text-right"> <a class="btn btn-sm btn-primary" id="collapseall">Свернуть все</a> <a class="btn btn-sm btn-primary" id="collapseinall">Развернуть все</a></div>
+        </div>
+        <div class="panel-group" id="accordion">
+            {% if courier_name == 'pickup' %}
+                {% regroup zakazs_notcomplete by pickup_warehouse as zakazs_notcomplete_ordered %}
+
+                {% for j in zakazs_notcomplete_ordered %}
+                    <h4>{{ j.grouper }}</h4>
+
+                    {% for zakaz in j.list|dictsort:"completed" reversed %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="padding: 0 15px;">
+                                <div class="panel-title" style="padding: 15px 0;">
+                                    <div data-toggle="collapse" href="#collapse{{ zakaz.id }}">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                {% if zakaz.basket_of_good %}
+                                                    <span class="label"><img src="/static/kostochka38/images/bober.png" title="Корзина добра" height="25px"></span>
+                                                {% endif %}
+                                                {% if zakaz.sale %}<span class="label label-warning blink"><i class="fa fa-percent" aria-hidden="true"></i></span> {% endif %}
+                                                {% if zakaz.inbox %}<span class="label label-danger"><i class="fa fa-archive" aria-hidden="true"></i></span> {% endif %}
+                                                {% if zakaz.sklad2 %}<span class="label label-primary">s2</span> {% endif %}
+                                                {% if zakaz.morning_delivery %}<span class="label label-default"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> {{ zakaz.real_desired_time|date:"(D) d M" }}</span>{% endif %}
+                                                {{ zakaz.desired_time }} ({{ zakaz.get_short_courier }})
+                                            </div>
+                                            <div class="col-sm-6 text-right">
+                                                <spann class="label label-default">{{ zakaz.get_status_display }}</spann>
+                                                #{{ zakaz.id }}
+                                                {% if zakaz.completed == 2 %}<span class="label label-success"> <i class="fa fa-check" aria-hidden="true"></i> </span> {% endif %}
+                                            </div>
+                                            <div class="col-sm-12 small">
+                                                {% if zakaz.extra %}
+                                                    <br>
+                                                    <label>оператор:</label> {{ zakaz.extra }}
+                                                {% endif %}
+                                                {% if zakaz.description %}
+                                                    <br>
+                                                    <label>клиент:</label> {{ zakaz.description }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapse{{ zakaz.id }}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <table class="table table-hover table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-muted text-center text-small">
+                                                    #
+                                                </th>
+                                                <th class="">
+                                                </th>
+                                                <th width="80%" class="text-small">Название</th>
+                                                <th class="text-small">%</th>
+                                                <th class="text-center text-small" style="white-space: nowrap;">Кол-во</th>
+                                                <th class="text-center text-small">Склад</th>
+                                                <th class="text-center text-small">В&nbsp;пути</th>
+                                                <th class="text-center text-small">Резерв</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in zakaz.goods %}
+                                                <tr{% if i.basket_of_good %} style="background-color: #afe7f0"{% elif i.sale > 5 %} class="danger"{% endif %}>
+                                                    <td class="text-muted text-right">
+                                                        #{{ forloop.counter }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="{{ i.get_cover.0.fullimage.url }}" class="fancybox" data-fancybox="group">
+                                                            <img src="{{ i.get_cover.0.cart_thumbnail.url }}" style="max-height: 25px">
+                                                        </a>
+                                                    </td>
+                                                    <td class="">
+                                                        <a href="/DgJrfdJg/catalog/item/{{ i.item.id }}/" target="_blank">{{ i.item.deckitem.producer.title }}, {{ i.item.deckitem.title }}</a> <span class="lead">{{ i.item.weight }}</span><br>
+                                                        {{ i.item.deckitem.title_en }}
+                                                    </td>
+                                                    <td class="">{% if i.sale %}{{ i.sale }}%{% endif %}</td>
+
+                                                    <td class="text-center"><span class="lead">
+                                                        {% if i.quantity > 1 %}
+                                                            <strong>{{ i.quantity }}</strong>
+                                                        {% else %}
+                                                            {{ i.quantity }}
+                                                        {% endif %}
+                                                    </span></td>
+                                                    <td class="text-center">{{ i.item__quantity_in_reserve }}</td>
+                                                    <td class="text-center{% if i.check_insideorder.status == 0 %} success{% endif %}{% if i.check_insideorder.status == 2 %} info{% endif %}{% if i.check_insideorder.status == 4 %} warning{% endif %}">
+                                                        {% if i.check_insideorder %}
+                                                            <a href="/DgJrfdJg/catalog/insidezakaz/{{ i.check_insideorder.id }}/" target="_blank">{{ i.check_insideorder_sum }}</a>
+                                                        {% else %}
+                                                            {{ i.check_insideorder_sum }}
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <a data-container="body" class="order_popover"  data-toggle="popover" data-placement="bottom"
+                                                           data-content="
+                                                           {{ i.item__vreserve_order|safe }}
+                                                            ">
+                                                            {{ i.item__vreserve_count|safe }}
+                                                        </a>
+
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                <div class="row">
+                                    <hr>
+                                    <div class="col-sm-6"><a onclick="return confirm('Точно собрал?');" class="btn btn-success" href="/manage/{{ zakaz.id }}/change_status/3/?user={{ courier_name }}&date={{ date_no_parse }}">Собрал заказ!</a></div>
+                                    <div class="col-sm-6 text-right"><a class="btn btn-info" href="/DgJrfdJg/catalog/zakaz/{{ zakaz.id }}/" target="_blank">Открыть заказ</a></div>
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+                {% for zakaz in zakazs_notcomplete|dictsort:"completed" reversed %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="padding: 0 15px;">
+                            <div class="panel-title" style="padding: 15px 0;">
+                                <div data-toggle="collapse" href="#collapse{{ zakaz.id }}">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            {% if zakaz.basket_of_good %}
+                                                <span class="label"><img src="/static/kostochka38/images/bober.png" title="Корзина добра" height="25px"></span>
+                                            {% endif %}
+                                            {% if zakaz.sale %}<span class="label label-warning blink"><i class="fa fa-percent" aria-hidden="true"></i></span> {% endif %}
+                                            {% if zakaz.inbox %}<span class="label label-danger"><i class="fa fa-archive" aria-hidden="true"></i></span> {% endif %}
+                                            {% if zakaz.sklad2 %}<span class="label label-primary">s2</span> {% endif %}
+                                            {% if zakaz.morning_delivery %}<span class="label label-default"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> {{ zakaz.real_desired_time|date:"(D) d M" }}</span>{% endif %}
+                                            {{ zakaz.desired_time }} ({{ zakaz.get_short_courier }})
+                                        </div>
+                                        <div class="col-sm-6 text-right">
+                                            <spann class="label label-default">{{ zakaz.get_status_display }}</spann>
+                                            #{{ zakaz.id }}
+                                            {% if zakaz.completed == 2 %}<span class="label label-success"> <i class="fa fa-check" aria-hidden="true"></i> </span> {% endif %}
+                                        </div>
+                                        <div class="col-sm-12 small">
+                                            {% if zakaz.extra %}
+                                                <br>
+                                                <label>оператор:</label> {{ zakaz.extra }}
+                                            {% endif %}
+                                            {% if zakaz.description %}
+                                                <br>
+                                                <label>клиент:</label> {{ zakaz.description }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapse{{ zakaz.id }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-muted text-center text-small">
+                                                #
+                                            </th>
+                                            <th class="">
+                                            </th>
+                                            <th width="80%" class="text-small">Название</th>
+                                            <th class="text-small">%</th>
+                                            <th class="text-center text-small" style="white-space: nowrap;">Кол-во</th>
+                                            <th class="text-center text-small">Склад</th>
+                                            <th class="text-center text-small">В&nbsp;пути</th>
+                                            <th class="text-center text-small">Резерв</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in zakaz.goods %}
+                                            <tr{% if i.basket_of_good %} style="background-color: #afe7f0"{% elif i.sale > 5 %} class="danger"{% endif %}>
+                                                <td class="text-muted text-right">
+                                                    #{{ forloop.counter }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="{{ i.get_cover.0.fullimage.url }}" class="fancybox" data-fancybox="group">
+                                                        <img src="{{ i.get_cover.0.cart_thumbnail.url }}" style="max-height: 25px">
+                                                    </a>
+                                                </td>
+                                                <td class="">
+                                                    <a href="/DgJrfdJg/catalog/item/{{ i.item.id }}/" target="_blank">{{ i.item.deckitem.producer.title }}, {{ i.item.deckitem.title }}</a> <span class="lead">{{ i.item.weight }}</span><br>
+                                                    {{ i.item.deckitem.title_en }}
+                                                </td>
+                                                <td class="">{% if i.sale %}{{ i.sale }}%{% endif %}</td>
+
+                                                <td class="text-center"><span class="lead">
+                                                    {% if i.quantity > 1 %}
+                                                        <strong>{{ i.quantity }}</strong>
+                                                    {% else %}
+                                                        {{ i.quantity }}
+                                                    {% endif %}
+                                                </span></td>
+                                                <td class="text-center">{{ i.item__quantity_in_reserve }}</td>
+                                                <td class="text-center{% if i.check_insideorder.status == 0 %} success{% endif %}{% if i.check_insideorder.status == 2 %} info{% endif %}{% if i.check_insideorder.status == 4 %} warning{% endif %}">
+                                                    {% if i.check_insideorder %}
+                                                        <a href="/DgJrfdJg/catalog/insidezakaz/{{ i.check_insideorder.id }}/" target="_blank">{{ i.check_insideorder_sum }}</a>
+                                                    {% else %}
+                                                        {{ i.check_insideorder_sum }}
+                                                    {% endif %}
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <a data-container="body" class="order_popover"  data-toggle="popover" data-placement="bottom"
+                                                       data-content="
+                                                       {{ i.item__vreserve_order|safe }}
+                                                        ">
+                                                        {{ i.item__vreserve_count|safe }}
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            <div class="row">
+                                <hr>
+                                <div class="col-sm-6"><a onclick="return confirm('Точно собрал?');" class="btn btn-success" href="/manage/{{ zakaz.id }}/change_status/3/?user={{ courier_name }}&date={{ date_no_parse }}">Собрал заказ!</a></div>
+                                <div class="col-sm-6 text-right"><a class="btn btn-info" href="/DgJrfdJg/catalog/zakaz/{{ zakaz.id }}/" target="_blank">Открыть заказ</a></div>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if movement_notcomplete %}
+                <hr>
+                <h5>Перемещения на сегодня</h5>
+                {% for zakaz in movement_notcomplete %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="padding: 0 15px;">
+                            <div class="panel-title" style="padding: 15px 0;">
+                                <div data-toggle="collapse" href="#collapse{{ zakaz.id }}">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            ({{ zakaz.get_short_courier }}) &rarr; <b>{{ zakaz.warehouse_recieving.name }}</b>
+                                        </div>
+                                        <div class="col-sm-6 text-right">
+                                            <spann class="label label-default">{{ zakaz.get_status_display }}</spann>
+                                            #{{ zakaz.id }}
+                                        </div>
+                                        <div class="col-sm-12 small">
+                                            {% if zakaz.extra %}
+                                                <br>
+                                                <label>комментарий:</label> {{ zakaz.extra }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapse{{ zakaz.id }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-muted text-center text-small">
+                                                #
+                                            </th>
+                                            <th class="">
+                                            </th>
+                                            <th width="80%" class="text-small">Название</th>
+                                            <th class="text-small">%</th>
+                                            <th class="text-center text-small" style="white-space: nowrap;">Кол-во</th>
+                                            <th class="text-center text-small">Склад</th>
+                                            <th class="text-center text-small">В&nbsp;пути</th>
+                                            <th class="text-center text-small">Резерв</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in zakaz.get_goods %}
+                                            <tr class="{% if i.sale > 5 %}danger{% endif %}">
+                                                <td class="text-muted text-right">
+                                                    #{{ forloop.counter }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="{{ i.get_cover.0.fullimage.url }}" class="fancybox" data-fancybox="group">
+                                                        <img src="{{ i.get_cover.0.cart_thumbnail.url }}" style="max-height: 25px">
+                                                    </a>
+                                                </td>
+                                                <td class="">
+                                                    <a href="/DgJrfdJg/catalog/item/{{ i.item.id }}/" target="_blank">{{ i.item.deckitem.producer.title }}, {{ i.item.deckitem.title }}</a> <span class="lead">{{ i.item.weight }}</span><br>
+                                                    {{ i.item.deckitem.title_en }}
+                                                </td>
+                                                <td class="">{% if i.sale %}{{ i.sale }}%{% endif %}</td>
+
+                                                <td class="text-center"><span class="lead">
+                                                    {% if i.quantity > 1 %}
+                                                        <strong>{{ i.quantity }}</strong>
+                                                    {% else %}
+                                                        {{ i.quantity }}
+                                                    {% endif %}
+                                                </span></td>
+                                                <td class="text-center">{{ i.item__quantity_in_reserve }}</td>
+                                                <td class="text-center">
+                                                    {% if i.check_insideorder %}
+                                                        <a href="/DgJrfdJg/catalog/insidezakaz/{{ i.check_insideorder.id }}/" target="_blank">{{ i.check_insideorder_sum }}</a>
+                                                    {% else %}
+                                                        {{ i.check_insideorder_sum }}
+                                                    {% endif %}
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <a data-container="body" class="order_popover"  data-toggle="popover" data-placement="bottom"
+                                                       data-content="
+                                                       {{ i.item__vreserve_order|safe }}
+                                                        ">
+                                                        {{ i.item__vreserve_count|safe }}
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            <div class="row">
+                                <hr>
+                                <div class="col-sm-6"><a onclick="return confirm('Точно собрал?');" class="btn btn-success" href="/manage/{{ zakaz.id }}/change_status_movement/3/?user={{ courier_name }}&date={{ date_no_parse }}">Собрал заказ!</a></div>
+                                <div class="col-sm-6 text-right"><a class="btn btn-info" href="/DgJrfdJg/catalog/movementofgoods/{{ zakaz.id }}/change/" target="_blank">Открыть заказ</a></div>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <h3><br>Собранные заказы</h3>
+        <div class="panel-group" id="accordion">
+            {% for zakaz in zakazs_complete %}
+                <div class="panel">
+                        <div class="panel-heading color{{ zakaz.status }}">
+                            <h4 class="panel-title">
+                                <div data-toggle="collapse" href="#collapse{{ zakaz.id }}">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            {% if zakaz.basket_of_good %}
+                                                <span class="label"><img src="/static/kostochka38/images/bober.png" title="Корзина добра" height="25px"></span>
+                                            {% endif %}
+                                            {% if zakaz.sale %}<span class="label label-warning blink"><i class="fa fa-percent" aria-hidden="true"></i></span> {% endif %}
+                                            {% if zakaz.inbox %}<span class="label label-danger"><i class="fa fa-archive" aria-hidden="true"></i></span> {% endif %}
+                                            {% if zakaz.sklad2 %}<span class="label label-primary">s2</span> {% endif %}
+                                            {% if zakaz.morning_delivery %}<span class="label label-default"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> {{ zakaz.real_desired_time|date:"(D) d M" }}</span>{% endif %}
+                                            {{ zakaz.desired_time }} ({{ zakaz.get_short_courier }})
+                                             - {% if zakaz.pickup_warehouse %}{{ zakaz.pickup_warehouse.name }}{% endif %}
+                                        </div>
+                                        <div class="col-sm-6 text-right">
+                                            <spann class="label label-default">{{ zakaz.get_status_display }}</spann>
+                                            #{{ zakaz.id }}
+                                            {% if zakaz.completed %}<span class="label label-success"> <i class="fa fa-check" aria-hidden="true"></i> </span> {% endif %}
+
+                                        </div>
+                                        <div class="col-sm-12 small">
+                                            {% if zakaz.extra %}
+                                                <br>
+                                                <label>оператор:</label> {{ zakaz.extra }}
+                                            {% endif %}
+                                            {% if zakaz.description %}
+                                                <br>
+                                                <label>клиент:</label> {{ zakaz.description }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </h4>
+                        </div>
+                        <div id="collapse{{ zakaz.id }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-muted text-center text-small">
+                                                #
+                                            </th>
+                                            <th class="">
+                                            </th>
+                                            <th width="80%" class="text-small">Название</th>
+                                            <th class="text-small">%</th>
+
+                                            <th class="text-center text-small" style="white-space: nowrap;">Кол-во</th>
+                                            <th class="text-center text-small">Склад</th>
+                                            <th class="text-center text-small">В&nbsp;пути</th>
+
+                                            <th class="text-center text-small">Резерв</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            {% for i in zakaz.goods %}
+                                                <tr{% if i.basket_of_good %} style="background-color: #afe7f0"{% elif i.sale > 5 %} class="warning"{% endif %}>
+                                                    <td class="text-muted text-right{% if forloop.counter == 1 %}{% if zakaz.status == 0 %} success{% endif %}{% if zakaz.status == 2 %} info{% endif %}{% if zakaz.status == 3 or zakaz.status == 31 %} warning{% endif %}{% endif %}">
+                                                        #{{ forloop.counter }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="{{ i.get_cover.0.fullimage.url }}" class="fancybox" data-fancybox="group">
+                                                            <img src="{{ i.get_cover.0.cart_thumbnail.url }}" style="max-height: 25px">
+                                                        </a>
+                                                    </td>
+                                                    <td class="">
+                                                        <a href="/DgJrfdJg/catalog/item/{{ i.item.id }}/" target="_blank">{{ i.item.deckitem.producer.title }}, {{ i.item.deckitem.title }}</a> <span class="lead">{{ i.item.weight }}</span><br>
+                                                        {{ i.item.deckitem.title_en }}
+                                                    </td>
+                                                    <td class="">{% if i.sale %}{{ i.sale }}%{% endif %}</td>
+
+
+                                                    <td class="text-center"><span class="lead">{{ i.quantity }}</span></td>
+                                                    <td class="text-center">{{ i.item__quantity_in_reserve }}</td>
+                                                    <td class="text-center{% if i.check_insideorder.status == 0 %} success{% endif %}{% if i.check_insideorder.status == 2 %} info{% endif %}{% if i.check_insideorder.status == 4 %} warning{% endif %}">
+                                                        {% if i.check_insideorder %}
+                                                            <a href="/DgJrfdJg/catalog/insidezakaz/{{ i.check_insideorder.id }}/" target="_blank">{{ i.check_insideorder_sum }}</a>
+                                                        {% else %}
+                                                            {{ i.check_insideorder_sum }}
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <a data-container="body" class="order_popover"  data-toggle="popover" data-placement="bottom"
+                                                           data-content="
+                                                           {{ i.item__vreserve_order|safe }}
+                                                            ">
+                                                            {{ i.item__vreserve_count|safe }}
+                                                        </a>
+
+                                                    </td>
+
+                                                </tr>
+                                            {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            <div class="row">
+                                <hr>
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-6 text-right"><a class="btn btn-info" href="/DgJrfdJg/catalog/zakaz/{{ zakaz.id }}/" target="_blank">Открыть заказ</a></div>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+
+            {% if movement_complete %}
+                <hr>
+                <h5>Перемещения на сегодня</h5>
+                {% for zakaz in movement_complete %}
+                    <div class="panel">
+                            <div class="panel-heading color{{ zakaz.status }}">
+                                <h4 class="panel-title">
+                                    <div data-toggle="collapse" href="#collapse{{ zakaz.id }}">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                ({{ zakaz.get_short_courier }})
+                                            </div>
+                                            <div class="col-sm-6 text-right">
+                                                <spann class="label label-default">{{ zakaz.get_status_display }}</spann>
+                                                #{{ zakaz.id }}
+                                            </div>
+                                            <div class="col-sm-12 small">
+                                                {% if zakaz.extra %}
+                                                    <br>
+                                                    <label>Комментарий:</label> {{ zakaz.extra }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </h4>
+                            </div>
+                            <div id="collapse{{ zakaz.id }}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <table class="table table-hover table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-muted text-center text-small">
+                                                    #
+                                                </th>
+                                                <th class="">
+                                                </th>
+                                                <th width="80%" class="text-small">Название</th>
+                                                <th class="text-small">%</th>
+
+                                                <th class="text-center text-small" style="white-space: nowrap;">Кол-во</th>
+                                                <th class="text-center text-small">Склад</th>
+                                                <th class="text-center text-small">В&nbsp;пути</th>
+
+                                                <th class="text-center text-small">Резерв</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                {% for i in zakaz.get_goods %}
+                                                    <tr class="{% if i.sale > 5 %}warning{% endif %}">
+                                                        <td class="text-muted text-right{% if forloop.counter == 1 %}{% if zakaz.status == 0 %} success{% endif %}{% if zakaz.status == 2 %} info{% endif %}{% if zakaz.status == 3 or zakaz.status == 31 %} warning{% endif %}{% endif %}">
+                                                            #{{ forloop.counter }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="{{ i.get_cover.0.fullimage.url }}" class="fancybox" data-fancybox="group">
+                                                                <img src="{{ i.get_cover.0.cart_thumbnail.url }}" style="max-height: 25px">
+                                                            </a>
+                                                        </td>
+                                                        <td class="">
+                                                            <a href="/DgJrfdJg/catalog/item/{{ i.item.id }}/" target="_blank">{{ i.item.deckitem.producer.title }}, {{ i.item.deckitem.title }}</a> <span class="lead">{{ i.item.weight }}</span><br>
+                                                            {{ i.item.deckitem.title_en }}
+                                                        </td>
+                                                        <td class="">{% if i.sale %}{{ i.sale }}%{% endif %}</td>
+
+
+                                                        <td class="text-center"><span class="lead">{{ i.quantity }}</span></td>
+                                                        <td class="text-center">{{ i.item__quantity_in_reserve }}</td>
+                                                        <td class="text-center{% if i.check_insideorder.status == 0 %} success{% endif %}{% if i.check_insideorder.status == 2 %} info{% endif %}{% if i.check_insideorder.status == 4 %} warning{% endif %}">
+                                                            {% if i.check_insideorder %}
+                                                                <a href="/DgJrfdJg/catalog/insidezakaz/{{ i.check_insideorder.id }}/" target="_blank">{{ i.check_insideorder_sum }}</a>
+                                                            {% else %}
+                                                                {{ i.check_insideorder_sum }}
+                                                            {% endif %}
+                                                        </td>
+
+                                                        <td class="text-center">
+                                                            <a data-container="body" class="order_popover"  data-toggle="popover" data-placement="bottom"
+                                                               data-content="
+                                                               {{ i.item__vreserve_order|safe }}
+                                                                ">
+                                                                {{ i.item__vreserve_count|safe }}
+                                                            </a>
+
+                                                        </td>
+
+                                                    </tr>
+                                                {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                <div class="row">
+                                    <hr>
+                                    <div class="col-sm-6 mt-2"></div>
+                                    <div class="col-sm-6 mt-2 text-right"><a class="btn btn-info" href="/DgJrfdJg/catalog/movementofgoods/{{ zakaz.id }}/" target="_blank">Открыть заказ</a></div>
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+   </div>
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'kostochka38/css/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kostochka38/css/admin-chosen.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'kostochka38/fancybox/jquery.fancybox.css' %}">
+    <script src="{% static 'kostochka38/fancybox/jquery.fancybox.js' %}"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('.order_popover').popover({
+                    html: true,
+                    title: 'Заказы'
+                });
+
+                $("[data-fancybox]").fancybox({
+                    // Options will go here
+                });
+                $('#collapseall').click(function(){
+                  $('.panel-collapse.in')
+                    .collapse('hide');
+                });
+                $('#collapseinall').click(function(){
+                  $('.panel-collapse')
+                    .collapse('show');
+                });
+            })
+        </script>
+
+  <style>
+    a{
+        color: #4790e5;
+    }
+    a:hover{
+        text-decoration: none;
+    }
+    a.btn{
+        text-decoration: none;
+    }
+      a.order_popover{
+          cursor: pointer;
+          font-size: 120%;
+      }
+      .text-small{
+          font-size: 85%;
+      }
+      .panel{
+          border: 1px solid #ddd;
+      }
+      .panel-heading{
+{#          border: 1px solid #ddd;#}
+            border-bottom: 0;
+          cursor: pointer;
+      }
+      .icon-block{
+          width: 35px;
+          height: 35px;
+          border: 1px solid #ddd;
+          border-radius: 2px;
+{#          background: #fff;#}
+          display: inline-block;
+          text-align: center;
+          line-height: 35px;
+          margin-right: 10px;
+      }
+      .table{
+          margin-bottom: 0;
+      }
+
+      .blink {
+          animation-name: blinker;
+          animation-iteration-count: infinite;
+          animation-timing-function: linear;
+          animation-duration: 1s;
+          -webkit-animation-name: blinker;
+          -webkit-animation-iteration-count: infinite;
+          -webkit-animation-timing-function: linear;
+          -webkit-animation-duration: 1s;
+        }
+
+    @keyframes blinker {
+      0% { opacity: 1.0; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    @-webkit-keyframes blinker {
+      0% { opacity: 1.0; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+      .blink_bg {
+          animation-name: blinker2;
+          animation-iteration-count: infinite;
+          animation-timing-function: linear;
+          animation-duration: 1s;
+          -webkit-animation-name: blinker2;
+          -webkit-animation-iteration-count: infinite;
+          -webkit-animation-timing-function: linear;
+          -webkit-animation-duration: 1s;
+        }
+
+    @keyframes blinke2r {
+      0% { background-color: #fcf9ce; }
+      50% { background-color: #ffffff; }
+      100% { background-color: #fcf9ce; }
+    }
+
+    @-webkit-keyframes blinker2 {
+      0% { background-color: #fcf9ce; }
+      50% { background-color: #ffffff; }
+      100% { background-color: #fcf9ce; }
+    }
+  </style>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+{% load static %}
+{% if page_var.next_page %}
+    <a href="#" >Показать еще</a>
+    <div class="loader">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span class="sr-only">Загрузка...</span>
+    </div>
+{% endif %}

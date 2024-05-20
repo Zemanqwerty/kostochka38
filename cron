@@ -1,0 +1,24 @@
+ежедневно
+wget https://kostochka38.ru/check_availibility_status_date/
+wget https://kostochka38.ru/deactivate_deckitems/
+wget https://kostochka38.ru/deckitems_availability/
+wget https://kostochka38.ru/calculate_price/
+wget https://kostochka38.ru/calculate_buy_rate/
+/var/www/www-root/data/www/kostochka38/.env/bin/python /var/www/www-root/data/www/kostochka38/manage.py clearsessions
+/var/www/www-root/data/www/kostochka38/.env/bin/python /var/www/www-root/data/www/kostochka38/manage.py purge_mail_log 7
+/var/www/www-root/data/www/kostochka38/.env/bin/python /var/www/www-root/data/www/kostochka38/manage.py purge_priceparser 14
+/var/www/www-root/data/www/kostochka38/.env/bin/python /var/www/www-root/data/www/kostochka38/manage.py update_new_items
+
+каждую минуту
+/var/www/www-root/data/www/kostochka38/.env/bin/python /var/www/www-root/data/www/kostochka38/manage.py send_mail
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+Раз в неделю
+--------------------------------------------------------------------------------------------------------------------------------
+Эти команды необходимо выполнять с разницей в несколько часов, чтобы к моменту выполнения команды generate_sitemap, которая
+создаёт xml-файлы с картой сайта, ссылки на каталог, генерируемые командой generate_catalog_sitemap, были готовы
+
+/var/www/www-root/data/www/kostochka38/.env/bin/python /var/www/www-root/data/www/kostochka38/manage.py generate_catalog_sitemap
+/var/www/www-root/data/www/kostochka38/.env/bin/python /var/www/www-root/data/www/kostochka38/manage.py generate_sitemap /var/www/www-root/data/www/kostochka38/sitemap
+--------------------------------------------------------------------------------------------------------------------------------

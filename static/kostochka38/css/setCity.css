@@ -1,0 +1,24 @@
+.setCityForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.cityChanger {
+  width: auto;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 10px 0 0 10px;
+  background-color: #ff8f40;
+  color: rgb(240, 240, 240);
+}
+
+.setCityBtn {
+  width: auto;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  background-color: rgb(240, 240, 240);
+  color: #ff8f40;
+}

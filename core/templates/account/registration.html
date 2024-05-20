@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	Регистрация
+{% endblock %}
+
+{% block head_title %}
+	Регистрация
+{% endblock %}
+
+{% block meta_keywords %}
+    Регистрация
+{% endblock %}
+
+{% block meta_descroption %}
+    Регистрация
+{% endblock %}
+
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#rpassword').focus();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+ <div class="container">
+        <h1 class="category">Регистрация</h1>
+
+         <div class='way'>
+            <a href='/'>Главная</a> &rarr; <span>Регистрация</span>
+        </div>
+
+        <div class="page">
+            <form class='myform' action='' id='comment_form' method='post'>
+                <div class="validateTips static-page" id="validateTips_registration"></div>
+
+                E-mail<br>
+                <input placeholder="E-mail" type="text" name="email_newuser_static" id="email_newuser_static" value="" class="text ui-widget-content ui-corner-all"><br>
+
+                Пароль<br>
+                <input placeholder="Пароль" type="password" name="password_newuser_static" id="password_newuser_static" value="" class="text ui-widget-content ui-corner-all"><br>
+
+                Пароль повторно<br>
+                <input placeholder="Пароль повторно" type="password" name="password2_newuser_static" id="password2_newuser_static" value="" class="text ui-widget-content ui-corner-all"><br>
+
+                <label class="window-label">
+                    <input type="checkbox" name="subscribe" id="subscribe_static" class="subscribe-checkbox checkbox ui-widget-content ui-corner-all">
+                    Получать рассылку об акциях и скидках<br>
+                    <span class="muted">не чаще 1 раза в неделю</span>
+                </label><br><br>
+
+                <input id='comment_button'  type="submit" tabindex="-1" value="Зарегистрироваться" class='button registration-static'>
+            </form>
+            <div class="static-urtext urtext">
+                <p>
+                    Нажимая кнопку «Зарегистрироваться», я подтверждаю свою дееспособность, согласие на обработку персональных
+                    данных в соответствии с указанным <a href="/privacy/" target="_blank">здесь</a> текстом.
+                </p>
+            </div>
+
+            <div class="dialog-links static-page">
+                <a href="#" class="go-back-entry">Войти на сайт</a><br>
+                <a href="#" class="recovery-link">Забыли пароль?</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

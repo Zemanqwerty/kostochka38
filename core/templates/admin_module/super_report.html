@@ -1,0 +1,58 @@
+{% load static %}
+{% load intfilter %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <!-- Необходимые мета-теги всегда на первом месте -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'kostochka38/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kostochka38/css/admin/couries_orders.css' %}?v2">
+    <title>Super report</title>
+  </head>
+  <body>
+
+
+    <div class="container" style="max-width: 900px">
+        {% for i in result %}
+            <div class="row panel panel-default">
+                <div class="col-sm-12 panel-heading">
+                    {{ i.date }}
+                </div>
+                <div class="panel-body">
+                    <br><br>
+                    <div class="col-sm-12 text-right">
+                        <div class="bg-info" style="padding: 10px 0">
+                            {{ i.revenue|floatformat:"0"|intspace }} ₽
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <table class="table table-condensed table-striped">
+                            <tr class="danger">
+                                <td class="text-right lead">{{ i.minus|floatformat:"0"|intspace }} ₽</td>
+                                <td></td>
+                            </tr>
+                            {% for j in i.detail_result|dictsort:'sum' %}
+                                <tr>
+                                    <td class="text-right">{{ j.sum|floatformat:"0"|intspace }} ₽</td>
+                                    <td>{{ j.title }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <table class="table table-condensed table-striped">
+                            <tr class="success">
+                                <td class="text-right lead">
+                                    {{ i.plus|floatformat:"0"|intspace }} ₽
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+  </body>
+</html>

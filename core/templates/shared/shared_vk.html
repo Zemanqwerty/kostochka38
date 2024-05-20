@@ -1,0 +1,11 @@
+                    <script type="text/javascript" src="//vk.com/js/api/openapi.js?105"></script>
+                    <!-- VK Widget -->
+                    <div style="border: 1px solid #ddd;" id="vk_groups"></div>
+                    <script type="text/javascript">
+                    VK.Widgets.Group("vk_groups", {mode: 0,
+                        width: "200", height: "200",
+                        color1: 'FFFFFF',
+                        color2: '{% if segment == 'purina' %}0099FF{% endif %}{% if segment == 'royal' %}DD0000{% endif %}{% if segment == 'accessories' %}668800{% endif %}',
+                        color3: '{% if segment == 'royal' %}8f4848{% endif %}{% if segment == 'accessories' %}668800{% endif %}'
+                    }, 64153357);
+                    </script>

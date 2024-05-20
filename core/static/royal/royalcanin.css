@@ -1,0 +1,91 @@
+    html, body{
+      padding: unset;
+      margin: unset;
+
+    }
+
+    h2,h3{
+      color: gray;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+      padding: 0px 20px;
+    }
+
+    .section{
+      width: 100%;
+      text-align: center;
+      padding: 20px 0px;
+    }
+
+    .section.section--red{
+      background-color: #F24141;
+      color: white;
+    }
+
+    /*.container{*/
+    /*  width: 100%;*/
+    /*  margin: auto;*/
+    /*}*/
+
+    @media (max-width: 1176px) {
+      .container{
+        width: 100%;
+      }
+    }
+
+    .header-logo{
+      text-align: center;
+    }
+
+    .elements{
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    a, a:active, a:hover, a:visited{
+      color: inherit;
+    }
+
+    .elements .element{
+      max-width: 200px;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .elements a.element:hover, .elements .element .element__button:hover{
+      transform: scale(0.95);
+    }
+
+    .element .element__image img{
+      width: 100%;
+    }
+
+    .element .element__text{
+      padding-top: 10px;
+      font-weight: 600;
+      color: #F24141;
+    }
+
+    .element .element__button{
+      transition: all 0.3s ease;
+      height: 50px;
+      background-color: gray;
+      text-align: center;
+      vertical-align: middle;
+      padding: 5px 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      color: white;
+      font-weight: 600;
+      font-size: 0.6em;
+      border: unset;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-size: 0.7rem;
+    }
+    .element .element__button a{
+        width: 100%;
+        font-size: 12px;
+    }

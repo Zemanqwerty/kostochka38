@@ -1,0 +1,71 @@
+{% extends "base.html" %}   
+{% load pytils_dt %}
+
+{% block title %}
+	Отзывы клиентов
+{% endblock %} 
+
+{% block head_title %}
+	Отзывы клиентов{% if page != 1 and page %} | Страница {{ page }}{% endif %}
+{% endblock %}
+
+
+{% block meta_descroption %}
+    Отзывы клиентов
+{% endblock %}
+
+{% block extra_footer %}
+
+{% endblock %}
+
+{% block content %}  
+<div class="container">
+    <h1 class="category">Отзывы клиентов</h1>
+    <div class='way'>
+        <a href='/'>Главная</a> &rarr; <span>Отзывы клиентов</span>
+    </div>
+    <div class="page">
+        <p class="sale-end nomargintop">
+            Вы можете оставить свой отзыв о работе нашего магазина и персонала на нашей странице ВКонтакте в специальном обсуждении
+            <a href="https://new.vk.com/topic-64153357_29280492" target="_blank">отзывы и предложения</a>.<br><br>
+            Мы будем очень признательны за ваше мнение!
+        </p>
+    </div>
+</div>
+<section>
+    <div class="thin-container">
+        {% for review in last_review %}
+            <div class="main-reviews-block">
+                <h3> <a title="Отзыв о Kostochka38, {{ review.title }}" href='{{ review.link }}' target="_blank">{{ review.title }}</a></h3>
+                <span class="date">{{ review.date|ru_strftime:"%d %B %Y, %H:%m" }}</span>
+                {% comment %} <a href="#" class="open-review-modal" data-target-custom="#ReviewModal{{ review.id }}"><img alt="Отзыв о Kostochka38, {{ review.title }}" title="Отзыв о Kostochka38, {{ review.title }}" src='{{ review.cover.url }}'></a> {% endcomment %}
+            </div>
+        {% endfor %}
+        <br class="clear">
+    </div>
+</section>
+
+{% if pages %}
+    <div class="container">
+        <div class="page small-padding">
+            <div class="paginator">
+                {% if page_var.prev_page %}
+                    <a class="go_to_frst_page" data-page="1" href="/reviews/">В начало</a>
+                {% endif %}
+                <div class="paginator__number">
+                    {% if page_var.prev_page %}
+                        <a data-page="{{ page_var.prev_page }}" href="/reviews/?page={{ page_var.prev_page }}">&larr;</a>
+                    {% endif %}
+
+                    {% for iteration in page_var.pages %}
+                        <a data-page="{{ iteration }}"{% if iteration == page %} class="active"{% endif %} href="/reviews/?page={{ iteration }}">{{ iteration }}</a>
+                    {% endfor %}
+
+                    {% if page_var.next_page %}
+                        <a data-page="{{ page_var.next_page }}" href="/reviews/?page={{ page_var.next_page }}">&rarr;</a>
+                    {% endif %}
+                </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

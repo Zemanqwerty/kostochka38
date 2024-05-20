@@ -1,0 +1,75 @@
+{% extends "_old/base.html" %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+
+{% block title %}
+    Сортировка по метке "{{ tag.title }}" <a href='/news/feeds/category/{{ tag.link }}/' target='_blank'><img title="[RSS Лента]" alt="[RSS Лента]" src="/images/forum/img/feed-icon-small.png"></a>
+    {% if user_is_admin %} 
+        <a class='admin_link' target='blank' href='/admin/news/new/'>
+            <img src="/img/edit.png" alt="редактировать"/>
+            <span class="custom warning">
+                <img src="/img/warning.png" alt="Предупреждение" height="48" width="48" />
+                <b>Список всех новостей</b>
+                Это специальная ссылка, которая видна только администратору сайта. Кликните по ней, что бы перейти к созданию новости, с возможностью редактирования и удаления. Ссылка откроется в отдельном окне.
+            </span>
+        </a> 
+        <a class='admin_link' target='blank' href='/admin/news/new/add/'>
+            <img src="/img/add.png" alt="добавить"/>
+            <span class="custom warning">
+                <img src="/img/warning.png" alt="Предупреждение" height="48" width="48" />
+                <b>Добавить новость</b>
+                Это специальная ссылка, которая видна только администратору сайта. Кликните по ней, что бы перейти к разделу со списком всех новостей. Ссылка откроется в отдельном окне.
+            </span>
+        </a>
+    {% endif %}
+{% endblock %}   
+
+{% block head_title %}    
+    "{{ tag.title }}"
+{% endblock%}    
+    
+{% block way %}    
+    <a href='/'>Главная</a>
+    &rarr;
+    <a href='/news'>Новости</a>
+    &rarr;
+    Сортировка по метке "{{ tag.title }}"
+{% endblock%}  
+           
+{% block content %} 
+    <div id='news_main'>
+
+        <div id='tags'>
+            <h3>Метки</h3>
+            {% for tag in tags %}
+                <a href='/news/tag/{{ tag.link }}/'>{{ tag.title }} ({{ tag.get_rate }})</a>, 
+            {% endfor %}    
+        </div>
+        
+        {% for i in news %}
+          	<div id='news_block' class="{% cycle 'light' 'dark' %}">
+        		<h2><a href="/news/{{ i.link }}/">{{ i.title }}</a></h2>
+                <div class='meta'>
+                    Опубликовано {{ i.date|ru_strftime:"%d %B %Y" }} в {{ i.date|date:"H:i" }} ,  <a href='/news/{{ i.link }}/'>{{ i.viewed }} просмотр{{ i.viewed|choose_plural:" ,а,ов" }}</a>, <a href='/news/{{ i.link }}/'>{{ i.get_comment_count }} комментари{{ i.get_comment_count|choose_plural:"й,я,ев" }}</a>
+
+                </div>
+                {{ i.short|safe }}
+                
+                <div class='meta'>
+
+                    Метки: {% for tag in i.get_tags %} <a href='/news/tag/{{ tag.link }}/'>{{ tag.title }}</a>,  {% endfor %}
+                </div>
+                
+                {% if user_is_admin %}
+                    
+                    <div class='admin_block'>
+                        панель администратора: 
+                        <a class='admin_link' target='blank' href='/admin/news/new/{{ i.id }}/'><img src="/img/edit.png" alt="редактировать"/> <span class="custom warning"><img src="/img/warning.png" alt="Предупреждение" height="48" width="48" /><b>Редактировать новость</b>Это специальная ссылка, которая видна только администратору сайта. Кликните по ней, что бы перейти к редактированию выбранной новости. Ссылка откроется в отдельном окне.</span> </a>
+                        <a class='admin_link' target='blank' href='/admin/news/new/{{ i.id }}/delete/'><img src="/img/delete.png" alt="удалить"/> <span class="custom warning"><img src="/img/warning.png" alt="Предупреждение" height="48" width="48" /><b>Удалить новость</b>Это специальная ссылка, которая видна только администратору сайта. Кликните по ней, что бы перейти к удалению выбранной новости. Будьте внимательны, удаленную новость невозможно восстановить! Ссылка откроется в отдельном окне.</span> </a>
+                    </div>
+                {% endif %}
+        	</div>  
+        {% endfor %}
+    
+    </div>
+{% endblock %}

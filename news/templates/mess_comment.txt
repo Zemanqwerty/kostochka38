@@ -1,0 +1,9 @@
+Имя: {{ new_comment.author }}
+
+Отзыв:
+{{ new_comment.body }}
+
+
+ссылка:
+http://kostochka38.ru/DgJrfdJg/news/new/{{ new.id }}/
+

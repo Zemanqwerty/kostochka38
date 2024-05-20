@@ -1,0 +1,9 @@
+<br>
+{{ date }}
+{% for line in result.new_items %}
+    <div class='parser new_items'>
+        <small>{{ line.title }}</small><br>
+        арт[{{ line.article }}] код[{{ line.code }}] цена[{{ line.price }}]
+    </div>
+    <br>
+{% endfor %}

@@ -1,0 +1,1174 @@
+{% load humanize %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load intfilter %}
+{% load static %}
+
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <title>ТОРГ-12 №{{ zakaz.id }}</title>
+        <style type="text/css">
+            /*
+            @font-face { font-family: sans-serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            @font-face { font-family: serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            @font-face { font-family: Helvetica; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            */
+            p.MsoNormal, li.MsoNormal, div.MsoNormal {
+                margin: 0cm;
+                margin-bottom: .0001pt;
+                font-size: 12.0pt;
+            }
+            h1.myh1 {
+                margin:0cm;
+                margin-bottom:.0001pt;
+                text-indent:0cm;
+                page-break-after:avoid;
+                font-size: 7.0pt;
+                line-height: 7.5pt;
+                font-weight:normal;
+            }
+            h2.myh2 {
+                margin:0cm;
+                margin-bottom:.0001pt;
+                text-indent:0cm;
+                page-break-after:avoid;
+                font-size:6.0pt;
+                line-height: 6.5pt;
+                font-weight:normal;
+            }
+            p.MsoCaption, li.MsoCaption, div.MsoCaption {
+                margin-top:6.0pt;
+                margin-right:0cm;
+                margin-bottom:6.0pt;
+                margin-left:0cm;
+                font-size:12.0pt;
+                font-style:italic;
+            }
+
+            p.MsoList, li.MsoList, div.MsoList {
+                margin-top: 0cm;
+                margin-right: 0cm;
+                margin-bottom: 7.0pt;
+                margin-left: 0cm;
+                line-height: 120%;
+                font-size: 12.0pt;
+            }
+
+            p.MsoTitle, li.MsoTitle, div.MsoTitle {
+                margin: 0cm;
+                margin-bottom: .0001pt;
+                text-align: center;
+                page-break-after: avoid;
+                font-size: 10.0pt;
+                font-weight: bold;
+            }
+
+            p.MsoSignature, li.MsoSignature, div.MsoSignature {
+                margin: 0cm;
+                margin-bottom: .0001pt;
+                font-size: 5.0pt;
+                line-height: 6pt;
+            }
+
+            p.MsoBodyText, li.MsoBodyText, div.MsoBodyText {
+                margin-top: 0cm;
+                margin-right: 0cm;
+                margin-bottom: 7.0pt;
+                margin-left: 0cm;
+                line-height: 120%;
+                font-size: 12.0pt;
+            }
+
+        p.a1{
+            font-size: 7pt;
+            line-height: 7.2pt;
+        }
+
+            html {
+                font-family: Verdana, Arial, sans-serif;
+                }
+
+            body, div {
+                font: normal 10px/20px Verdana, sans-serif;
+                }
+            table {
+                border-collapse: collapse;
+                }
+            .v-center{
+                vertical-align: middle;
+            }
+            table.border, table.border td{
+                border: 0.5px solid #aaa;
+                border-collapse: collapse;
+                font-size: 9px;
+                line-height: 8px;
+            }
+            table.border.padding td{
+                padding: 5px 0;
+            }
+
+            td.border-bottom{
+                border-bottom: solid #999 0.5px;
+            }
+            td.border-left{
+                border-left: solid #999 0.5px;
+            }
+            td.border-right{
+                border-right: solid #999 0.5px;
+            }
+            td.border-top{
+                border-top: solid #999 0.5px;
+            }
+            td.border-all{
+                border-top: solid #999 0.5px;
+                border-right: solid #999 0.5px;
+                border-left: solid #999 0.5px;
+                border-bottom: solid #999 0.5px;
+            }
+
+            @page {
+                  size: a4 landscape;
+                  margin: 0.3cm 1cm 1cm 1cm;
+                  @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0.3cm;
+                    margin-left: 1cm;
+                    margin-right: 1cm;
+                    height: 1cm;
+                    font-size: 9px;
+                    color: #eee;
+                  }
+                  @frame header {
+                    -pdf-frame-content: HeaderContent;
+                    top: 1cm;
+                    margin-left: 1cm;
+                    margin-right: 1cm;
+                    height: 2cm;
+                    font-size: 9px;
+                    color: #eee;
+                  }
+                }
+            </style>
+    </head>
+
+    <body lang="RU" style="line-break:strict">
+        <!-- ШАПКА -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+                <tbody>
+                <tr>
+                    <td style="" width="3"></td>
+                    <td colspan="23" valign="top" style="padding:0cm 2.85pt 1pt 2.85pt">
+                        <p class="MsoSignature" align="right" style="text-align:right">
+                            Унифицированная форма № ТОРГ-12 Утверждена постановлением Госкомстата России от 25.12.98 № 132</p>
+                    </td>
+                </tr>
+                <tr style="height:7.1pt">
+                    <td style="" width="3"></td>
+                    <td colspan="22"></td>
+                    <td class="" width="67" valign="bottom" style="width:50.6pt;padding:0 2.85pt .85pt 2.85pt;height:7.1pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">Код</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"></td>
+                    <td colspan="18" valign="bottom" style="padding:0cm 2.85pt .85pt 2.85pt">
+
+                    </td>
+                    <td width="123" colspan="4" valign="bottom" style="width:122.5pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">Форма
+                            по ОКУД</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">0330212</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"><p></p>
+                    </td>
+                    <td width="87" colspan="2" valign="bottom" style="width:65.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Грузоотправитель</h1>
+                    </td>
+                    <td class="border-bottom" colspan="18"  valign="bottom" style="padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">
+                            ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "КОСТОЧКА38", ИНН: 3811186048, КПП: 381101001,
+                            Юридический адрес: 664047, Иркутская обл., г. Иркутск, ул. Карла Либкнехта, дом. 154, кв. 21,
+                            р/с: 40702810218350003560 в БАЙКАЛЬСКИЙ БАНК ПАО СБЕРБАНК, БИК: 042520607,
+                            корр/с: 30101810900000000607
+                        </h1>
+                    </td>
+                    <td width="123" colspan="2" valign="bottom" style="width:120.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">по
+                            ОКПО</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">22853016</h1>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="" width="3"></td>
+                    <td colspan="22" valign="bottom" style="padding:0.85pt 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">Вид деятельности
+                            по ОКДП</h1>
+                    </td>
+                    <td class="border-bottom border-right border-left" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">&nbsp;</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"></td>
+                    <td width="87" colspan="2" valign="bottom" style="width:65.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Грузополучатель</h1>
+                    </td>
+                    <td class="border-bottom" colspan="18" valign="bottom" style="padding:0.85pt 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">
+                            {{ zakaz.owner.name_pol }}{% if zakaz.owner.inn_pol %}, ИНН {{ zakaz.owner.inn_pol }}{% endif %}{% if zakaz.owner.kpp_pol %}, КПП {{ zakaz.owner.kpp_pol }}{% endif %}{% if zakaz.owner.address_pol %}, КПП {{ zakaz.owner.address_pol }}{% endif %}
+                        </h1>
+                    </td>
+                    <td width="93" colspan="2" valign="bottom" style="width:80.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">по
+                            ОКПО</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">&nbsp;</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"></td>
+                    <td width="68" colspan="2" valign="bottom" style="width:51.25pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Поставщик</h1>
+                    </td>
+                    <td class="border-bottom" colspan="18" valign="bottom" style="padding:0.85pt 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">
+                            ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "КОСТОЧКА38", ИНН: 3811186048, КПП: 381101001,
+                            Юридический адрес: 664047, Иркутская обл., г. Иркутск, ул. Карла Либкнехта, дом. 154, кв. 21,
+                            р/с: 40702810218350003560 в БАЙКАЛЬСКИЙ БАНК ПАО СБЕРБАНК, БИК: 042520607,
+                            корр/с: 30101810900000000607
+                        </h1>
+                    </td>
+                    <td width="53" colspan="2" valign="bottom" style="width:40.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">по
+                            ОКПО</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">22853016</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"></td>
+                    <td width="68" colspan="2" valign="bottom" style="width:51.25pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Плательщик</h1>
+                    </td>
+                    <td class="border-bottom" colspan="18" valign="bottom" style="padding:0.85pt 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">
+                            {{ zakaz.owner.name_plat }}{% if zakaz.owner.inn_plat %}, ИНН {{ zakaz.owner.inn_plat }}{% endif %}{% if zakaz.owner.kpp_plat %}, КПП {{ zakaz.owner.kpp_plat }}{% endif %}{% if zakaz.owner.address_plat %}, КПП {{ zakaz.owner.address_plat }}{% endif %}
+                        </h1>
+                    </td>
+                    <td class="border-bottom" width="53" colspan="2" valign="bottom" style="width:40.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">по
+                            ОКПО</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">&nbsp;</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"></td>
+                    <td width="68" colspan="2" valign="bottom" style="width:51.25pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Основание</h1>
+                    </td>
+                    <td class="border-bottom" colspan="18" valign="top" style="padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">
+                            Счет на оплату
+                        </h1>
+                    </td>
+                    <td class="border-all" width="53" colspan="2" valign="bottom" style="width:40.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">номер</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">{{ zakaz.id }}</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"></td>
+                    <td width="68" colspan="2" valign="top" style="width:51.25pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    </td>
+                    <td colspan="18" valign="top" style="padding:0cm 2.85pt .85pt 2.85pt">
+                    </td>
+                    <td class="border-all" width="53" colspan="2" valign="bottom" style="width:40.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">дата</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">{{ zakaz.date|ru_strftime:"%d %B %Y г." }}</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"></td>
+                    <td colspan="20" valign="bottom" style="padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">Транспортная
+                            накладная</h1>
+                    </td>
+                    <td class="border-all" width="53" colspan="2" valign="bottom" style="width:40.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">номер</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">&nbsp;</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"></td>
+
+                    <td colspan="2"></td>
+
+                    <td colspan="2" rowspan="2" valign="bottom" align="right" style="max-width:100px;width:100px;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm; font-weight: bold; word-wrap: normal">
+                            ТОВАРНАЯ НАКЛАДНАЯ
+                        </h1>
+                    </td>
+                    <td class="border-all" colspan="1" valign="bottom" align="center" style="max-width:100px;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Номер документа</h1>
+                    </td>
+                    <td class="border-all" colspan="1" valign="bottom" align="center" style="max-width:100px;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Дата составления</h1>
+                    </td>
+                    <td colspan="14" valign="top" rowspan="2" style="padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+                    </td>
+
+                    <td class="border-all" width="53" colspan="2" valign="bottom" style="width:40.0pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">дата</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">&nbsp;</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="" width="3"></td>
+
+                    <td colspan="2"></td>
+
+                    <td class="border-all" colspan="1" valign="bottom" align="center" style="max-width:100px;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">{{ zakaz.id }}</h1>
+                    </td>
+                    <td class="border-all" colspan="1" valign="center" align="center" style="max-width:100px;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">{{ zakaz.real_desired_time|ru_strftime:"%d %B %Y г." }}</h1>
+                    </td>
+                    <td class="border-all" colspan="2" valign="bottom" style="padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">Вид
+                            операции</h1>
+                    </td>
+                    <td class="border-all" width="67" valign="bottom" style="width:50.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                        <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">Безналичный</h1>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        <!-- ТАБЛИЦА -->
+        <table width="100%" style="margin-top: 10px; page-break-after: avoid" cellpadding="3" class="border-all">
+            <tbody>
+                <tr style="page-break-inside:avoid">
+                    <td class="border-all" width="10" colspan="1" rowspan="2" style="width:8pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            Номер<br>по по-<br>рядку
+                        </h2>
+                    </td>
+                    <td width="800" class="border-all" colspan="6" style="width:800pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2" align="center" style="margin-left:0cm;text-align:center;">
+                            Товар
+                        </h2>
+                    </td>
+                    <td class="border-all" width="68" colspan="2" style="width:51.1pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            Единица измерения
+                        </h2>
+                    </td>
+                    <td class="border-all" width="34" colspan="2" rowspan="2" style="width:25.25pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            Вид упаковки
+                        </h2>
+                    </td>
+                    <td class="border-all" width="60" colspan="2" style="width:45.0pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            Количество
+                        </h2>
+                    </td>
+                    <td class="border-all" width="30" rowspan="2" style="width:22.5pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            Масса брутто
+                        </h2>
+                    </td>
+                    <td class="border-all" width="45" rowspan="2" style="width:34.1pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            Количество
+                            (масса нетто)
+                        </h2>
+                    </td>
+                    <td class="border-all" width="70" colspan="2" rowspan="2" style="width:52pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            Цена,<br> руб. коп.
+                        </h2>
+                    </td>
+                    <td class="border-all" width="70" rowspan="2" style="width:52pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            Сумма без учета НДС, руб. коп.
+                        </h2>
+                    </td>
+                    <td class="border-all" width="34" colspan="2" style="width:20.25pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            НДС
+                        </h2>
+                    </td>
+                    <td class="border-all" width="70" colspan="1" rowspan="2" style="width:52pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            Сумма с учетом НДС,
+                            <br>
+                            руб. коп.
+                        </h2>
+                    </td>
+                </tr>
+                <tr style="page-break-inside:avoid">
+                    <td width="800" class="border-all" colspan="5" style="width:800pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            наименование, характеристика, сорт, артикул товара
+                        </h2>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;">
+                            код
+                        </h2>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            наиме-
+                            нование
+                        </h2>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            код по ОКЕИ
+                        </h2>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            в одном месте
+                        </h2>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            мест, штук
+                        </h2>
+                    </td>
+                    <td class="border-all" width="37"  style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            ставка, %
+                        </h2>
+                    </td>
+                    <td class="border-all" width="37"  style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <h2 class="myh2"  align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                            сумма,
+                            руб. коп.
+                        </h2>
+                    </td>
+                </tr>
+                <tr style="page-break-inside:avoid">
+                    <td class="border-all" width="10" colspan="1" style="width:8pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">1</p>
+                    </td>
+                    <td width="800" class="border-all" colspan="5" style="width:800pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">2</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">3</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">4</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">5</p>
+                    </td>
+                    <td class="border-all" width="34" colspan="2" style="width:25.25pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">6</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">7</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">8</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">9</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">10</p>
+                    </td>
+                    <td class="border-all" colspan="2" style="padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">11</p>
+                    </td>
+                    <td class="border-all" style="padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">12</p>
+                    </td>
+                    <td class="border-all" width="34" style="width:25.25pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">13</p>
+                    </td>
+                    <td class="border-all" width="60" style="width:45.0pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">14</p>
+                    </td>
+                    <td class="border-all" style="padding:1pt 1pt 1pt 1pt">
+                        <p class="MsoSignature" align="center" style="text-align:center">15</p>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody>
+                {% for i in result %}
+                    <tr style="page-break-inside:avoid">
+                        <td class="border-all" width="10" colspan="1" style="width:8pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="center" style="text-align:center"><span >{{ forloop.counter }}</span></p>
+                        </td>
+                        <td class="border-all" width="800" colspan="5" valign="top" style="width:800pt;border-right:none;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1">{{ i.goods.deckitem.producer.title }}, {{ i.goods.deckitem.title }}, {{ i.goods.weight }}</p>
+                        </td>
+                        <td class="border-all" width="20" style="width:15.0pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1">{{ i.goods.article }}</p>
+                        </td>
+                        <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="center" style="text-align:center">шт</p>
+                        </td>
+                        <td class="border-all" width="31" style="width:23.15pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="center" style="text-align:center">796</p>
+                        </td>
+                        <td class="border-all" width="34" colspan="2" style="width:25.25pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="center" style="text-align:center">&nbsp;</p>
+                        </td>
+                        <td class="border-all" width="35" style="width:25.9pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="center" style="text-align:center">&nbsp;</p>
+                        </td>
+                        <td class="border-all" width="25" style="width:19.1pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="center" style="text-align:center">&nbsp;</p>
+                        </td>
+                        <td class="border-all" width="30" style="width:22.5pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="center" style="text-align:center">&nbsp;</p>
+                        </td>
+                        <td class="border-all" width="45" style="width:34.1pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="center" style="text-align:center">{{ i.quantity }}</p>
+                        </td>
+                        <td class="border-all" colspan="2" style="padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="right" style="text-align:right; white-space: nowrap;">{{ i.price_sale|floatformat:2|intspace }}</p>
+                        </td>
+                        <td class="border-all" style="padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="right" style="text-align:right; white-space: nowrap;">{{ i.summ_sale|floatformat:2|intspace }}</p>
+                        </td>
+                        <td class="border-all" width="34" style="width:25.25pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="center" style="text-align:center;white-space: nowrap;">Без НДС</p>
+                        </td>
+                        <td class="border-all" width="60" style="width:45.0pt;padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="right" style="text-align:right"><span >0,00</span></p>
+                        </td>
+                        <td class="border-all" style="padding:1pt 1pt 1pt 1pt">
+                            <p class="a1" align="right" style="text-align:right; white-space: nowrap;">{{ i.summ_sale|floatformat:2|intspace }}</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                <tr style="page-break-inside:avoid; page-break-after: avoid;">
+                    <td width="1000" class="border-all" colspan="12" style="width:1000px;padding:1pt 1pt 1pt 1pt">
+                        <p class="a1" align="right" style="text-align:right">Всего по накладной</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="a1" align="center" style="text-align:center">&nbsp;</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="a1" align="center" style="text-align:center">&nbsp;</p>
+                    </td>
+                    <td class="border-all" width="37" style="width:27.95pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="a1" align="center" style="text-align:center">{{ sum_quantity }}</p>
+                    </td>
+                    <td class="border-all" width="61" colspan="2" style="width:45.65pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="a1" align="center" style="text-align:center">Х</p>
+                    </td>
+                    <td class="border-all" width="65" style="width:49.1pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="a1" align="right" style="text-align:right">{{ full_sum|floatformat:2|intspace }}</p>
+                    </td>
+                    <td class="border-all" width="34" style="width:25.25pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="a1" align="center" style="text-align:center">Х</p>
+                    </td>
+                    <td class="border-all" width="60" style="width:45.0pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="a1" align="right" style="text-align:right">0,00</p>
+                    </td>
+                    <td class="border-all" width="69" style="width:51.55pt;padding:1pt 1pt 1pt 1pt">
+                        <p class="a1" align="right" style="text-align:right">{{ full_sum|floatformat:2|intspace }}</p>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <!-- ПОДВАЛ -->
+        <table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse; page-break-inside:avoid; page-break-after: avoid;">
+            <tbody>
+            <tr>
+                <td style="" width="38"></td>
+                <td width="200" colspan="4" valign="bottom"
+                    style="width:150.0pt;padding:2.85pt 2.85pt 0cm 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">
+                        Товарная накладная имеет приложение на
+                    </h1>
+                </td>
+                <td class="border-bottom" width="382" colspan="13" valign="bottom" style="width:286.25pt;padding:2.85pt 2.85pt 0cm 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="427" colspan="7" valign="bottom"
+                    style="width:320.5pt;padding:2.85pt 2.85pt 0cm 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">листах</h1>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td style="" width="38"></td>
+                <td width="60" valign="bottom" style="width:45.25pt;padding:2.85pt 2.85pt 0cm 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">и содержит</h1>
+                </td>
+                <td class="border-bottom" width="521" colspan="16" valign="bottom" style="width:391.0pt;padding:2.85pt 2.85pt 0cm 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">{{ result|length|in_words }}</h1>
+                </td>
+                <td width="427" colspan="7" valign="bottom"
+                    style="width:320.5pt;padding:2.85pt 2.85pt 0cm 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">порядковых номеров записей</h1>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td style="" width="38"></td>
+                <td width="60" valign="top"
+                    style="width:45.25pt;padding:2.85pt 2.85pt 0cm 2.85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="521" colspan="16" valign="top"
+                    style="width:391.0pt;padding:2.85pt 2.85pt 0cm 2.85pt">
+
+                </td>
+                <td width="427" colspan="7" valign="top"
+                    style="width:320.5pt;padding:2.85pt 2.85pt 0cm 2.85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border:none;padding:0cm 0cm 0cm 0cm"
+                    width="1"></td>
+            </tr>
+            <tr>
+                <td style="" width="38"></td>
+                <td width="60" valign="top"
+                    style="width:45.1pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="269" colspan="8" valign="top"
+                    style="width:201.85pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="113" colspan="2" valign="top"
+                    style="width:84.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm; white-space: nowrap">Масса груза (нетто)</h1>
+                </td>
+                <td class="border-bottom" width="389" colspan="9" valign="top" style="width:291.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="11" colspan="2" valign="top"
+                    style="width:7.95pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-all" width="169" colspan="3" valign="top" style="width:126.4pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+            </tr>
+            <tr>
+                <td style="" width="38"></td>
+                <td width="60" valign="top"
+                    style="width:45.1pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Всего мест</h1>
+                </td>
+                <td class="border-bottom" width="269" colspan="8" valign="top" style="width:201.85pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm"></h1>
+                </td>
+                <td width="113" colspan="2" valign="top"
+                    style="width:84.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm; white-space: nowrap">Масса груза (брутто)</h1>
+                </td>
+                <td class="border-bottom" width="389" colspan="9" valign="top" style="width:291.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">
+                        (прописью)</p>
+                </td>
+                <td width="11" colspan="2" valign="top"
+                    style="width:7.95pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-all" width="169" colspan="3" valign="top" style="width:126.4pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+            </tr>
+            <tr>
+                <td style="" width="38"></td>
+                <td width="60" valign="top"
+                    style="width:45.1pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="269" colspan="8" valign="top"
+                    style="width:201.85pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">
+                        (прописью)</p>
+                </td>
+                <td width="113" colspan="2" valign="top"
+                    style="width:84.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="389" colspan="9" valign="top"
+                    style="width:291.6pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">
+                        (прописью)</p>
+                </td>
+                <td width="11" colspan="2" valign="top"
+                    style="width:7.95pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="169" colspan="3" valign="top"
+                    style="width:126.4pt;padding:0cm 2.85pt .85pt 2.85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+            </tr>
+            <tr>
+                <td width="216" colspan="4" valign="top" style="width:161.7pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm; white-space: nowrap">
+                        Приложение (паспорта, сертификаты и т.п.) на
+                    </h1>
+                </td>
+                <td class="border-bottom" width="170" colspan="7" valign="top" style="width:127.5pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="94" valign="top" style="width:70.8pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">листах</h1>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="99" colspan="3" valign="top" style="width:73.95pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">
+                        По доверенности №
+                    </h1>
+                </td>
+                <td class="border-bottom" width="453" colspan="8" valign="top" style="width:339.8pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="216" colspan="4" valign="top"
+                    style="width:161.7pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="170" colspan="7" valign="top"
+                    style="width:127.5pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">
+                        (прописью)</p>
+                </td>
+                <td width="94" valign="top" style="width:70.8pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="99" colspan="3" valign="top"
+                    style="width:73.95pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="453" colspan="8" valign="top"
+                    style="width:339.8pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">
+                        (номер, дата)
+                    </p>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="114" colspan="3" rowspan="2" valign="top" style="width:85.2pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm; white-space: nowrap">Всего отпущено на сумму</h1>
+                </td>
+                <td class="border-bottom" width="366" colspan="9" valign="top" style="width:274.8pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">
+                        {{ zakaz.all_summ|in_words|capfirst }}  рубл{{ zakaz.all_summ|choose_plural:"ь,я,ей" }} {{ skidka_na_meloch_100 }} копеек. Без НДС.
+                    </h1>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="49" valign="top" style="width:36.95pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">выданной</h1>
+                </td>
+                <td class="border-bottom" width="502" colspan="10" valign="top" style="width:376.8pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="366" colspan="9" valign="top" style="width:274.8pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">
+                        (прописью)</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="49" valign="top" style="width:36.95pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td  width="502" colspan="10" valign="top" style="width:376.8pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(кем, кому
+                        (организация, должность, фамилия, и., о.))</p>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="114" colspan="3" valign="bottom" style="width:85.2pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Отпуск груза разрешил</h1>
+                </td>
+                <td class="border-bottom" width="129" colspan="3" valign="bottom" style="width:96.4pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                        генеральный директор
+                    </h1>
+                </td>
+                <td valign="bottom" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="91" valign="bottom" style="width:68.05pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="8" valign="bottom" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="132" colspan="3" valign="bottom" style="width:99.1pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                        Мартыненко В.И.
+                    </h1>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-left" width="7" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="49" valign="top" style="width:36.95pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="502" colspan="10" valign="top" style="width:376.8pt;border:none;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="114" colspan="3" valign="top" style="width:85.2pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="129" colspan="3" valign="top" style="width:96.4pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(должность)</p>
+                </td>
+                <td width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="91" valign="top" style="width:68.05pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(подпись)</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="132" colspan="3" valign="top"
+                    style="width:99.1pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(расшифровка подписи)</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="49" valign="top" style="width:36.95pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="502" colspan="10" valign="top"
+                    style="width:376.8pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="242" colspan="6" valign="bottom"
+                    style="width:181.6pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Главный (старший) бухгалтер</h1>
+                </td>
+                <td width="7" valign="bottom"
+                    style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="91" valign="bottom" style="width:68.05pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="8" valign="bottom" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="132" colspan="3" valign="bottom" style="width:99.1pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                        Мартыненко В.И.
+                    </h1>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="79" colspan="2" valign="top"
+                    style="width:59.45pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Груз принял</h1>
+                </td>
+                <td class="border-bottom" width="178" colspan="3" valign="top" style="width:133.4pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="117" colspan="2" valign="top" style="width:87.85pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="7" colspan="2" valign="top"
+                    style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="162" valign="top" style="width:121.8pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="242" colspan="6" valign="top" style="width:181.6pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="91" valign="top" style="width:68.05pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(подпись)</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="132" colspan="3" valign="top" style="width:99.1pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(расшифровка подписи)</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="79" colspan="2" valign="top" style="width:59.45pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="178" colspan="3" valign="top" style="width:133.4pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(должность)</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="117" colspan="2" valign="top" style="width:87.85pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(подпись)</p>
+                </td>
+                <td width="7" colspan="2" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="162" valign="top" style="width:121.8pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(расшифровка подписи)</p>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="114" colspan="3" valign="bottom"
+                    style="width:85.2pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Отпуск груза произвел</h1>
+                </td>
+                <td class="border-bottom" width="129" colspan="3" valign="bottom" style="width:96.4pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                        генеральный директор
+                    </h1>
+                </td>
+                <td width="7" valign="bottom"
+                    style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="91" valign="bottom" style="width:68.05pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="8" valign="bottom" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="132" colspan="3" valign="bottom" style="width:99.1pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">
+                        Мартыненко В.И.
+                    </h1>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="79" colspan="2" rowspan="2" valign="top" style="width:59.45pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">Груз получил грузополучатель</h1>
+                </td>
+                <td class="border-bottom" width="178" colspan="3" valign="top" style="width:133.4pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="117" colspan="2" valign="top" style="width:87.85pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="7" colspan="2" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-bottom" width="162" valign="top" style="width:121.8pt;border-bottom:solid black 1.0pt;padding:0cm .85pt .85pt .85pt">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="114" colspan="3" valign="top" style="width:85.2pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="129" colspan="3" valign="top" style="width:96.4pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(должность)</p>
+                </td>
+                <td width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="91" valign="top" style="width:68.05pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(подпись)</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="132" colspan="3" valign="top" style="width:99.1pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(расшифровка подписи)</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="178" colspan="3" valign="top" style="width:133.4pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(должность)</p>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="117" colspan="2" valign="top" style="width:87.85pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(подпись)</p>
+                </td>
+                <td width="7" colspan="2" valign="top" style="width:5.35pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">&nbsp;</p>
+                </td>
+                <td width="162" valign="top" style="width:121.8pt;padding:0cm .85pt .85pt .85pt">
+                    <p class="MsoSignature" align="center" style="text-align:center">(расшифровка подписи)</p>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            <tr>
+                <td width="114" colspan="3" valign="bottom" style="width:85.2pt;padding:3pt .85pt .85pt .85pt;">
+                    <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">
+                        М.П.</h1>
+                </td>
+                <td width="366" colspan="9" valign="bottom" style="width:274.8pt;padding:3pt .85pt .85pt .85pt;">
+                    <table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" style="margin-left:1.0cm;border-collapse:collapse">
+                        <tbody>
+                        <tr style="">
+                            <td width="12" valign="bottom" style="width:9.0pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">"</h1>
+                            </td>
+                            <td class="border-bottom" width="30" valign="bottom" style="width:22.5pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">{{ zakaz.real_desired_time|ru_strftime:"%d" }}</h1>
+                            </td>
+                            <td width="19" valign="bottom" style="width:14.0pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">"</h1>
+                            </td>
+                            <td class="border-bottom" width="121" valign="bottom" style="width:90.5pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">{{ zakaz.real_desired_time|ru_strftime:"%B" }}&nbsp;</h1>
+                            </td>
+                            <td width="19" valign="bottom" style="width:14.0pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                            </td>
+                            <td class="border-bottom" width="38" valign="bottom" style="width:28.5pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">{{ zakaz.real_desired_time|ru_strftime:"%Y" }}</h1>
+                            </td>
+                            <td width="31" valign="bottom" style="width:23.05pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">года</h1>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm"></h1>
+                </td>
+                <td width="8" valign="top" style="width:5.9pt;padding:3pt .85pt .85pt .85pt;">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td class="border-left" width="7" valign="top" style="width:5.35pt;padding:3pt .85pt .85pt .85pt;">
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                </td>
+                <td width="99" colspan="3" valign="bottom" style="width:73.95pt;padding:4pt .85pt .85pt .85pt;">
+                    <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">
+                        М.П.</h1>
+                </td>
+                <td width="453" colspan="8" valign="bottom" style="width:339.8pt;padding:4pt .85pt .85pt .85pt;">
+                    <table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" style="margin-left:1.0cm;border-collapse:collapse">
+                        <tbody>
+                        <tr style="">
+                            <td width="12" valign="bottom" style="width:9.0pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" align="right" style="margin-left:0cm;text-align:right;text-indent:0cm">"</h1>
+                            </td>
+                            <td width="30" valign="bottom" style="width:22.5pt;border:none;border-bottom:solid black 1.0pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">&nbsp;</h1>
+                            </td>
+                            <td width="19" valign="bottom" style="width:14.0pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">"</h1>
+                            </td>
+                            <td width="121" valign="bottom" style="width:90.5pt;border:none;border-bottom:solid black 1.0pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">&nbsp;</h1>
+                            </td>
+                            <td width="19" valign="bottom" style="width:14.0pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">&nbsp;</h1>
+                            </td>
+                            <td width="38" valign="bottom" style="width:28.5pt;border:none;border-bottom:solid black 1.0pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" align="center" style="margin-left:0cm;text-align:center;text-indent:0cm">&nbsp;</h1>
+                            </td>
+                            <td width="31" valign="bottom" style="width:23.05pt;padding:0cm 2.85pt .85pt 2.85pt;">
+                                <h1 class="myh1" style="margin-left:0cm;text-indent:0cm">года</h1>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h1 class="myh1" style="margin-left:0cm;text-indent:0cm"></h1>
+                </td>
+                <td style="" width="1"></td>
+            </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,10 @@
+{% extends "admin_tools/dashboard/module.html" %}
+{% load static %}
+
+{% block module_content %}
+
+    {% for zakaz in module.zakazs %}
+        {{ zakaz.id }} {{ zakaz.status }} {{ zakaz.date }}
+    {% endfor %}
+
+{% endblock %}

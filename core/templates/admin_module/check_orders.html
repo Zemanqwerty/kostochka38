@@ -1,0 +1,122 @@
+{% load static %}
+{% load intfilter %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <!-- Необходимые мета-теги всегда на первом месте -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'kostochka38/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kostochka38/css/admin/couries_orders.css' %}?v2">
+    <title>Проверка заказов</title>
+  </head>
+  <body>
+
+
+    <div class="container">
+
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th class="text-muted text-center">
+                        #
+                    </th>
+                    <th class="">
+                    </th>
+                    <th class="">Название</th>
+                    <th class="">Кто?</th>
+                    <th class="">Сред. за 3м</th>
+                    <th class="text-center">Кол-во</th>
+                    <th class="text-center">Резерв</th>
+                    <th class="text-center">Склад</th>
+                    <th class="text-center">В пути</th>
+                    <th class="text-center">=</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for zakaz in zakazs %}
+                    {% for i in zakaz.goods %}
+                        <tr class="{% if i.check_total < 0 %} danger{% else %}{% if i.buy_count_3_month_round > i.check_total %} warning{% endif %}{% endif %}">
+                            <td class="text-muted text-right{% if forloop.counter == 1 %}{% if zakaz.status == 0 %} success{% endif %}{% if zakaz.status == 2 %} info{% endif %}{% if zakaz.status == 3 or zakaz.status == 31 %} warning{% endif %}{% endif %}">
+                                {% if forloop.counter == 1 %}<a href="/DgJrfdJg/catalog/zakaz/{{ zakaz.id }}/" target="_blank">{{ zakaz.id }}</a>{% endif %}
+                                #{{ forloop.counter }}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ i.get_cover.0.fullimage.url }}" class="fancybox" data-fancybox="group">
+                                    <img src="{{ i.get_cover.0.cart_thumbnail.url }}" style="max-height: 25px">
+                                </a>
+                            </td>
+                            <td class="text-small">
+                                <a href="/DgJrfdJg/catalog/item/{{ i.item.id }}/" target="_blank">{{ i.item.deckitem.producer.title }}, {{ i.item.deckitem.title }}</a>
+                            </td>
+                            <td class="text-small">{{ i.item.deckitem.get_segment_display }}</td>
+
+
+                            <td class="text-small">{{ i.buy_count_3_month }} (<small>{{ i.buy_count_3_month_for_auto_suplier_order }}</small>)</td>
+
+                            <td class="text-center">{{ i.quantity }}</td>
+                            <td class="text-center">
+                                <a data-container="body" class="order_popover"  data-toggle="popover" data-placement="bottom"
+                                   data-content="
+                                   {{ i.item__vreserve_order|safe }}
+                                    ">
+                                    {{ i.item__vreserve_plain|safe }}
+                                </a>
+
+                            </td>
+                            <td class="text-center">{{ i.item__quantity_in_reserve }}</td>
+                            <td class="text-center{% if i.check_insideorder.status == 0 %} success{% endif %}{% if i.check_insideorder.status == 2 %} info{% endif %}{% if i.check_insideorder.status == 4 %} warning{% endif %}">
+                                {% if i.check_insideorder %}
+                                    <a href="/DgJrfdJg/catalog/insidezakaz/{{ i.check_insideorder.id }}/" target="_blank">{{ i.check_insideorder_sum }}</a>
+                                {% else %}
+                                    {{ i.check_insideorder_sum }}
+                                {% endif %}
+                            </td>
+                            <td class="text-center">{{ i.check_total }} (<small>{{ i.check_total_for_auto_inside_order }}</small>)</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+   </div>
+    <!-- Сначала jQuery, затем Bootstrap JS. -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'kostochka38/js/jquery-ui.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'kostochka38/css/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kostochka38/css/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'kostochka38/fancybox/jquery.fancybox.css' %}">
+    <script src="{% static 'kostochka38/fancybox/jquery.fancybox.js' %}"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('.order_popover').popover({
+                    html: true,
+                    title: 'Заказы'
+                })
+
+                $("[data-fancybox]").fancybox({
+                    // Options will go here
+                });
+            })
+        </script>
+      <style>
+        a{
+            color: #4790e5;
+        }
+        a:hover{
+            text-decoration: none;
+        }
+          a.order_popover{
+              cursor: pointer;
+              font-size: 120%;
+          }
+          .text-small{
+              font-size: 85%;
+          }
+      </style>
+  </body>
+</html>

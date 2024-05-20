@@ -1,0 +1,147 @@
+{% extends "base.html" %}  
+ 
+{% load humanize %}
+{% load pytils_dt %}
+{% load deck_row %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block head_title %}{% if flatpage.meta_title %}{{ flatpage.meta_title|safe }}{% else %}{{ flatpage.title|safe }}{% endif %}{% endblock %}
+{% block meta_keywords %}{{ flatpage.meta_keywords }}{% endblock %}
+{% block meta_descroption %}{{ flatpage.meta_descroption }}{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block content_after_slider %}
+    {% if producer_main %}
+        <section class="page_main">
+            <div class="thin-container catalog-producer main-page">
+                <h2 class="header">Популярные бренды</h2>
+            </div>
+            <div class="producer-block-main owl-carousel owl-theme">
+                {% for i in producer_main %}
+                    <div class="producer-block">
+                        <div class="producer-block-inside" data-link="/c/p/{{ i.link }}/">
+                            <div class="producer-block-image">
+                                {% if i.slider_link %}
+                                    <a href='{{ i.slider_link }}'>
+                                {% else %}
+                                    <a href='/c/p/{{ i.link }}/'>
+                                {% endif %}
+                                {% if i.catalog_image %}
+                                    <img src="{{ i.catalog_image.url }}" alt="{{ i.title }}" title="{{ i.title }}">
+                                {% else %}
+                                    <img height="105px" src="{% static 'kostochka38/images/noimage.png' %}">
+                                {% endif %}
+                                </a>
+                            </div>
+                            {% if i.slider_link %}
+                                <a href='{{ i.slider_link }}'>
+                            {% else %}
+                                <a href='/c/p/{{ i.link }}/'>
+                            {% endif %}
+                                {{ i.title }}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <br class="clear">
+            </div>
+        </section>
+    {% endif %}
+
+    <section class="page_main hidden">
+        <div class="thin-container catalog-goods main-page">
+            <h2 class="header">Новинки</h2>
+            <ul class="catalog-goods-container">
+                {% for item in items_new %}
+                    {% include 'items_card_no_group.html' with item=item %}
+                {% endfor %}
+            </ul>
+            <div class="show-more">
+                <a href="{% url 'new' %}" class="btn">Смотреть все новинки</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="page_main">
+        <div class="thin-container catalog-goods main-page">
+            <h2 class="header">Товары со скидками</h2>
+            <ul class="catalog-goods-container">
+                {% for item in items_sale %}
+                    {% include 'items_card_no_group.html' with item=item %}
+                {% endfor %}
+            </ul>
+            <div class="show-more">
+                <a href="{% url 'discount' %}" class="btn">Смотреть все товары со скидками</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="clearfix">
+        <div class="thin-container">
+            <h2 class="header"><a href="/reviews/">Последние отзывы клиентов</a></h2>
+            {% for review in last_review %}
+                    <div class="main-reviews-block homepage">
+                    <h3> <a title="Отзыв о Kostochka38, {{ review.title }}" href='{{ review.link }}' target="_blank">{{ review.title }}</a></h3>
+                    <span class="date">{{ review.date|ru_strftime:"%d %B %Y, %H:%m" }}</span>
+                    <a href="#" class="open-review-modal" data-target-custom="#ReviewModal{{ review.id }}"><img  class="lazy" alt="Отзыв о Kostochka38, {{ review.title }}" title="Отзыв о Kostochka38, {{ review.title }}" src='{{ review.cover_lazy.url }}' data-src='{{ review.cover.url }}'></a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="page_main">
+        <div class="thin-container catalog-goods main-page">
+            <h2 class="header">Лучшие предложения</h2>
+            <ul class="catalog-goods-container">
+                {% for item in items_royal %}
+                    {% include 'items_card_no_group.html' with item=item %}
+                {% endfor %}
+                {% for item in items_1 %}
+                    {% include 'items_card_no_group.html' with item=item %}
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    {% if banners %}
+        <section class="article-wrapper">
+            <div class="article">
+                <a href="/article/{{ last_page.0.link }}/"><img class="lazy" alt="{{ last_page.0.title }}" title="{{ last_page.0.title }}" src="{{ last_page.0.slide_image_lazy.url }}" data-src="{{ last_page.0.slide_image.url }}"></a>
+            </div>
+        </section>
+    {% endif %}
+
+    <section>
+        <div class="thin-container">
+            <h1>
+                {{ flatpage.title|safe }}
+            </h1>
+            {{ flatpage.body|safe }}
+            <hr class="big"/>
+            <div class="three-columns">
+                <div class="three-columns__item">
+                    <span class="three-columns__item__image free-delivery"></span>
+                    <h3>{{ bottom_1.title }}</h3>
+                    {{ bottom_1.body|safe }}
+                </div>
+                <div class="three-columns__item">
+                    <span class="three-columns__item__image best-avalybility"></span>
+                    <h3>{{ bottom_2.title }}</h3>
+                    {{ bottom_2.body|safe }}
+                </div>
+                <div class="three-columns__item">
+                    <span class="three-columns__item__image autorepeat-order"></span>
+                    <h3>{{ bottom_3.title }}</h3>
+                    {{ bottom_3.body|safe }}
+                </div>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}

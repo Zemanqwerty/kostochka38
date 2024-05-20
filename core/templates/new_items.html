@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Новинки{% endblock %}
+{% block head_title %}Новинки{% endblock %}
+           
+{% block content %} 
+
+<div class="container">
+    <h1 class="category">Новинки</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; Новинки
+    </div>
+    <div class="page catalog-goods">
+        {% if items %}
+
+            <ul class="catalog-goods-container">
+                {% for item in items %}
+                    {% include 'items_card_no_group.html' with item=item %}
+                {% endfor %}
+            </ul>
+            <hr class="small-big"><br>
+        {% else%}
+            <h3  class="text-center lead" style="margin: 30px 0">нет новинок :(</h3>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

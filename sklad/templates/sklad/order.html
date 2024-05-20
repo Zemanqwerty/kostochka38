@@ -1,0 +1,112 @@
+{% extends "kassa/base_order.html" %}
+{% load intfilter %}
+
+{% block form %}
+<form class="col-12 mt-3">
+  {% csrf_token %}
+  <div class="form-group">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="FIO">ФИО</span>
+      </div>
+      <input type="text" id="FIO-input" class="form-control" aria-describedby="FIO" readonly value="{{ object.owner.first_name }} {{ object.owner.last_name }}">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="phone">Номер телефона</span>
+      </div>
+      <input type="text" id="phone-input" class="form-control" aria-describedby="phone" readonly value="{{ object.owner.phone }}">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="email">email</span>
+      </div>
+      <input type="text" id="email-input" class="form-control" aria-describedby="email" readonly value="{{ object.owner.email }}">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="sale">Скидка %</span>
+      </div>
+      <input type="text" id="sale-input" class="form-control" aria-describedby="sale" readonly value="{{ object.owner.get_humanize_sale }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pay-type">Способ оплаты</label>
+    <select disabled name="pay_type" id="pay-type" class="custom-select">
+      <option disabled>--Выберите--</option>
+      <option value="0" {% if object.paytype == 2 %} selected="selected" {% endif %}>Наличный расчёт</option>
+      <option value="1" {% if object.paytype == 1 %} selected="selected" {% endif %}>Безналичный расчёт</option>
+      <option value="6" {% if object.paytype == 6 %} selected="selected" {% endif %}>Смешанный</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <a href="{% url "kassa_index" %}" class="btn btn-primary btn-block">Назад</a>
+  </div>
+</form>
+{% endblock %}
+
+
+{% block order_items %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th>Товар</th>
+        <th>Вес/Тип</th>
+        <th align="right">Цена</th>
+        <th align="right">Цена со скидкой</th>
+        <th align="center">Количество</th>
+        <th align="right">Cумма</th>
+        <th align="right">Сумма со скидкой</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="cart-table">
+      {% for item in object.zakazgoods_set.all %}
+        <tr>
+          <td></td>
+          <td>{{ item.item.get_photo_thumbnail }}</td>
+          <td class="">{{ item.item.deckitem.title }}</td>
+          <td class="text-nowrap px-3">{{ item.item.weight }}</td>
+          <td class="text-nowrap px-3" align="right">{{ item.item.current_price|floatformat:"2"|intspace }} <i class="far fa-ruble-sign"></i></td>
+          <td class="text-nowrap px-3" align="right">{{ item.get_sale_price|floatformat:"2"|intspace }} <i class="far fa-ruble-sign"></i><br><small>{{ item.sale }}%</small></td>
+          <td class="px-3" align="center">{{ item.quantity }}</td>
+          <td class="text-nowrap px-3" align="right">{{ item.get_round_summ|floatformat:"2"|intspace }} <i class="far fa-ruble-sign"></i></td>
+          <td class="text-nowrap px-3" align="right">{{ item.get_round_sale_summ|floatformat:"2"|intspace }} <i class="far fa-ruble-sign"></i></td>
+          <td></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr class="py-3">
+
+        <td colspan="3">
+          <div class="text-muted small">
+            Сумма заказа: <span id="cart-sum">{{ object.get_full_summ|floatformat:"2"|intspace }}</span> <i class="far fa-ruble-sign"></i> <br>
+            Скидка: <span id="cart-sale">{{ sale }}</span> <i class="far fa-ruble-sign"></i> <br>
+            Скидка на мелочь: <span id="cart-cents">{{ sale_cents|floatformat:"2"|intspace }}</span> <i class="far fa-ruble-sign"></i> <br>
+          </div>
+        </td>
+        <td colspan="5" align="right" class="text-nowrap">
+          <div class="lead">
+            <big>Итого к оплате:</big>
+          </div>
+          <div class="calculator mb-2 mt-1">
+            Покупатель внёс
+          </div>
+          <div class="calculator mb-2">Сдача</div>
+        </td>
+        <td colspan="2"  class="text-nowrap">
+          <div class="lead">
+            <big> <span id="cart-result">{{ object.k_oplate }}</span> <i class="far fa-ruble-sign"></i></big>
+          </div>
+          <div class="input-group input-group-sm mb-2">
+            <input type="text" class="form-control calculator" id="calc-input" style="max-width: 100px">
+          </div>
+          <div class="calculator" id="change"></div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+{% endblock %}

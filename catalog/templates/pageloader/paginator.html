@@ -1,0 +1,20 @@
+{% if pages %}
+    {% if page_var.prev_page %}
+        <a class="go_to_frst_page ajax" data-page="1" href="/c/{{ category.link }}/?page=1{% for selected_filter in selected_filters %}&{{ selected_filter.name }}={{ selected_filter.link }}{% endfor %}">В начало</a>
+    {% endif %}
+    <div class="paginator__number">
+        {% if page_var.prev_page %}
+            <a class="ajax" data-page="{{ page_var.prev_page }}" href="#">&larr;</a>
+        {% endif %}
+
+        {% for iteration in page_var.pages %}
+            <a class="ajax{% if iteration == page %} active{% endif %}" data-page="{{ iteration }}" href="#">{{ iteration }}</a>
+        {% endfor %}
+
+        {% if page_var.next_page %}
+            <a class="ajax" data-page="{{ page_var.next_page }}" href="#">&rarr;</a>
+        {% endif %}
+    </div>
+    <br>
+    <span class="item-count-info">Показано {{ start_item|add:'1' }}-{{ end_item }} из {{ result_count }}</span>
+{% endif %}

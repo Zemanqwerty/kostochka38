@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block head_title %} Личный кабинет{% endblock %}
+
+{% block content %}	
+<div id='center'>	
+    <h1>Личный кабинет</h1>
+
+    <div id='block'>   
+        <div class='way'>
+            <a href='/' >Главная</a> &rarr; <a href='/account/' >Личный кабинет</a>&rarr; <span>Парсинг прайса</span>
+        </div>
+
+        {% if error %}
+            <p style="color: red;"><big>
+                {{ error }}
+            </big></p>
+        {% endif %}
+
+        <h2>дубли</h2>
+        {% for line in result.double_items %}
+            <div class='parser new_price_items'>
+                <i>{{ line.code }}</i> - [{{ line.weight }}] - {{ line.price }}<br>
+            </div>
+        {% endfor %}
+
+        <h2>спарсилось ({{ start }} - {{ stop }})</h2>
+        {% for line in result.new_items %}
+            {% if line.title %}
+                <br><b>{{ line.title }}</b><br>
+            {% else %}
+                 - {{ line.code }}, {{ line.weight }}, {{ line.price }}<br>
+            {% endif %}
+        {% endfor %}
+        ({{ result.a }} - {{ result.b }} - {{ result.c }} - {{ result.d }})
+
+    </div>
+</div>
+{% endblock %}

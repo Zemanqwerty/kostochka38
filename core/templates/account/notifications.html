@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+  Настройки уведомлений
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="category">Настройки уведомлений</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <a href='/account/'>Личный кабинет</a> &rarr; <span>Настройки уведомлений</span>
+    </div>
+
+    <div class="page">
+        {% if autorized %}
+            <form class='myform' action='' id='comment_form' method='post'>
+                <h2>Настройки уведомлений</h2>
+
+                <label>
+                    <input type='checkbox' name='order_complete' id='order_complete' {% if settings.order_complete %}checked="checked"{% endif %}> Уведомлять при оформлении заказа
+                </label>
+                <br>
+                <label>
+                    <input type='checkbox' name='order_change_status' id='order_change_status' {% if settings.order_change_status %}checked="checked"{% endif %}> Уведомлять при изменении статуса заказа
+                </label>
+
+                {% if subscriberlist_settings %}
+                    <h2>Получать рассылки</h2>
+
+                    {% for list_settings in subscriberlist_settings %}
+                        <label>
+                            <input type='checkbox' name='subscriberlist' {% if not user.unsubscribed %}checked="checked"{% endif %}> {{ list_settings.name }}
+                        </label>
+                        <br>
+                    {% endfor %}
+                {% endif %}
+
+                <input id='comment_button' type='submit' value='Сохранить' class='button '>
+
+            </form>
+        {% else %}
+            {% include 'need_autirozed.html' %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

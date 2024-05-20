@@ -1,0 +1,81 @@
+{% extends "base.html" %}   
+       
+{% block title %}
+	Советы ветеринара
+{% endblock %} 
+
+{% block head %}
+    <meta content="Вопрос-Ответ" name="keywords">
+    <meta content="Вопрос-Ответ" name="description">
+{% endblock %}  
+         
+{% block head_title %} 
+	Советы ветеринара
+{% endblock %}    
+         
+{% block content %}  
+<div class="container">
+    <h1 class="category">Советы ветеринара</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <span>Советы ветеринара</span>
+    </div>
+
+    <div class="page">
+
+        <div class='faq'>
+            {% for sovet in sovety %}
+                <h3 class='vopros'><a href='#'>{{ sovet.vopros }}</a></h3>
+                <div class='otvet'>
+                    {{ sovet.otvet|safe }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <h2>Задать свой вопрос</h2>
+        <p class='for_faq'>
+            С нашим магазином сотрудничает опытный ветеринарный врач Андруканец Олег Викторович.<br>
+            При возникновении вопросов вы можете связаться с ним по телефону: +7(3952) 74-77-10, +7(9025) 60-77-10<br>
+            <noindex>E-mail: <a href='mailto:irkvetova@bk.ru'>irkvetova@bk.ru</a>, сайт: <a target='blank' rel='nofollow' href='http://Doktor-A.net'>Doktor-A.net</a>.</noindex><br>
+            Или вы можете задать свой вопрос напрямую через форму ниже.
+        </p>
+        <p class='for_photo'>
+            <a class='fancybox' href='{{ STATIC_URL }}images/fpb_1.jpg' rel='gallery_group'><img src='{{ STATIC_URL }}images/fp_1.jpg'></a>
+            <a class='fancybox' href='{{ STATIC_URL }}images/fpb_2.jpg' rel='gallery_group'><img src='{{ STATIC_URL }}images/fp_2.jpg'></a>
+            <a class='fancybox' href='{{ STATIC_URL }}images/fpb_3.jpg' rel='gallery_group'><img src='{{ STATIC_URL }}images/fp_3.jpg'></a>
+            <a class='fancybox' href='{{ STATIC_URL }}images/fpb_4.jpg' rel='gallery_group'><img src='{{ STATIC_URL }}images/fp_4.jpg'></a>
+        </p>
+        <div class='static'>
+            {% if errors %}
+                <div class='error'>
+                    Вопрос не отправлен! Исправьте ошибки ниже.
+                </div>
+            {% endif %}
+            <form method='POST' action='../#review_form' name='review_form' id='review_form'>
+                Имя<br>
+                <input {% if errors.name %}class='ierror'{% endif %} type='text' name='name' value='{{ data.name }}'><br>
+                
+                E-mail<br>
+                <input {% if errors.email %}class='ierror'{% endif %} type='text' name='email' value='{{ data.email }}'><br>
+                
+                Вопрос<br>
+                <textarea {% if errors.text %}class='ierror'{% endif %} cols='40' rows='8' name='text'>{{ data.text }}</textarea><br>
+                
+                Выполните операцию<br>
+                {% if errors.captcha %}<div class='ierror'>{% endif %}
+                {{ form.captcha }}<br>
+                {% if errors.captcha %}</div>{% endif %}
+
+                <input type='submit' id='comment_button' value=''>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {  
+    $( ".faq" ).accordion({
+            active: {{ number_action }}
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,28 @@
+
+
+
+<div id='center'>	
+    <h1>РЕЗУЛЬТАТ</h1>
+
+    <div id='block' style="padding: 30px 50px 80px; margin: 30px 10px 60px; background: #fff">
+        <div class='way'>
+            <span>Парсинг прайса</span>
+        </div>
+
+        {% if error %}
+            <p style="color: red;" class="text-center"><big><big><big>
+                {{ error }}
+            </big></big></big></p>
+
+        {% else %}
+            {% if error_text %}
+                <p style="color: red;" class="text-center"><big><big><big>
+                    {{ error_text }}
+                </big></big></big></p>
+            {% endif %}
+            <p class="lead text-center">
+                <big><big> Все ок, результат в объекте! Окно можно закрывать.</big></big>
+            </p>
+        {% endif %}
+    </div>
+</div>

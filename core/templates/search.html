@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load pytils_dt %}
+{% load pytils_numeral %}
+{% load humanize %}
+{% load intfilter %}
+
+{% block head_title %}Результаты поиска{% endblock %}
+{% block meta_keywords %}{% if category.meta_keywords %}{{ category.meta_keywords }}{% else %}{{ category.title }}{% endif %}{% endblock %}
+{% block meta_descroption %}{% if category.meta_description %}{{ category.meta_description }}{% else %}{{ category.title }}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="category">Результаты поиска</h1>
+    <div class="page search">
+        <form method="GET" action="" id="search-from-inner">
+            <div class="searchinput-wrapper">
+                <i class="fa fa-search"></i>
+                <input class="search-input-inner" name="q" value="{{ q }}" placeholder="Что ищем?">
+            </div>
+            <input type="submit" class="search-inner-submit" value="Искать">
+        </form>
+        {% if items %}
+            <div class="catalog-goods">
+                <ul class="catalog-goods-container">
+                {% for item in items %}
+                    {% include 'items_card.html' with item=item  %}
+                {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p class="search_p">
+                <br><br>
+                К сожалению, ничего не найдено.<br><br> Попробуйте ввести более простой запрос.
+                <br><br> <br><br>
+            </p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

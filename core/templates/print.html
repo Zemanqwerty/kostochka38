@@ -1,0 +1,319 @@
+{% load intfilter %}
+
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="RU" xml:lang="RU">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css" integrity="sha512-KgcQSKBervr1aOZTCA0+Gg+DbIBjL9uF90Bna4ojQeLmw3jgnpNI/JppGP5xG8xyiA7kYa8qRiDJ5+7cYP7xSg==" crossorigin="anonymous" />
+  <style>
+    .item{
+    margin: 0 3px;
+    border: 1px dotted #AAAAAA;
+    text-align: center;
+    font-size: 12px;
+    padding: 5px;
+    height: 120px;
+    position: relative;
+    line-height: 13px;
+    border-bottom: none;
+  }
+
+  .name{
+      max-height: 65px;
+      overflow: hidden;
+  }
+
+  .option{
+      font-size: 10px;
+      line-height: 11px;
+  }
+
+  .price{
+      margin: 15px auto 0;
+      font-weight: bold;
+      font-size: 17px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+  }
+
+  .old-price{
+      font-size: 13px;
+      display: inline-block;
+      padding: 0 3px;
+      text-decoration: line-through;
+  }
+
+  .ip{
+      margin: 0 0 5px 0;
+      padding: 0;
+      border-bottom: 1px #AAAAAA solid;
+      font-size: 9px;
+      color: #AAAAAA;
+  }
+
+  .mes{
+      margin-right: 15px;
+      margin-top: 5px;
+      float: right;
+      font-size: 10px;
+  }
+
+/**
+ *  Bootstrap print 3.1.5 for Bootstrap v3.
+ *
+ *  Mange grids using Bootstrap v3 for printed media.
+ *  This will help controlling grid columns size on printed pages.
+ *  https://github.com/Vardot/bootstrap-print
+ *
+ *  Require:
+ *    - twbs/bootstrap: https://github.com/twbs/bootstrap
+ */
+@media print {
+    .col-p-1, .col-p-2, .col-p-3, .col-p-4, .col-p-5, .col-p-6, .col-p-7, .col-p-8, .col-p-9, .col-p-10, .col-p-11, .col-p-12 {
+        float: left;
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .col-p-12 {
+        width: 100%;
+    }
+    .col-p-11 {
+        width: 91.66666667%;
+    }
+    .col-p-10 {
+        width: 83.33333333%;
+    }
+    .col-p-9 {
+        width: 75%;
+    }
+    .col-p-8 {
+        width: 66.66666667%;
+    }
+    .col-p-7 {
+        width: 58.33333333%;
+    }
+    .col-p-6 {
+        width: 50%;
+    }
+    .col-p-5 {
+        width: 41.66666667%;
+    }
+    .col-p-4 {
+        width: 33.33333333%;
+    }
+    .col-p-3 {
+        width: 25%;
+    }
+    .col-p-2-5 {
+        width: 20%;
+    }
+    .col-p-2 {
+        width: 16.66666667%;
+    }
+    .col-p-1 {
+        width: 8.33333333%;
+    }
+    .col-p-pull-12 {
+        right: 100%;
+    }
+    .col-p-pull-11 {
+        right: 91.66666667%;
+    }
+    .col-p-pull-10 {
+        right: 83.33333333%;
+    }
+    .col-p-pull-9 {
+        right: 75%;
+    }
+    .col-p-pull-8 {
+        right: 66.66666667%;
+    }
+    .col-p-pull-7 {
+        right: 58.33333333%;
+    }
+    .col-p-pull-6 {
+        right: 50%;
+    }
+    .col-p-pull-5 {
+        right: 41.66666667%;
+    }
+    .col-p-pull-4 {
+        right: 33.33333333%;
+    }
+    .col-p-pull-3 {
+        right: 25%;
+    }
+    .col-p-pull-2 {
+        right: 16.66666667%;
+    }
+    .col-p-pull-1 {
+        right: 8.33333333%;
+    }
+    .col-p-pull-0 {
+        right: auto;
+    }
+    .col-p-push-12 {
+        left: 100%;
+    }
+    .col-p-push-11 {
+        left: 91.66666667%;
+    }
+    .col-p-push-10 {
+        left: 83.33333333%;
+    }
+    .col-p-push-9 {
+        left: 75%;
+    }
+    .col-p-push-8 {
+        left: 66.66666667%;
+    }
+    .col-p-push-7 {
+        left: 58.33333333%;
+    }
+    .col-p-push-6 {
+        left: 50%;
+    }
+    .col-p-push-5 {
+        left: 41.66666667%;
+    }
+    .col-p-push-4 {
+        left: 33.33333333%;
+    }
+    .col-p-push-3 {
+        left: 25%;
+    }
+    .col-p-push-2 {
+        left: 16.66666667%;
+    }
+    .col-p-push-1 {
+        left: 8.33333333%;
+    }
+    .col-p-push-0 {
+        left: auto;
+    }
+    .col-p-offset-12 {
+        margin-left: 100%;
+    }
+    .col-p-offset-11 {
+        margin-left: 91.66666667%;
+    }
+    .col-p-offset-10 {
+        margin-left: 83.33333333%;
+    }
+    .col-p-offset-9 {
+        margin-left: 75%;
+    }
+    .col-p-offset-8 {
+        margin-left: 66.66666667%;
+    }
+    .col-p-offset-7 {
+        margin-left: 58.33333333%;
+    }
+    .col-p-offset-6 {
+        margin-left: 50%;
+    }
+    .col-p-offset-5 {
+        margin-left: 41.66666667%;
+    }
+    .col-p-offset-4 {
+        margin-left: 33.33333333%;
+    }
+    .col-p-offset-3 {
+        margin-left: 25%;
+    }
+    .col-p-offset-2 {
+        margin-left: 16.66666667%;
+    }
+    .col-p-offset-1 {
+        margin-left: 8.33333333%;
+    }
+    .col-p-offset-0 {
+        margin-left: 0%;
+    }
+    /* Always insert a page break after the element */
+    .always-page-break-after,
+    .always-pba {
+        page-break-after: always;
+    }
+    /* Avoid page break after the element (if possible) */
+    .avoid-page-break-after,
+    .avoid-pba {
+        page-break-after: avoid;
+    }
+    /* Insert page breaks after the element so that the next page is formatted as a left page */
+    .left-page-break-after,
+    .left-pba {
+        page-break-after: left;
+    }
+    /* Insert page breaks after the element so that the next page is formatted as a right page */
+    .right-page-break-after,
+    .right-pba {
+        page-break-after: right;
+    }
+    /* Always insert a page break before the element */
+    .always-page-break-before,
+    .always-pbb {
+        page-break-before: always;
+    }
+    /* Avoid page break before the element (if possible) */
+    .avoid-page-break-before,
+    .avoid-pbb {
+        page-break-before: avoid;
+    }
+    /* Insert page breaks before the element so that the next page is formatted as a left page */
+    .left-page-break-before,
+    .left-pbb {
+        page-break-before: left;
+    }
+    /* Insert page breaks before the element so that the next page is formatted as a right page */
+    .right-page-break-before,
+    .right-pbb {
+        page-break-before: right;
+    }
+    /* Avoid page break inside the element (if possible) */
+    .avoid-page-break-inside,
+    .avoid-pbi {
+        page-break-inside: avoid;
+        width: 3;
+    }
+    /* Hide link's href URL in print. */
+    a[href]:after {
+        content: none !important;
+    }
+}
+/*# sourceMappingURL=bootstrap-print.css.map */
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div id="content">
+      <div class="row">
+        {% for product in object.get_items_to_print %}
+          <div class="col-p-3 col-sm-3 no-margin">
+            <div class="item">
+              <div class="ip">ИП "Некрасова А. С."</div>
+              <div class="name">
+                {{ product.item }}
+                <div class="option">{{ product.item.deckitem.producer }}</div>
+              </div>
+              <div class="price">
+                {% if product.item.current_sale_retail_price %}
+                  <span class="old-price">&nbsp;{{ product.item.current_price|floatformat:"0"|intspace }}&nbsp;</span>
+                  {{ product.item.current_sale_retail_price|floatformat:"2"|intspace }} руб.
+                {% else %}
+                  {{ product.item.current_price|floatformat:"0"|intspace }} <small>руб.</small>
+                {% endif %}
+                <?php if(isset($item['special'])){?><?php } ?>
+                    <?php echo $item['price']; ?><?php if(isset($item['special'])){ ?></span><?php } ?>&nbsp;&nbsp;
+                    <?php if(isset($item['special'])){ ?><?php echo $item['special']; ?><?php } ?>
+                <div class="mes">шт.</div>
+              </div>
+                        </div>
+                    </div>
+              {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

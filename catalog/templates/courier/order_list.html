@@ -1,0 +1,33 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% load intfilter %}
+{% load i18n %}
+{% block extrahead %}
+  <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+  <link rel="stylesheet" href="{% static 'kostochka38/css/admin-chosen.css' %}" />
+{% endblock %}
+{% block title %}Заказы курьера | {% trans 'Django site admin' %}{% endblock %}
+
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/mz/">{% trans 'Home' %}</a> &rsaquo; Заказы</div>{% endblock %}
+
+{% block content %}
+    <h3>Актуальные сегодня ({{ today|date:'j N' }})</h3><br>
+    {% render_table zakaz_table_today 'courier/table.html' %}
+
+    <h3>Доставленные заказы</h3><br>
+    {% render_table zakaz_table_finished 'courier/table.html' %}
+
+    <h3>Будущие заказы</h3><br>
+    {% render_table zakaz_table 'courier/table.html' %}
+
+    <br><br><hr><br>
+
+    <h3>Заказы у поставщиков на сегодня ({{ today|date:'j N' }})</h3><br>
+    {% render_table inside_zakaz_table_today 'courier/table.html' %}
+
+    <h3>Полученные заказы поставщиков</h3><br>
+    {% render_table inside_zakaz_table_finished 'courier/table.html' %}
+
+    <h3>Будущие заказы у поставщиков</h3><br>
+    {% render_table inside_zakaz_table 'courier/table.html' %}
+{% endblock %}

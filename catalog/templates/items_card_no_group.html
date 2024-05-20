@@ -1,0 +1,136 @@
+{% load intfilter %}
+{% load deck_row %}
+{% load static %}
+
+<li itemscope itemtype="http://schema.org/Product" data-id="{{ item.deckitem.id }}" data-type="{% if item.deckitem.type %}{{ item.deckitem.type }}{% endif %}" class='item_block item_block-no_group{% if item.new %} new{% endif %}' id='{{ item.deckitem.id }}'>
+    <meta itemprop="category" content="{{ category.title }} {{ category.get_section_display|lower }}">
+    <meta itemprop="description" content="{{ item.deckitem.producer }}, {{ item.deckitem.title }}{% if item.deckitem.title_en %}, {{ item.deckitem.title_en }}{% endif %}">
+    <div class="item_block-inner">
+        {% if request.user.is_staff %}
+            <span style="display: inline-block; padding: 3px 5px; background: #fff; border: 1px solid #ddd; opacity: 0.8; border-radius: 5px; position: absolute; right: 10px; bottom: 10px; z-index: 10;">
+                {{ item.item__quantity_in_reserve }}
+                <br>
+                <span class="{% if item.quantity_in_stock == 0 %}text-danger{% else %}{% if item.quantity_in_stock < 5 %}text-warning{% endif %}{% endif %}">ПСТ: {{ item.quantity_in_stock }}</span><br>
+                <a href="/DgJrfdJg/catalog/item/{{ item.id }}/change/" target="_blank" class="text-warning small"><i class="fa fa-pencil" aria-hidden="true"></i> ред.</a>
+            </span>
+        {% endif %}
+        <div class="labels_block">
+            {% if item.current_sale_online_price %}
+                <div class="label action visible"{% if item.get_sale_online_description %} title="{{ item.get_sale_online_description }}" data-toggle="tooltip" data-placement="bottom"{% endif %}>
+                    -{{ item.get_sale_online }}%
+                </div>
+            {% elif item.get_action_online %}
+                <a class="label action visible" title="{{ item.get_action_online.title }}" data-toggle="tooltip" data-placement="bottom" href="{% url 'action_inner' link=item.get_action_online.link %}">
+                    %
+                </a>
+            {% endif %}
+
+            {% if item.new %}
+                <div class="label new visible">
+                    новинка
+                </div>
+            {% endif %}
+            {% if item.hit %}
+                <div class="label hit visible">
+                    хит
+                </div>
+            {% endif %}
+            {% if item.availability == 20 %}
+                <div class="label presale visible">
+                    под заказ
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="catalog-item">
+            <div class="catalog-item__img">
+                <div class="catalog-item__img__inner">
+                    <a class='title' href='{{ item.deckitem.get_absolute_url }}?item_id={{ item.id }}'>
+                        <img class="lazy{% if not item.deckitem.cover %} noimage{% endif %}" alt='{% if item.deckitem.title_en %}{{ item.deckitem.title_en }}{% else %}{{ item.deckitem.title }}{% endif %} {{ item.weight }}'
+                             title='{% if item.deckitem.title_en %}{{ item.deckitem.title_en }}{% else %}{{ item.deckitem.title }}{% endif %} {{ item.weight }}'
+                             src="{% static 'kostochka38/images/noimage_lazy.jpg' %}"
+                             data-src="{% if item.get_photo %}{{ item.get_photo.thumbnail_new.url }}{% else %}{% static 'kostochka38/images/noimage.png' %}{% endif %}">
+                    </a>
+                    <link itemprop="image" href="http://kostochka38.ru{% if item.get_photo %}{{ item.get_photo.thumbnail_new.url }}{% else %}{% static 'kostochka38/images/noimage.png' %}{% endif %}"/>
+                </div>
+            </div>
+            <div class="catalog-item__layout">
+                <div class="catalog-item__layout-inner">
+                    <span id='no_availability_{{ item.id }}'
+                      class='no_availability{% if not item.availability or item.temporarily_unavailable %} active{% endif %}'>
+                        <i class="fa fa-frown-o"></i> Нет в наличии
+                    </span>
+                    <span id='add_to_cart_{{ item.id }}'
+                          data-real_id='{{ item.id }}'
+                          class='add_to_cart{% if not item.availability or item.temporarily_unavailable %} notactive{% endif %}{% if item.availability == 20 %} presale{% endif %}'
+                          data-item_id='{{ item.id }}'>
+                        <i class="fa fa-cart-plus"></i> Добавить<br> в корзину
+                    </span>
+
+                    <span id='add_to_cart_waiter_{{ item.id }}' class='add_to_cart_waiter'>
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                        <span class="sr-only">Загрузка...</span>
+                    </span>
+
+                    <span id='go_to_cart_{{ item.id }}'
+                          class='go_to_cart'>
+                        <a href="/cart/"><i class="fa fa-arrow-circle-o-right"></i>Перейти<br> в корзину</a>
+                    </span>
+                </div>
+            </div>
+            <div class="catalog-item__price">
+                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class='magazin'>
+                    <span class='price{% if item.current_sale_online_price %} have_sale{% endif %}'>{{ item.current_price|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i></span>
+                    <span class='sale_price{% if item.current_sale_online_price %} visible{% endif %}'>{{ item.current_sale_online_price|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i></span>
+
+                    <meta itemprop="price" content="{{ item.current_price|floatformat:2|intspace }}">
+                    <meta itemprop="priceCurrency" content="RUB">
+                    <link itemprop="availability" href="http://schema.org/InStock">
+                </div>
+            </div>
+            <div class="catalog-item__weight">
+                <noindex>
+                    <ul class='weight more'>
+                        <li class='{{ item.deckitem.id }} {% if item.temporarily_unavailable %}availability-0{% else %}availability-{{ item.availability }}{% endif %}'>
+                            <a data-availability="{% if item.temporarily_unavailable %}0{% else %}{{ item.availability }}{% endif %}"
+                               data-img-src='{{ item.thumbnail_new.url }}'
+                               href="#"
+                               data-alt="{% if item.deckitem.title_en %}{{ item.deckitem.title_en }}{% else %}{{ title }}{% endif %} {{ item.weight }}"
+                               data-deckitem-id='{{ item.deckitem.id }}'
+                               data-item_id='{{ item.id }}'
+                               data-price='{{ item.current_price|floatformat:2|intspace }} руб'
+                               data-sale-price="{{ item.current_sale_online_price|floatformat:2 }} руб"
+                               data-sale-description="{{ item.get_sale_online_description }}"
+                               data-sale-value="-{{ item.get_sale_online }}%"
+                               class='weight-link active{% if item.current_sale_online_price %} action{% endif %}{% if item.hit %} is_hit{% endif %}{% if item.new %} is_new{% endif %}'>
+                              <div class="light-text">
+                                {{ item.weight }}
+                              </div>
+                            </a>
+                        </li>
+                    </ul>
+                </noindex>
+            </div>
+            <div class="catalog-item__description">
+                <a class='title' href='{{ item.deckitem.get_absolute_url }}?item_id={{ item.id }}'>
+                    {% get_title item.deckitem %}, {{ item.weight }}
+                </a>
+                {% if item.deckitem.title_en %}
+                    <br>
+                    <span class="title-en">{{ item.deckitem.title_en }}</span>
+                {% endif %}
+                <div class="availability-block">
+                    {% include 'item_availability_block.html' with is_grouped=False item=item %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="invisible">
+            <a itemprop="name" href='{{ item.deckitem.get_absolute_url }}?item_id={{ item.id }}'>{{ item.deckitem.title }}</a>
+        </div>
+        <div class="invisible" itemprop="brand" itemscope itemtype="http://schema.org/Brand">
+            <a itemprop="name" href="/c/p/{{ item.deckitem.producer.link }}/">{{ item.deckitem.producer.title }}</a>
+        </div>
+    </div>
+</li>

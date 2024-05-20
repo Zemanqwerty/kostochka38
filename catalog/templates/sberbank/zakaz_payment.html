@@ -1,0 +1,28 @@
+{% extends "small_base.html" %}
+{% load static %}
+
+{% block head_title %}
+	Страница оплаты
+{% endblock %}
+
+{% block content %}
+    <div class="" style="margin: 30px auto; width: 400px; max-width: 100%; border: 1px solid #ddd;border-radius: 5px; padding: 30px; text-align: center">
+        <h3 class="alert-title">Страница оплаты</h3>
+        <h4>{{ one_payservice.title }}</h4>
+        <br>
+        <div class="alert-text text-left">
+            <form action="{% url 'payment_redirect' service_id=one_payservice.id %}" method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <button type="submit" class="btn-manisa" onclick="yaCounter47921297.reachGoal('click_oplata'); return true;">Оплатить {% if discount_amount %}{{ discount_amount }}{% else %}{{ one_payservice.amount }} руб.{% endif %}</button>
+                </div>
+                <div class="meta-desctiption text-muted margin-top-100 small text-center">
+                    нажимая на кнопку "оплатить", вы соглашаетесь с <a href="/privacy/">пользовательским соглашением</a>
+                </div>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

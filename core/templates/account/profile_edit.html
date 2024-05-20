@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_title %}
+  Редактирование личных данных
+{% endblock %}
+
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#first_name').focus();
+        });
+    </script>
+    <script src="{% static 'kostochka38/js/jquery.inputmask.3d267cff6083d1d5ee6425a54348dfb63f20cebf.js' %}"></script>
+    <script src="{% static 'kostochka38/js/check_phone.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="category">Редактирование личных данных</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <a href='/account/'>Личный кабинет</a> &rarr; <span>Редактирование личных данных</span>
+    </div>
+
+    <div class="page">
+
+        {% if autorized %}
+
+            <form class='myform' action='' id='login_table' method='post'>
+                {% if error_first_name %}
+                    <div class='cerror'>Данные не сохранены. Указанное имя не может быть сохранено.</div>
+                {% elif error_phone %}
+                    <div class='cerror'>Данные не сохранены. Указанный номер телефона не может быть сохранен.</div>
+                {% endif %}
+                <table border='0' cellpadding='0' cellspacing='0' id='cart_registration'>
+                <tr>
+                    <th></th>
+                    <th>
+                        Регистрационные данные
+                    </th>
+                </tr>
+                    <tr>
+                        <td class='dark' align='right'>Имя</td>
+                        <td class='dark'>
+                            <input maxlength="30" {% if error_first_name %}class='ierror'{% endif %} type='text' name='first_name' id='first_name' value='{{ user.first_name }}'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='lite' align='right'>Телефон</td>
+                        <td class='lite'>
+                            <input maxlength="32" {% if error_phone %}class='ierror'{% endif %} type='text' name='phone' id='phone' value='{{ user.phone }}'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='lite'></td>
+                        <td class='lite'>
+                            <input id='comment_button' type='submit' value='Сохранить' class='button'>
+                            <span class="error_phone">пожалуйста, правильно заполните телефон</span>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        {% else %}
+            {% include 'need_autirozed.html' %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

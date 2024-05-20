@@ -1,0 +1,16 @@
+{% load pytils_numeral %}
+
+<span class="availability">
+    {% if item.get_warehouse_available_count > 0 %}
+        <a href="#" data-toggle="modal" data-target="#availability-modal"{% if is_grouped %} data-is-grouped="true" data-deckitem-id="{{ deckitem.id }}"{% else %} data-is-grouped="false" data-item-id="{{ item.id }}"{% endif %}>
+            В наличии в {{ item.get_warehouse_available_count }} магазин{{ item.get_warehouse_available_count|choose_plural:"е,ах,ах" }}
+        </a>
+    {% else %}
+        {% if is_grouped %}
+            <a href="#" data-toggle="modal" data-target="#availability-modal" data-is-grouped="true" data-deckitem-id="{{ deckitem.id }}">
+                <span class="text-muted"><small>Нет в наличии</small></span>
+            </a>
+        {% else %}
+        {% endif %}
+    {% endif %}
+</span>

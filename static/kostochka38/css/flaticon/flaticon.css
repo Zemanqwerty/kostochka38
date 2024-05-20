@@ -1,0 +1,84 @@
+@font-face {
+	font-family: "Flaticon";
+	src: url("flaticon.eot");
+	src: url("flaticon.eot#iefix") format("embedded-opentype"),
+	url("flaticon.woff") format("woff"),
+	url("flaticon.ttf") format("truetype"),
+	url("flaticon.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+	font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}
+
+.flaticon-animal2:before {
+	content: "\e000";
+}
+.flaticon-b:before {
+	content: "\e001";
+}
+.flaticon-bird12:before, .flaticon-4:before {
+	content: "\e002";
+}
+.flaticon-bird43:before {
+	content: "\e003";
+}
+.flaticon-cat19:before {
+	content: "\e004";
+}
+.flaticon-cats4:before, .flaticon-2:before {
+	content: "\e005";
+}
+.flaticon-chameleons:before, .flaticon-6:before {
+	content: "\e006";
+}
+.flaticon-dog56:before {
+	content: "\e007";
+}
+.flaticon-dog68:before {
+	content: "\e008";
+}
+.flaticon-dog98:before {
+	content: "\e009";
+}
+.flaticon-dogs9:before, .flaticon-1:before {
+	content: "\e00a";
+}
+.flaticon-facebook29:before {
+	content: "\e00b";
+}
+.flaticon-fishes10:before, .flaticon-5:before {
+	content: "\e00c";
+}
+.flaticon-fishes7:before {
+	content: "\e00d";
+}
+.flaticon-gecko2:before {
+	content: "\e00e";
+}
+.flaticon-man421:before {
+	content: "\e00f";
+}
+.flaticon-man423:before {
+	content: "\e010";
+}
+.flaticon-pets10:before {
+	content: "\e011";
+}
+.flaticon-pets8:before {
+	content: "\e012";
+}
+.flaticon-rabbit5:before {
+	content: "\e013";
+}
+.flaticon-rabbits1:before, .flaticon-3:before {
+	content: "\e014";
+}
+.flaticon-reindeer3:before {
+	content: "\e015";
+}

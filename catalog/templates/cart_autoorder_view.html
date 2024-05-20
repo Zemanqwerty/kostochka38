@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load intfilter %}
+{% load static %}
+
+{% block title %}
+    Автозаказ номер #{{ zakaz.id }}
+{% endblock %}
+
+{% block head_title %}
+    Автозаказ номер #{{ zakaz.id }}
+{% endblock %}
+
+
+{% block content %} 
+<div class="container">
+    <h1>Автозаказ номер #{{ zakaz.id }}</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <a href='/account/'>Личный кабинет</a> &rarr; <a href='/account/orders/'>Автоповтор и история заказов</a> &rarr; <span>Автозаказ номер {{ zakaz.id }}</span>
+    </div>
+
+    <div class='page order-detailes-view' id='my_cart_form'>
+        {% if autorized %}
+                <p class=''>
+                    <b>Автозаказ #{{ zakaz.id }}, дата создания <span class="order-date">{{ zakaz.last_order|ru_strftime:"%d %B %Y, %H:%M" }}</span></b>
+                </p>
+
+                <table width='100%' id='cart_table' cellspacing='0' cellpadding='0'>
+                    {% for j in result %}
+                        <tr id="line_{{ j.id }}" class="cart_line items">
+                            <td class='number' align='center'><div>#{{ j.number }}</div></td>
+                            <td class="photo{% if not j.goods.deckitem.cover %} noimage{% endif %}">
+                                {% if j.goods.active == 1 and j.goods.deckitem.active == 1 %}<a href='{{ j.goods.deckitem.get_absolute_url }}#{{ j.goods.id }}'>{% endif %}
+                                    <img src="{% if j.goods.deckitem.cover %}{{ j.goods.deckitem.cover.0.cart_thumbnail.url }}{% else %}{% static 'kostochka38/images/noimage.png' %}{% endif %}">
+                                {% if j.goods.active == 1 and j.goods.deckitem.active == 1 %}</a>{% endif %}
+                            </td>
+                            <td class='title'>
+                                <div>
+                                    {% if j.goods.active == 1 and j.goods.deckitem.active == 1 %}<a href='{{ j.goods.deckitem.get_absolute_url }}#{{ j.goods.id }}'>{% endif %}
+                                    {{ j.goods.deckitem.producer.title }}, {{ j.goods.deckitem.title|safe }}{% if j.goods.active == 1 and j.goods.deckitem.active == 1 %}</a>{% endif %}, <div style="font-style: normal; font-weight: bold; font-size: 16px">{{ j.goods.weight }}</div></div>
+                            </td>
+                            <td class="td-count">
+                                <div>
+                                    <input data-lineid='{{ j.id }}' class='count' type='text' value='{{ j.quantity }}' name='quantity_{{ j.number }}' size='1' id='quantity_{{ j.number }}' disabled>
+                                </div>
+                                <input type='hidden' value='{{ j.id }}' name='id_goods_{{ j.number }}'>
+                                <input type='hidden' value='{{ j.hash }}' id='hash_goods_{{ j.number }}' name='hash_goods_{{ j.number }}'>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <div class="all_summ_block histori" id="comment_form">
+                        <div class="all-summ">
+                            До автозаказа осталось {{ days }} {{ days|choose_plural:"день,дня,дней" }}
+                        </div>
+                        <br class='clear'>
+                        <br class='clear'>
+
+                        <div class="default-summ">
+                            <i>
+                                чтобы отредактировать автозаказ, пожалуйста, свяжитесь с менеджером по телефону
+                            </i>
+                        </div>
+
+
+                        <hr class="small-big">
+
+                        <div onclick='' id='cart_button' class="order-now">Заказать сейчас</div>
+                        <div onclick='' id='delete_button' class="delete-autorepeat">Удалить автозаказ</div>
+
+                        <br class='clear'>
+                    </div>
+
+                <br class='clear'>
+
+        {% else %}
+            {% include 'need_autirozed.html' %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

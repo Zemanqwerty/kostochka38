@@ -1,0 +1,35 @@
+{% load get_left_humanized %}
+
+<p>{{ deckitem.producer.title }}, {{ deckitem.title }}</p>
+<div class="table-responsive">
+    <table class="table table-bordered table-availability">
+        <thead>
+            <tr>
+                <th></th>
+                {% for warehouse in warehouses %}
+                    <th>
+                        <small>
+                            {{ warehouse.name }}
+                            <br>
+                            <span>{{warehouse.full_name|safe }}</span>
+                            <br>
+                            {{ warehouse.is_opened|safe }}
+                        </small>
+                    </th>
+                {% endfor %}
+                <th><small>Поставщик</small><br><br><br></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in deckitem.items %}
+                <tr>
+                    <td>{{ i.weight }}</td>
+                    {% for warehouse in warehouses %}
+                        {{ i|get_left_humanized:warehouse|safe }}
+                    {% endfor %}
+                    {{ i|get_left_humanized|safe }}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

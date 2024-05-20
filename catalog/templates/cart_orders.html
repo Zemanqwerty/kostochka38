@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load humanize %}  
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load intfilter %}
+
+{% block title %}История заказов{% endblock %}
+
+{% block head_title %}История заказов{% endblock %}
+
+
+
+
+{% block content %}
+<div class="container">
+    <h1>История заказов</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <a href='/account/'>Личный кабинет</a> &rarr; <span>История заказов</span>
+    </div>
+
+    <div class='page'>
+        {% if autorized %}
+            <h4 class="orders-header{% if autozakazs %} special-margin-top{% endif %}">История заказов</h4>
+            {% if results %}
+                {% for i in results %}
+                    <a class="order-details" href="/account/order/{{ i.id }}/">
+                        <span class="order-number">Заказ #{{ i.id }}<span class="responsive-invisible">,</span></span>
+                        <span class="order-date">{{ i.date|ru_strftime:"%d %B %Y, %H:%M" }}</span>
+                        <span class="order-summ">{{ i.summ|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i></span>
+                        <span class="order-status">{{ i.status_text }}</span>
+                        <br class="clear responsive-invisible">
+                    </a>
+                {% endfor%}
+                <div class="paginator">
+
+                {% if pages %}
+                    <br><br>
+                    {% if page_var.prev_page %}
+                        <a class="go_to_frst_page " data-page="1" href="?page=1">В начало</a>
+                    {% endif %}
+                    <div class="paginator__number">
+                        {% if page_var.prev_page %}
+                            <a href="?page={{ page_var.prev_page }}">&larr;</a>
+                        {% endif %}
+
+                        {% for iteration in page_var.pages %}
+                            <a class="{% if iteration == page %}active{% endif %}" href="?page={{ iteration }}">{{ iteration }}</a>
+                        {% endfor %}
+
+                        {% if page_var.next_page %}
+                            <a href="?page={{ page_var.next_page }}">&rarr;</a>
+                        {% endif %}
+                    </div>
+                    <br>
+                    <span class="item-count-info">Показано {{ start_item|add:'1' }}-{{ end_item }} из {{ result_count }}</span>
+                {% endif %}
+
+            </div>
+            {% else %}
+                <p>У вас нет активных заказов</p>
+            {% endif %}
+        {% else %}
+            {% include 'need_autirozed.html' %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

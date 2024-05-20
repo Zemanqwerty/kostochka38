@@ -1,0 +1,138 @@
+{% extends "admin/base_site.html" %}
+{% load intfilter %}
+{% load i18n %}
+{% block title %}Сводный баланс | {% trans 'Django site admin' %}{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/DgJrfdJg/">{% trans 'Home' %}</a> &rsaquo; Сводный баланс</div>{% endblock %}
+
+{% block content %}
+    <style>
+        table.balans{
+            width: 100%;
+        }
+            div.price_block{
+                padding: 2px 0 5px;
+                border: 1px solid #d5d5d5;
+                background: #efe;
+                border-radius: 5px;
+                width: 100px;
+                color: #005700;
+                font-size: 12px;
+                line-height: 20px;
+                margin: 10px 10px 0 0;
+                text-align: center;
+                float: left;
+            }
+                div.price_block.red{
+                    background: #fee;
+                }
+            div.price_block span{
+                font-size: 11px;
+                font-weight: normal;
+                color: #00a100;
+            }
+        br.clear{
+            clear: both;
+        }
+        div.block_current{
+            padding: 0 10px 10px 10px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            margin: 10px 0;
+            background: #fafafa;
+            font-size: 12px;
+        }
+    </style>
+    <div class="block_current">
+        <table class="balans">
+            <tr>
+                <td colspan="5">Счет поставщика = {{ sum_balans|intspace }} руб</td>
+            </tr>
+        </table>
+        {% for i in segments_objects %}
+            <div class="price_block{% if i.get_balans < 0 %} red{% endif %}">
+                <span class="title">{{ i.title }}</span><br>
+                {{ i.get_balans|floatformat:2|intspace }} р.
+            </div>
+        {% endfor %}
+
+
+        <br class="clear">
+    </div>
+
+    {% if full_view %}
+        <div class="block_current">
+            <table class="balans">
+                <tr>
+                    <td colspan="5">Остаток товара = <b>{{ sum_all|floatformat:0|intspace }} руб</b>, {{ count_all|intspace }} шт. </td>
+                </tr>
+            </table>
+            {% for i in segments_objects %}
+                {% if i.count > 0 %}
+                    <div class="price_block">
+                        <span class="title">{{ i.title }}</span><br>
+                        {{ i.sum|floatformat:0|intspace }} р.<br>
+                        <span>{{ i.count|intspace }} шт.</span>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <br class="clear">
+        </div>
+        {% for warehouse in warehouses %}
+          {{ warehouse.prepare_balance }}
+          <div class="block_current">
+            <table class="balans">
+              <tr>
+                <td colspan="5">{{ warehouse }} = <b>{{ warehouse.sum_all|floatformat:0|intspace }} руб</b>, {{ warehouse.count_all|intspace }} шт. </td>
+              </tr>
+            </table>
+            {% for i in warehouse.segments %}
+                {% if i.sum > 0 %}
+                      <div class="price_block">
+                        <span class="title">{{ i.title }}</span><br>
+                        {{ i.sum|floatformat:0|intspace }} р.<br>
+                      </div>
+                {% endif %}
+            {% endfor %}
+            <br class="clear">
+          </div>
+        {% endfor %}
+
+        <div class="block_current">
+            <table class="balans">
+                <tr>
+                    <td colspan="5">Касса = {{ result.kassa|intspace }} руб</td>
+                </tr>
+            </table>
+            <div class="price_block">
+                <span class="title">Наличные</span><br>
+                {{ result.kassa_nal.nal|floatformat:2|intspace }} руб
+            </div>
+            <div class="price_block">
+                <span class="title">Безнал СберБанк</span><br>
+                {{ result.kassa_beznal.beznal|floatformat:2|intspace }} руб
+            </div>
+            <br class="clear">
+        </div>
+
+        <div class="block_current">
+            <table class="balans">
+                <tr>
+                    <td colspan="5">Затраты = {{ result.expens_sum|intspace }} руб</td>
+                </tr>
+            </table>
+              <div class="price_block{% if result.expens_vladimir.sum < 0 %} red{% endif %}">
+                <span class="title">Владимир</span><br>
+                {{ result.expens_vladimir.sum|floatformat:0|intspace }} руб
+            </div>
+            <div class="price_block{% if result.expens_roman.sum < 0 %} red{% endif %}">
+                <span class="title">Роман</span><br>
+                {{ result.expens_roman.sum|floatformat:0|intspace }} руб
+            </div>
+            <br class="clear">
+            <br>
+
+        </div>
+
+    {% endif %}
+{% endblock %}

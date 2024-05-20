@@ -1,0 +1,23 @@
+User-agent: yandex
+Allow: /
+Allow: /?page
+Disallow: /search/
+Disallow: /account/order*
+Disallow: /get_price*
+Disallow: /cart*
+Host: https://kostochka38.ru
+sitemap: https://kostochka38.ru/sitemaps/sitemap.xml
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: *
+Allow: /
+Allow: /?page=*
+Disallow: /search/
+Disallow: /cart*
+Disallow: /account/order*
+Disallow: /get_price*
+sitemap: https://kostochka38.ru/sitemaps/sitemap.xml
+
+Clean-Param: utm_source&utm_medium&utm_campaign&from&mod_id&uutm_campaign&item_id

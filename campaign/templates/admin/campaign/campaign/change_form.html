@@ -1,0 +1,8 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{% block object-tools-items %}
+{{ block.super }}
+  <li><a href="{% add_preserved_filters send object_id %}">{% blocktrans with verbose_name=opts.verbose_name %}Send {{ verbose_name }} {% endblocktrans %}</a></li>
+  <li><a href="{% url "campaign_preview_template" object_id %}">{% blocktrans with verbose_name=opts.verbose_name %}Просмотр шаблона{% endblocktrans %}</a></li>
+{% endblock %}

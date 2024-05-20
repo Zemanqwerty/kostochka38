@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+Комментарий успешно добавление
+{% endblock %}
+
+{% block head_title %}
+Комментарий успешно добавлен
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="category">Комментарий успешно добавлен</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <a href='/news'>Новости</a> &rarr; <span>Комментарий успешно добавлен</span>
+    </div>
+    <div class="page action">
+        <p>
+            Спасибо, ваш комментарий успешно создан!<br><br>
+            Комментарий появится после проверки модератором.
+
+            <br><br>
+            <a href='{{ back_link }}'>&larr; Вернуться к просмотру акции</a>
+            <br><br>
+            <br><br>
+        </p>
+    </div>   
+</div>       
+{% endblock %}

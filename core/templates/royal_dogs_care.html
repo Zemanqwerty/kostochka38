@@ -1,0 +1,158 @@
+{% extends "base.html" %}   
+{% load static %}
+       
+{% block title %}
+	CARE NUTRITION для собак
+{% endblock %} 
+
+{% block head_title %}
+    CARE NUTRITION для собак
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'royal/level2_cat.css' %}" type="text/css" />
+
+<div class="container">
+    <h1 class="category">CARE NUTRITION для собак</h1>
+    <div class='way'>
+        <a href='/'>Главная</a> &rarr; <span>CARE NUTRITION для собак</span>
+    </div>
+    <div class="page">
+
+        <div class="wrapper royal-level2">
+            <hr class="header-rule">
+            <div class="header header--logo">
+                <div class="row">
+                    <div class="col col--30">
+                        <img class="header__logo" src="{% static 'royal/level_3_dog_care/logo.png' %}" alt="Logo">
+                    </div>
+                </div>
+            </div>
+    
+        <div class="section section--intro brand-intro">
+            <div class="row brand-row-header">
+                <div class="col col--50">
+                    <img src="{% static 'royal/level_3_dog_care/dog_header2.png' %}" alt="dog" />
+                </div>
+                
+                <div class="col col--50">
+                    <h1 class="level3-heading">CARE NUTRITION<br/><span class="grey-heading">ДЛЯ СОБАК</span></h1>
+                    <a href="/c/korm-dlya-sobak/?page=1&f-other=canine-care" class="button nutrition-button--header ">
+                        ПОДОБРАТЬ КОРМ
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr class="header-separator-main">
+    
+          <!-- =================================================== -->
+          <!-- ACCORDION -->
+          <!-- =================================================== -->
+    
+          <input type="checkbox" id="accordion-trigger-1" class="accordion-trigger" />
+    
+        <div class="section section--accordion subsection-acc bg-subsection-grey-lite">
+            <div class="row subsection-row-main">
+                <div class="col col--100 subsection-content subsection-head subsection-grey-dark">
+                </div>
+            </div>
+    
+            <div class="row subsection-row-main">
+                <div class="col col--50 subsection-content">
+                    <p>
+                        У собак, склонных к быстрому набору веса, пищеварительная система может отличаться повышенной чувствительностью, а шерсть быть в плохом состоянии. Эксперты Royal Canin разработали индивидуальные продукты для собак любого размера с особыми потребностями. Для крупных собак мы разработали формулу, в которую входит большое количество компонентов для шерсти и суставов. Формула была создана исходя из размеров собаки и ее потребностей в питании.
+                    </p>
+                </div>
+                <div class="col col--50 subsection-content">
+                    <img class="packaging" src="{% static 'royal/level_3_dog_care/dog_packs2.png' %}" alt="dog food packets" />
+                </div>
+            </div>
+        </div>
+         <div class="section section--accordion subsection-acc">
+            <div class="row subsection-row-main">
+                <div class="col col--50 subsection-content">
+                    <div class="subsection-icon-container">
+                        <img src="{% static 'royal/level_3_dog_care/icon_left.png' %}" alt="scales" />
+                        <div class="icon-text">
+                            <h4>ПРОБЛЕМЫ С КОЖЕЙ</h4>
+                            <p>
+                                Наша продукция DERMACOMFORT для маленьких, средних и крупных собак содержит определенное количество жирных кислот, которые способствуют поддержанию здоровья кожи и шерстяного покрова, а также усиливают барьерную функцию благодаря уникальному комплексу нутриентов.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col--50 subsection-content">
+                    <div class="subsection-icon-container">
+                        <img src="{% static 'royal/level_3_dog_care/icon_right.png' %}" alt="scales" />
+                        <div class="icon-text">
+                            <h4>ПОВЫШЕННАЯ ЧУВСТВИТЕЛЬНОСТЬ ПИЩЕВАРИТЕЛЬНОГО ТРАКТА У СОБАК</h4>
+                            <p>
+                                Так как пищеварительный тракт любой собаки, вне зависимости от ее размеров, может
+    иметь повышенную чувствительность, мы разработали специальные формулы DIGESTIVE CARE для небольших, средних и крупных собак — все эти формулы содержат много белка и пребиотиков. Формулы для собак с повышенной чувствительностью пищеварительного тракта помогают поддерживать баланс микрофлоры в кишечнике и правильную регуляцию стула.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row subsection-row-main">
+                <div class="col col--50 subsection-content last-subsection" style="padding-bottom: 0">
+                    <div class="subsection-kibble-container">
+                        <img style="margin-top: 0" src="{% static 'royal/level_3_dog_care/dog_bottom_left2.png' %}" alt="dog" />
+                        <div class="kibble-text">
+                            <img src="{% static 'royal/level_3_dog_care/dog_kibble2.png' %}" alt="kibble" />
+                            <p>
+                                Крокеты каждого продукта имеют определенную форму, размер, текстуру и плотность, в соответствии с потребностями вашей собаки
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mobile-separator">
+                <div class="col col--50 subsection-content last-subsection">
+                    <h3>
+                        ДИЕТИЧЕСКОЕ ПИТАНИЕ ДЛЯ СОБАК С ОСОБЫМИ ПОТРЕБНОСТЯМИ
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <hr class="content-separator-main">
+        <div class="section section--accordion subsection-last footer-dog-care">
+            <div class="row subsection-row-main">
+                <div class="col col--50 subsection-footer-icons">
+                    <div class="footer-icon-cont">
+                        <a href="/c/korm-dlya-sobak/?producer_filter=royal-canin">
+                            <div class="footer-icon" id="footer-joint"></div>
+                            <h3>JOINT CARE</h3>
+                            <p>при чувствительности суставов</p>
+                        </a>
+                    </div>
+                    <div class="footer-icon-cont">
+                        <a href="/c/korm-dlya-sobak/?page=1&f-other=predraspolozhennyie-k-polnote-light&producer_filter=royal-canin">
+                            <div class="footer-icon" id="footer-digest"></div>
+                            <h3>DIGESTIVE CARE</h3>
+                            <p>при чувствительном пищеварении</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col col--50 subsection-footer-icons">
+                    <div class="footer-icon-cont">
+                        <a href="/search/?q=dermacomfort">
+                            <div class="footer-icon" id="footer-derma"></div>
+                            <h3>DERMACOMFORT</h3>
+                            <p>при раздражениях кожи и зуде</p>
+                        </a>
+                    </div>
+                    <div class="footer-icon-cont">
+                        <a href="/c/korm-dlya-sobak/?page=1&f-other=predraspolozhennyie-k-polnote-light&producer_filter=royal-canin">
+                            <div class="footer-icon" id="footer-light-weight"></div>
+                            <h3>LIGHT WEIGHT CARE</h3>
+                            <p>при склонности к избыточному весу</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

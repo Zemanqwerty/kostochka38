@@ -1,0 +1,7 @@
+{% extends "admin_tools/dashboard/module.html" %}
+{% load chart_tags %}
+{% load static %}
+
+{% block module_content %}
+    {% line_chart_with_year_and_month module.values module.captions module.captions_year module.captions_month '700x200' %}
+{% endblock %}

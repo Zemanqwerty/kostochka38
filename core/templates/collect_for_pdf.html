@@ -1,0 +1,265 @@
+{% load humanize %}  
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load intfilter %}
+
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <title>kostochka38</title>
+        <style>
+            @font-face { font-family: sans-serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            @font-face { font-family: serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            @font-face { font-family: Helvetica; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            html {
+                font-family: Helvetica;
+                }
+
+            body, div {
+                font: normal 11px/20px Helvetica, sans-serif;
+                }
+            table {
+                border-collapse: collapse;
+                }
+            p.big{
+                font: normal 16px;
+                }
+            p.nobig{
+                font: normal 14px;
+                }
+            p{
+                line-height: 15px;
+                }
+            @page {
+              size: a4;
+              margin: 1cm 0.8cm 1cm 0.8cm;
+              @frame footer {
+                -pdf-frame-content: footerContent;
+                bottom: 0.3cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 1cm;
+                font-size: 10px;
+                color: #eee;
+              }
+              @frame header {
+                -pdf-frame-content: HeaderContent;
+                top: 1cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 2cm;
+                font-size: 10px;
+                color: #eee;
+              }
+            }
+
+            .head{
+                font-size: 10px;
+                line-height: 11px;
+                text-align: center;
+                padding: 3px 0;
+            }
+            table.border, table.border td{
+                border: 0.5px solid #aaa;
+                border-collapse: collapse;
+                font-size: 10px;
+                line-height: 9px;
+            }
+            td{
+                padding: 2px 1px 2px 2px;
+            }
+
+            .white{
+                color: #fff;
+            }
+            td.title{
+                font-size: 10px;
+                line-height: 1.2;
+            }
+            i {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+
+    {% for client in zakazs %}
+        {% if not onlyclient %}
+            <p>
+                {% if client.zakaz.district_name %}{{ client.zakaz.district_name }}, {% endif %}{{ client.zakaz.city }}, {{ client.zakaz.street }}, {{ client.zakaz.dom }}{% if client.zakaz.appart %} - {{ client.zakaz.appart }}{% endif %}<br>
+                Контактные данные: {{ client.zakaz.phone }}{% if client.zakaz.fio %} - {{ client.zakaz.fio }}{% endif %}<br>
+                Курьер: {{ client.zakaz.courier.first_name }} {{ client.zakaz.courier.last_name }}<br>
+                {% if client.zakaz.desired_time %}Время доставки: {% if client.zakaz.real_desired_time %}{{ client.zakaz.real_desired_time|ru_strftime:"%d %B" }} в {% endif %}{{ client.zakaz.desired_time }}<br>{% endif %}
+                {% if client.zakaz.description %}Комментарий клиента: {{ client.zakaz.description }}<br>{% endif %}
+                {% if client.zakaz.extra %}Комментарий оператора: {{ client.zakaz.extra }}<br>{% endif %}
+            </p>
+               <p>
+                    Заказ №<big>{{ client.zakaz.id }}</big>
+               </p>
+
+                <p class='nobig' style='text-align: right;'>
+                    {{ client.zakaz.all_summ|floatformat:2|intspace }} руб.<br>
+                    {{ client.zakaz.paytype }}
+                </p>
+                <p style='text-align: right;'>
+                    Сдача: {{ client.zakaz.change|floatformat:2|intspace }} руб.
+                </p>
+
+                <table class="border" width='100%' id='cart_table' border='0.3px' cellspacing='0' cellpadding='2'>
+                    <tr>
+                        <td class='head' width='4%' align='center'><center>№</center></td>
+                        <td class='head' width='50%'>Наименование</td>
+                        <td class='head' width='11%' align='center'>Цена</td>
+                        <td class='head' width='9%' align='center'>Кол-во</td>
+                        <td class='head' width='12%' align='center'>Сумма</td>
+                        <td class='head' width='15%' align='center'>Кол-во на складе</td>
+                    </tr>
+                    {% for j in client.result %}
+                        <tr>
+                            <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                            <td class='title'>
+                                {% if j.basket_of_good %}
+                                    <i>Товар для корзины добра</i><br>
+                                {% endif %}
+                                {{ j.goods.deckitem.title|safe }} [{{ j.goods.deckitem.producer.title }}] ({{ j.goods.weight }})
+                                {% if j.goods.deckitem.title_en %}<br>{{ j.goods.deckitem.title_en|safe }}{% endif %}
+                            </td>
+                            {% if not client.sale %}<td align='right'>{{ j.price|floatformat:2|intspace }}</td>{% endif %}
+                            {% if client.sale %}<td align='right'>{{ j.price_sale|floatformat:2|intspace }}<br>({% if j.sale or j.sale == 0 %}{{ j.sale }}{% else %}{{ client.procent }}{% endif %}%)</td>{% endif %}
+                            <td align='center'>{{ j.quantity }} шт.</td>
+                            {% if not client.sale %}<td align='right' class='price'><b>{{ j.summ|floatformat:2|intspace }}</b></td>{% endif %}
+                            {% if client.sale %}<td align='right' class='price'>{{ j.summ_sale|floatformat:2|intspace }}</td>{% endif %}
+                            <td align='right' class='price'>{{ j.goods.quantity_in_reserve }} шт</td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+                <p class='nobig' style='text-align: right;'>
+                    {{ client.zakaz.all_summ|floatformat:2|intspace }} руб.<br>
+                    {{ client.zakaz.paytype }}
+                </p>
+                <p style='text-align: right;'>
+                    Сдача: {{ client.zakaz.change|floatformat:2|intspace }} руб.
+                </p>
+
+                <pdf:nextpage />
+            {% endif %}
+          <table class="noborder" border='0' width='100%'>
+                <tr>
+                    <td style="vertical-align: bottom;" class="superhead" width='35%' valign='bottom' align='center'>
+                        <p><span>+7(3952)</span> 50-40-38</p>
+                    </td>
+                    <td class="superhead" width='30%' align='center' style="text-align: center;">
+                        <img src="{{ path }}/static/kostochka38/images/new-logo.png"/>
+                    </td>
+                    <td style="vertical-align: bottom;" class="superhead" width='35%' valign='bottom' align='center'>
+                        <p>Kostochka38.ru</p>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <table class="noborder" border='0' width='100%'>
+                <tr>
+                    <td width="50%">
+                        <p>
+                            Адрес доставки:&nbsp;{% if client.zakaz.district_name %}{{ client.zakaz.district_name }}, {% endif %}{{ client.zakaz.city }}, {{ client.zakaz.street }} {{ client.zakaz.dom }}{% if client.zakaz.appart %} - {{ client.zakaz.appart }}{% endif %}<br>
+                            Контактные данные: {{ client.zakaz.phone }}{% if client.zakaz.fio %} - {{ client.zakaz.fio }}{% endif %}<br>
+                            Курьер: {{ client.zakaz.courier.first_name }} {{ client.zakaz.courier.last_name }}<br>
+                            Способ оплаты: {{ client.zakaz.paytype }}<br>
+                            {% if client.zakaz.desired_time %}Время доставки: {% if client.zakaz.real_desired_time %}{{ client.zakaz.real_desired_time|ru_strftime:"%d %B" }} в {% endif %}{{ client.zakaz.desired_time }}<br>{% endif %}
+                            {% if client.zakaz.description %}Комментарий к заказу: {{ client.zakaz.description }}<br>{% endif %}
+                        </p>
+                    </td>
+                    <td width="50%" align="right">
+                        <p style="font-size: 90%; color: #888">
+                            ИП Некрасова А.С.<br>
+                            ИНН 381017227900<br>
+                            ОГРНИП 320385000086624
+                        </p>
+                    </td>
+                </tr>
+            </table>
+
+           <p>
+               <big>Товарный чек №{{ client.zakaz.id }}</big>
+           </p>
+
+            <table class="border" width='100%' id='cart_table' border='0.3px' cellspacing='0' cellpadding='2'>
+                <tr>
+                    <td class='head' width='4%' align='center'><center>№</center></td>
+                    <td class='head' width='{% if client.sale %}35%{% else %}65%{% endif %}'>Наименование</td>
+                    <td class='head' width='11%' align='center'>Цена</td>
+                    {% if client.sale %}<td class='head' width='15%' align='center'>Цена со<br> скидкой</td>{% endif %}
+                    <td class='head' width='9%' align='center'>Кол-во</td>
+                    <td class='head' width='12%' align='center'>Сумма</td>
+                    {% if client.sale %}<td class='head' width='15%' align='center'>Сумма со<br>скидкой</td>{% endif %}
+                </tr>
+                {% for j in client.result %}
+                    <tr>
+                        <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                        <td class='title'>
+                            {% if j.basket_of_good %}
+                                <i>Товар для корзины добра</i><br>
+                            {% endif %}
+                            {{ j.goods.deckitem.title|safe }} [{{ j.goods.deckitem.producer.title }}] ({{ j.goods.weight }})
+                            {% if j.goods.deckitem.title_en %}<br>{{ j.goods.deckitem.title_en|safe }}{% endif %}
+                        </td>
+                        <td align='right'>{{ j.price|floatformat:2|intspace }}</td>
+                        {% if client.sale %}<td align='right'>{{ j.price_sale|floatformat:2|intspace }}<br>({% if j.sale or j.sale == 0 %}{{ j.sale }}{% else %}{{ client.procent }}{% endif %}%)</td>{% endif %}
+                        <td align='center'>{{ j.quantity }} шт.</td>
+                        <td align='right' class='price'><b>{{ j.summ|floatformat:2|intspace }}</b></td>
+                        {% if client.sale %}<td align='right' class='price'>{{ j.summ_sale|floatformat:2|intspace }}</td>{% endif %}
+                    </tr>
+                {% endfor %}
+
+            </table>
+            <table class="noborder" border='0' width='100%' style="margin-top: 20px">
+                <tr>
+                    <td width="50%" valign="bottom">
+                        <p style="text-align: left; font-style: italic; font-size: 90%; color: #888">
+                            При возникновении вопросов по качеству обслуживания, вы можете связаться<br>
+                            с нами по телефону: +7 (983) 446-59-13 или по электронной почте: help@kostochka38.ru
+                        </p>
+                    </td>
+                    <td width="50%">
+                        <p class='nobig' style='text-align: right;'>
+                            Итого к оплате: {{ client.zakaz.all_summ|floatformat:2|intspace }} руб.
+                        </p>
+                        <p style='text-align: right;'>
+                            Сумма заказа: {{ client.zakaz.summ|floatformat:2|intspace }} руб.
+                            {% if client.dostavka > 0 %}
+                                <br>
+                                Доставка: {{ client.dostavka|floatformat:2|intspace }} руб.
+                            {% endif %}
+                            {% if client.sale or dostavka < 0 %}
+                                <br>
+                                Скидка: {{ client.skidka|floatformat:2|intspace }} руб.
+                            {% endif %}
+                            {% if client.skidka_na_meloch %}
+                                <br>
+                                Скидка на мелочь: {{ client.skidka_na_meloch|floatformat:2|intspace }} руб.
+                            {% endif %}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            {% if signature %}
+                <br>
+                <table class="noborder" width='100%' id='cart_table' border='0' cellspacing='0' cellpadding='5'>
+                    <tr>
+                        <td width="50%" align="left">
+                            <br>
+                            МП&nbsp;_______/________________/
+                        </td>
+                        <td width="50%" align="right">
+                            <br>
+                            Подпись&nbsp;покупателя&nbsp;_______/________________/
+                        </td>
+                    </tr>
+                </table>
+            {% endif %}
+            <pdf:nextpage />
+        {% endfor %}
+
+    </body>
+</html>

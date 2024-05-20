@@ -1,0 +1,12 @@
+<br>
+{{ date }}
+{% for line in result.good_items_notactive %}
+    <div class='parser miss_items'>
+        <i>прайс - {{ line.price_item.title }}</i><br>
+        сайт - [{{ line.base_item.deckitem.producer.title }}] {{ line.base_item.deckitem.title }} [{{ line.base_item.weight }}]<br>
+        прайс - <i>[{{ line.price_item.article }}] [{{ line.price_item.code }}] "{{ line.price_item.price }}"</i><br>
+        сайт - арт[{{ line.base_item.article }}] код[{{ line.base_item.code }}] цена[{{ line.base_item.real_price }}]
+        <a href="http://kostochka38.ru/DgJrfdJg/catalog/deckitem/{{ line.base_item.deckitem.id }}/" target="_blank">смотреть</a>
+    </div>
+    <br>
+{% endfor %}

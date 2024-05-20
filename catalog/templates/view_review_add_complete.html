@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load humanize %}
+
+{% block head_title %}Отзыв успешно отправлен{% endblock %}
+
+
+{% block content %} 
+    <div class="container">
+        <h1 class="category">Каталог</h1>
+        <div class='way'>
+            <a href='/' >Главная</a> &rarr; <a href='/catalog'>Каталог</a> &rarr; Отзыв успешно отправлен
+        </div>
+
+        <div class="page">
+            <p>
+                Спасибо, ваш отзыв успешно отправлен.<br><br>
+                Отзыв будет опубликован после проверки модератором.<br><br><br>
+                
+                <a href='{{ item.get_absolute_url }}{% if producer %}?producer={{ producer.link }}{% endif %}'>&larr; вернуться к просмотру {{ item.title}}</a>
+            </p>
+        </div>
+            
+    </div>
+{% endblock %}

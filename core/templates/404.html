@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_title %}
+Ошибка 404 - Интернет-магазин зоотоваров Kostochka38.ru
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <h1>Ошибка 404, страница не найдена</h1>
+
+            <div class="page">
+
+                <div class="fleft">
+                    <p>
+                        К сожалению, запрошенная вами страница не найдена на нашем сайте. Вероятные причины:
+                    </p>
+                    <ul>
+                        <li>вы ошиблись вводом адреса страницы;</li>
+                        <li>вы пришли по устаревшей ссылке или страница была удалена.</li>
+                    </ul>
+                    <p class='meta'>Попробуйте начать с <a href="/">главной страницы</a></p>
+                </div>
+
+                <div class="fright">
+                    <img src="{% static 'kostochka38/images/404.jpg' %}">
+                </div>
+
+                <br class="clear">
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+

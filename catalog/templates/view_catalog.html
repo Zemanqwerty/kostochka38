@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load humanize %}
+{% load static %}
+
+{% block head_title %}{% if flatpage.meta_title %}{{ flatpage.meta_title|safe }}{% else %}{{ flatpage.title|safe }}{% endif %}{% endblock %}
+{% block meta_keywords %}{{ flatpage.meta_keywords }}{% endblock %}
+{% block meta_descroption %}{{ flatpage.meta_descroption }}{% endblock %}
+
+{% block content %} 
+<div class="container">
+    <h1 class="category">Каталог</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; Каталог
+    </div>
+
+    <div class="page catalog-list">
+        {% for i in menu_catalog.food %}
+            <div class="catalog-block">
+                <h2>{{ i.title }}</h2>
+                <ul>
+                    {% for j in i.items %}
+                        <li>
+                            <span>&mdash;</span> <a href='/c/{{ j.link }}/'>{{ j.title }}</a>
+                            {% if j.get_filter_link %}<ul>{% for k in j.get_filter_link %}
+                                <li><span>&ndash;</span> <a href='{{ k.link_url }}'>{{ k.link_title }}</a></li>
+                            {% endfor %}</ul>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% cycle '' '' '<br class="clear hidden-xs">' %}
+        {% endfor %}
+
+        <div class="catalog-producer">
+            <h2 id='promote'>Бренды</h2>
+            {% for i in menu.producers %}
+                <div class="producer-block">
+                    <div class="producer-block-inside" data-link="/c/p/{{ i.link }}/">
+                        <div class="producer-block-image">
+                            <a href='/c/p/{{ i.link }}/'>
+                            {% if i.catalog_image %}
+                                <img src="{{ i.catalog_image.url }}" alt="{{ i.title }}" title="{{ i.title }}">
+                            {% else %}
+                                <img height="105px" src="{% static 'kostochka38/images/noimage.png' %}">
+                            {% endif %}
+                            </a>
+                        </div>
+                        <a href='/c/p/{{ i.link }}/'>{{ i.title }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+            <br class="clear">
+        </div>
+    </div>
+</div>
+{% endblock %}

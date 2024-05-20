@@ -1,0 +1,29 @@
+{% extends "base.html" %}   
+       
+{% block title %}
+	{{ flatpage.title|safe }}
+{% endblock %} 
+
+{% block head_title %}
+	{% if flatpage.meta_title %}{{ flatpage.meta_title|safe }}{% else %}{{ flatpage.title|safe }}{% endif %}
+{% endblock %}
+
+{% block meta_keywords %}
+    {{ flatpage.meta_keywords }}
+{% endblock %}
+
+{% block meta_descroption %}
+    {{ flatpage.meta_descroption }}
+{% endblock %}
+
+{% block content %}  
+<div class="container">
+    <h1 class="category">{{ flatpage.title|safe }}</h1>
+    <div class='way'>
+        <a href='/'>Главная</a> &rarr; <span>{{ flatpage.title|safe }}</span>
+    </div>
+    <div class="page">
+        {{ flatpage.body|safe }}
+    </div>
+</div>
+{% endblock %}

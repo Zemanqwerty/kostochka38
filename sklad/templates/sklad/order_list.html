@@ -1,0 +1,360 @@
+{% extends "sklad/base.html" %}
+{% load static %}
+{% load intfilter %}
+{% load admin_urls %}
+{% block head_script %}
+    <script>
+        let warehouse = '{{ warehouse }}'
+    </script>
+{% endblock %}
+{% block content %}
+<div class="container-fluid full-height">
+    <div class="row full-height mt-3">
+
+        <div class="col-9">
+
+            <div class="row">
+
+                {% if duty %}
+                    <div class="col-12 col-md-3">
+                        <div class="card border-success mt-0">
+                            <div class="card-header">Сборка заказов</div>
+                            <div class="card-body p-1">
+                                <ul class="lis mt-2 ml-3 list-unstyled">
+                                    {% for i in  couriers %}
+                                        <li class="mb-1"><a target="_blank" class="btn btn-primary btn-sm" href="/manage/collect_orders/?user={{ i.username }}">{{ i.last_name }} {{ i.first_name }}</a></li>
+                                    {% endfor %}
+
+                                    <li class="mb-1"><a target="_blank" class="btn btn-primary btn-sm mt-3" href="/manage/collect_orders/?user=pickup"> - самовывозы - </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="card border-warning mt-0">
+                            <div class="card-header">Приемка курьеров</div>
+                            <div class="card-body p-1">
+                                <ul class="lis mt-2 ml-3 list-unstyled">
+                                    {% for i in  couriers %}
+                                        <li class="mb-1 d-flex">
+                                            <a target="_blank" class="btn btn-warning btn-sm mr-1" href="/manage/calculate_courier?user={{ i.username }}&category=kostochka">{{ i.last_name }} {{ i.first_name }}<br>(kostochka38)</a>
+                                            <a target="_blank" class="btn btn-danger btn-sm" href="/manage/calculate_courier?user={{ i.username }}&category=bbox">{{ i.last_name }} {{ i.first_name }}<br>(bbox38)</a>
+                                        </li>
+                                    {% endfor %}
+                                    <li class="mb-1"><a target="_blank" class="btn btn-warning btn-sm mt-3" href="/manage/calculate_courier/?user=pickup&category=kostochka"> - самовывозы - </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="card border-danger mt-0">
+                            <div class="card-header">Печать собранных заказов</div>
+                            <div class="card-body p-1">
+                                <ul class="lis mt-2 ml-3 list-unstyled">
+                                    {% for i in  couriers %}
+                                        <li class="mb-1"><a target="_blank" class="btn btn-outline-danger btn-sm" href="/manage/print_orders/?user={{ i.username }}">{{ i.last_name }} {{ i.first_name }} ({{ i.zakaz_print }})</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="card border-secondary mt-0">
+                            <div class="card-header">Сдача на собранные заказы</div>
+                            <div class="card-body p-1">
+                                <ul class="lis mt-2 ml-3 list-unstyled">
+                                    {% for i in  couriers %}
+                                        <li class="mb-1"><a target="_blank" class="btn btn-secondary btn-sm" href="/manage/print_cash/?user={{ i.username }}">{{ i.last_name }} {{ i.first_name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card border-success mt-5">
+                            <div class="card-header card-primary">Заказы на самовывоз на сегодня</div>
+                            <div class="card-body p-1">
+                              <table class="table table-striped table-sm mb-0">
+                                    <thead>
+                                      <tr>
+                                        <th>№ заказа</th>
+                                        <th>Покупатель</th>
+                                        <th align="right">Итого</th>
+                                        <th>Статуc</th>
+                                        <th>Дата</th>
+                                        <th>Тип оплаты</th>
+                                      </tr>
+                                    </thead>
+                                {% regroup pickup_orders by pickup_warehouse as pickup_orders_by_warehouse %}
+                                {% for i in pickup_orders_by_warehouse %}
+                                    <tr>
+                                        <th colspan="6">
+                                            {{ i.grouper }}
+                                        </th>
+                                    </tr>
+                                    <tbody>
+                                      {% for order in i.list %}
+                                        <tr class="{%if order.status == 3 %}table-success{% else %}table-warning{% endif %}">
+                                          <td><a target="_blank" href="/DgJrfdJg/catalog/zakaz/{{ order.id }}/change/">{{ order.id }}</a></td>
+
+                                          <td>{{ order.owner }}</td>
+                                          <td align="right">{{ order.k_oplate|floatformat:"2"|intspace }} <i class="far fa-ruble-sign"></i></td>
+                                          <td class="small">{{ order.get_status_string }}</td>
+                                          <td>{{ order.date }}</td>
+                                          <td class="small">{{ order.get_pay_type_string }}</td>
+                                        </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                {% endfor %}
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card border-info mt-5">
+                            <div class="card-header card-primary">Заказы поставщиков на сегодня</div>
+                            <div class="card-body p-1">
+                              <table class="table table-striped table-sm mb-0">
+                                <thead>
+                                  <tr>
+                                    <th>№ заказа</th>
+                                    <th>Поставщик</th>
+                                    <th>Статус</th>
+                                    <th>Курьер</th>
+                                    <th align="right">Сумма</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for order in insidezakazs_today %}
+                                    <tr class="{% if order.status == 3 %}table-success{% else %}table-warning{% endif %}">
+                                      <td><a target="_blank" href="/DgJrfdJg/catalog/insidezakaz/{{ order.id }}/change/">{{ order.id }}</a></td>
+                                      <td>{{ order.segment_new.title }}</td>
+                                      <td>{{ order.get_status_display }}</td>
+                                      <td>{{ order.courier.first_name }} {{ order.courier.last_name }}</td>
+                                      <td align="right">{{ order.cost|floatformat:"2"|intspace }} <i class="far fa-ruble-sign"></i></td>
+                                    </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+                        <div class="card border-info mt-5">
+                            <div class="card-header card-primary">Перемещения на склад</div>
+                            <div class="card-body p-1">
+                              <table class="table table-striped table-sm mb-0">
+                                <thead>
+                                  <tr>
+                                    <th>№ заказа</th>
+                                    <th>Откуда</th>
+                                    <th>Статус</th>
+                                    <th>Курьер</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for order in movements_to_sklad %}
+                                    <tr class="{% if order.status == 3 %}table-success{% else %}table-warning{% endif %}">
+                                      <td><a target="_blank" href="/DgJrfdJg/catalog/movementofgoods/{{ order.id }}/change/">{{ order.id }}</a></td>
+                                      <td>{{ order.warehouse_donor.name }}</td>
+                                      <td>{{ order.get_status_display }}</td>
+                                      <td>{{ order.courier.first_name }} {{ order.courier.last_name }}</td>
+                                    </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+                        <div class="card border-info mt-5">
+                            <div class="card-header">Движение наличных</div>
+                            <div class="card-body p-1">
+                                <table class="table table-striped table-sm mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>Время</th>
+                                        <th>Сумма</th>
+                                        <th>Тип</th>
+                                        <th>Комментарий</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for encashment in encashments %}
+                                        <tr>
+                                            <td>{{ encashment.date }}</td>
+                                            <td>{{ encashment.money|intspace }} <i class="far fa-ruble-sign"></i></td>
+                                            <td>{{ encashment.get_type_display }}</td>
+                                            <td>{{ encashment.comment }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-inline">
+                                    <input type="button" value="Добавить" class="btn btn-info mr-3 encashment-add"
+                                           data-hidden="-1">
+                                    <input type="text" placeholder="Сумма" class="form-control mr-3 d-none money-input">
+                                    <select type="text" class="form-control mr-3 d-none type-select">
+                                        <option>-- выбрать тип --</option>
+                                        <option value="1">- изъятие</option>
+                                        <option value="2">- оплата курьеру</option>
+                                        <option value="3">- сдача курьеру</option>
+                                        <option value="4">- въезд на территорию</option>
+                                        <option value="5">- оплата доставки (аэропорт, автобус ...)</option>
+                                        <option value="80">+ внесение сдачи</option>
+                                        <option value="90">+- прочее</option>
+                                    </select>
+                                    <input type="text" placeholder="Комментарий"
+                                           class="col-4 form-control mr-3 d-none comment-input">
+                                    <input type="button" value="Сохранить"
+                                           class="btn btn-success form-control mr-3 encashment-save d-none">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="row full-height">
+                <div class="col-12">
+                    <div class="d-flex flex-column justify-content-between full-height">
+                        {% if not duty %}
+                            <div class="text-center mb-3">
+                                <span class="money">Денег в кассе: <span class="lead">{% if not last_duty %} 0 {% else %}
+                                    {{ last_duty.cash|floatformat:"0"|intspace }}{% endif %} <i
+                                        class="far fa-ruble-sign"></i></span></span>
+                            </div>
+                            <div>
+                                <button class="btn btn-block btn-success" onclick="open_duty();">Открыть смену</button>
+                            </div>
+                        {% else %}
+                            <div>
+                                <div class="text-center mb-3">
+                                    <span class="money">Денег в кассе: <span class="lead">{{ current_cash|floatformat:"0"|intspace }} <i
+                                            class="far fa-ruble-sign"></i></span></span>
+                                </div>
+                                <button class="btn btn-info btn-block mb-3" onclick="close_duty()">Закрыть смену *
+                                </button>
+                                <div class="text-muted text-center">
+                                    <small>* закрывая смену, вы соглашаетесь с суммой в кассе</small>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="warehouse-change" data-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Для продолжения выберите склад</h5>
+            </div>
+            <div class="modal-body">
+                {% if status == 1 %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-danger">
+                                <h4 class="alert-heading">Смена уже открыта у другого пользователя{{ cur_user }}</h4>
+                                <p>Закройте смену у другого пользователя</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <select id="warehouse-select" class="custom-select">
+                    <option disabled selected>Выберите склад</option>
+                    {% for warehouse_iter in warehouses %}
+                        <option value="{{ warehouse_iter.id }}">{{ warehouse_iter }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block foot_script %}
+<script>
+  $("#warehouse-select").on('change', ()=>{
+      window.location.href = `/s/change_warehouse/${$("#warehouse-select").val()}/`
+  })
+  function show_modal_with_warehouses() {
+      $("#warehouse-change").modal();
+  }
+  function open_duty(){
+      let is_confirmed = confirm("Кассу пересчитали?");
+      if (is_confirmed){
+         window.location.href = '{% url "sklad_open_duty" %}';
+      }
+  }
+  function close_duty() {
+      let is_confirmed = confirm("Кассу пересчитали? Всё сошлось?");
+      if (is_confirmed){
+          window.location.href = '{% url "sklad_close_duty" %}';
+      }
+  }
+
+  $(function (){
+      if (warehouse == '-1'){
+          show_modal_with_warehouses();
+      }
+      $(".encashment-add").on('click', function (){
+         let hidden = parseInt($(this).attr('data-hidden'));
+         hidden = hidden * -1;
+         $(this).attr('data-hidden', hidden);
+         let inputs = $(this).parent().find(".form-control");
+         if (hidden == -1){
+             inputs.addClass("d-none");
+             $(this).val("Добавить");
+         } else {
+             inputs.removeClass("d-none");
+             $(this).val("Скрыть");
+         }
+      });
+
+      $(".encashment-save").on('click', function (){
+          $(".is-invalid").removeClass("is-invalid");
+          let money = parseInt($(".money-input").val());
+          let comment = $(".comment-input").val();
+          let type = parseInt($(".type-select").val());
+          if (isNaN(money)){
+              $(".money-input").addClass("is-invalid");
+              return;
+          }
+          if (isNaN(type)) {
+              $(".type-select").addClass("is-invalid");
+              return;
+          }
+          if (comment == "") {
+              $(".comment-input").addClass("is-invalid");
+              return;
+          }
+          $.ajax({
+              type: "POST",
+              url: "{% url "sklad_add_encashment" %}",
+              data: {
+                  "money": money,
+                  "comment": comment,
+                  "type": type
+              },
+              success: () => {
+                  window.location.href = "{% url "sklad_index" %}";
+              }
+          })
+      })
+  });
+</script>
+{% endblock %}

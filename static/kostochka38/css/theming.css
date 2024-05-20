@@ -1,0 +1,28 @@
+.object-tools li{
+    background: none;
+}
+.object-tools li:hover{
+    background: none;
+}
+#content-main .object-tools li a{
+    background-image: none !important;
+    padding: 5px 24px 4px;
+    border-radius: 5px;
+}
+#content-main .object-tools li a:hover{
+    background-image: none !important;
+}
+.object-tools a.pdf_link{
+    background: #8a8;
+}
+.object-tools a.pdf_link_inside{
+    background: #a88;
+}
+.object-tools a.client_card{
+    background: #aaa046;
+}
+
+.object-tools a.update_zakaz{
+    background: #33aa20;
+}
+

@@ -1,0 +1,126 @@
+{% extends "kassa/order.html" %}
+{% load static %}
+{% block head_script %}
+  {{ block.super }}
+  <script>
+    let cart_sum = {{ object.k_oplate }}
+  </script>
+{% endblock %}
+{% block form %}
+<form class="col-12" method="post" action="{% url "kassa_order_create" %}" id="form-cart">
+  {% csrf_token %}
+  <input type="hidden" name="order_id" value="{{ object.id }}">
+  <div class="form-group mt-3">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="FIO">ФИО</span>
+      </div>
+      <input type="text" id="FIO-input" class="form-control readonly" value="{{ object.owner.first_name }} {{ object.owner.last_name }}" aria-describedby="FIO" required>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="phone">Номер телефона</span>
+      </div>
+      <input type="text" id="phone-input" class="form-control readonly" aria-describedby="phone" value="{{ object.owner.phone }}">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="email">email</span>
+      </div>
+      <input type="text" id="email-input" class="form-control readonly" aria-describedby="email" value="{{ object.owner.email }}" required>
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="sale">Скидка %</span>
+      </div>
+      <input type="text" id="sale-input" class="form-control readonly" aria-describedby="sale" value="{{ object.owner.get_humanize_sale }}" required>
+    </div>
+  </div>
+  <div class="form-group" id="pay-type-inputs" style="display: none">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="cash">Наличными оплачено</span>
+      </div>
+      <input type="text" class="form-control" aria-describedby="cash" value="0" name="cash" id="cash-input" required autocomplete="off">
+    </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="non-cash">Оплачено безнолом</span>
+      </div>
+      <input type="text" class="form-control" aria-describedby="non-cash" name="non_cash" id="non-cash-input" value="0" required autocomplete="off">
+    </div>
+  </div>
+  <div class="form-row mb-3">
+    <div class="col-12 alert-wrapper"></div>
+  </div>
+  <div class="form-row mb-3 justify-content-between">
+      {% if object.paytype == 3 or object.paytype == 4 or object.paytype == 5 or object.paytype == 6 %}
+          {% if object.paid_client %}
+              <div class="alert alert-success w-100">
+                Заказ оплачен<br>
+              </div>
+              <div class="col-4">
+                  <input class="checkbox-budget" type="radio" name="pay_type" checked="checked" id="budget-2" value="{{ object.paytype }}">
+                  <label class="for-checkbox-budget" for="budget-1">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title text-center">{{ object.get_paytype_display }}</h5>
+                        <img class="mx-auto d-block" src="{% static 'card-icon.png' %}" style="width: 50px" alt="">
+                      </div>
+                    </div>
+                  </label>
+              </div>
+
+          {% else %}
+              <div class="alert alert-danger text-center w-100">
+                Заказ НЕ оплачен<br>
+                "{{ object.get_paytype_display }}"<br>
+                НЕОБХОДИМО СВЯЗАТЬСЯ С ОПЕРАТОРОМ
+              </div>
+          {% endif %}
+      {% else %}
+        <div class="col-4">
+          <input class="checkbox-budget" type="radio" name="pay_type" id="budget-1" value="0">
+          <label class="for-checkbox-budget" for="budget-1">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title text-center">Наличными</h5>
+                <img class="mx-auto d-block" src="{% static 'cash-icon.png' %}" style="width: 50px" alt="">
+              </div>
+            </div>
+          </label>
+        </div>
+        <div class="col-4">
+          <input class="checkbox-budget" type="radio" name="pay_type" id="budget-2" value="1">
+          <label class="for-checkbox-budget" for="budget-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title text-center">Картой</h5>
+                <img class="mx-auto d-block" src="{% static 'card-icon.png' %}" style="width: 50px" alt="">
+              </div>
+            </div>
+          </label>
+        </div>
+        <div class="col-4">
+          <input class="checkbox-budget" type="radio" name="pay_type" id="budget-3" value="6">
+          <label class="for-checkbox-budget" for="budget-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title text-center">Смешанный</h5>
+                <img class="mx-auto d-block" src="{% static 'mix-icon.png' %}" style="width: 50px" alt="">
+              </div>
+            </div>
+          </label>
+        </div>
+      {% endif %}
+  </div>
+  <div class="form-row">
+    <input type="submit" class="btn btn-success btn-block save-button" value="Сохранить" style="height: 100px; font-size: 50px">
+    <a href="{% url "kassa_clear_cart" %}" class="btn btn-danger btn-block">Отменить</a>
+  </div>
+</form>
+{% endblock %}
+
+{% block foot_script %}
+  <script src="{% static "kassa.js" %}?v3"></script>
+{% endblock %}

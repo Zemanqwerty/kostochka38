@@ -1,0 +1,21 @@
+   .rotate3d{
+        background: url(../holiday/ny2017.png) #faf7f5;
+    }
+
+   hr.big{
+       background: #b5bac7;
+   }
+
+   .btn{
+       border: 2px solid #b5bac7;
+   }
+
+   .header__logo__icon{
+       background-image: url(../holiday/logo_icon-ny.png);
+   }
+
+   @media only screen and (-webkit-min-device-pixel-ratio: 1.5), not all, not all, not all {
+        .header__logo__icon{
+            background-image: url(../holiday/logo_icon@2x-ny.png);
+        }
+   }

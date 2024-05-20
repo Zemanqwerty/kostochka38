@@ -1,0 +1,737 @@
+{% load static %}
+{% load intfilter %}
+{% load compress %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="ru"  prefix="og: http://ogp.me/ns#">
+<head>
+    <title>{% block head_title %}Интернет-магазин зоотоваров Kostochka38.ru {% endblock %}</title>
+    {% block head %}
+        <meta content="{% block meta_descroption %}{% endblock %}" name="description">
+    {% endblock %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="yandex-verification" content="98d5a164f5261c5d" />
+
+    <link type="image/x-icon" href="/favicon.ico" rel="icon"/>
+    <link type="image/x-icon" href="/favicon.ico" rel="shortcut icon"/>
+
+    <link rel="apple-touch-icon" href="{% static 'apple-touch/apple-touch-icon.png' %}" />
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'apple-touch/apple-touch-icon-57x57.png' %}" />
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'apple-touch/apple-touch-icon-72x72.png' %}" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'apple-touch/apple-touch-icon-76x76.png' %}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'apple-touch/apple-touch-icon-114x114.png' %}" />
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'apple-touch/apple-touch-icon-120x120.png' %}" />
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'apple-touch/apple-touch-icon-144x144.png' %}" />
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'apple-touch/apple-touch-icon-152x152.png' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch/apple-touch-icon-180x180.png' %}" />
+
+    <link rel="preload" href="/static/CACHE/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/static/CACHE/fonts/flaticon.woff" as="font"  type="font/woff"crossorigin="anonymous">
+
+    {% compress css %}
+        <link rel="stylesheet" href="{% static 'kostochka38/css/font-awesome.min.css' %}?v{{ vers }}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'kostochka38/css/flaticon.css' %}?v{{ vers }}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'kostochka38/css/owl.carousel.css' %}?v{{ vers }}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'kostochka38/css/owl.theme.default.css' %}?v{{ vers }}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'kostochka38/css/bootstrap.min.css' %}?v{{ vers }}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'kostochka38/css/style.min.css' %}?v{{ vers }}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'kostochka38/css/setCity.css' %}" type="text/css" />
+        <!-- NEW YEAR STYLE -->
+        <!--<link rel="stylesheet" href="{% static 'kostochka38/css/ny2017.css' %}?v{{ vers }}" type="text/css" />-->
+        <!-- end new year style -->
+        {% block extra_styles %}{% endblock %}
+    {% endcompress %}
+
+
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Косточка38">
+
+    {% block extra_head %}
+        <meta property="vk:image"  content="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}" />
+        <meta name="title" content="Интернет-магазин зоотоваров Kostochka38.ru">
+        <link rel="image_src" href="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}">
+        <meta property="og:url" content="https://kostochka38.ru/">
+        <meta property="og:title" content="Интернет-магазин зоотоваров Kostochka38.ru" />
+        <meta property="og:description" content="Лучшие корма для питомцев на любой вкус и кошелек." />
+
+        <meta name="twitter:image" content="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}">
+        <meta itemprop="image" content="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}">
+        <meta property="og:image" content="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}">
+        <meta property="og:image:type" content="image/jpeg">
+        <meta property="og:image:width" content="1126">
+        <meta property="og:image:height" content="590">
+
+        <meta property="og:locale" content="ru_RU">
+    {% endblock %}
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5KNSNJP');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5KNSNJP"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+<div class="left-menu-layer-closer"></div>
+<div class="left-menu-closer"><i class="fa fa-times"></i></div>
+<div class="left-menu">
+    <ul>
+        {% for menu_item in menu.left %}
+            {% if menu_item.link == current_link %}
+                <li><span><i class="fal fa-fw {{ menu_item.extra_class }}"></i>{{ menu_item.title }}</span></li>
+            {% else %}
+                <li><a href="/{% if menu_item.link %}{{ menu_item.link }}/{% endif %}" title="{{ menu_item.title }}"><i class="fal fa-fw {{ menu_item.extra_class }}"></i>{{ menu_item.title }}</a></li>
+            {% endif %}
+        {% endfor %}
+        <li class="full-width-hidden">
+            <a class="btn-account{% if not request.user.is_authenticated %} entry{% endif %}" href="{% if request.user.is_authenticated %}{% url 'account' %}{% else %}#{% endif %}" title="Личный кабинет">
+                <i class="fal fa-user"></i>
+                <span >{% if request.user.is_authenticated %}Личный кабинет{% else %}Войти{% endif %}</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="search-form-layer-closer"></div>
+<div class="search-form">
+    <div class="container">
+        <form id="search_form" method="GET" action="/search/" autocomplete="off">
+            <i class="fa fa-search"></i><input class="search-input" name="q" value="" placeholder="Начните вводить название товара">
+            <div class="search-form-closer">
+                <div class="container"><i class="fa fa-times"></i></div>
+            </div>
+        </form>
+        <div class="search-result">
+
+        </div>
+    </div>
+</div>
+
+<header class="header-clipped">
+    <div class="container header__container">
+        <div class="full-width-hidden inline">
+            <a class="btn-menu menu" href="#" title="Меню"><i class="fa fa-bars"></i></a>
+        </div>
+        <ul class="header__nav right-list">
+
+            <li class="phone-li">
+                <i class="fal fa-phone"></i>
+                <a class="callibri_header" href="tel:+73952504038">
+                    <span class="header__phone-phone">50-40-38</span>
+                </a>
+            </li>
+
+            <li class="search-li">
+                <a class="btn-search" href="#" title="Поиск">
+                    <i class="fal fa-search"></i><span class="">Поиск</span>
+                </a>
+            </li>
+            
+            <li class="account-li small-width-hidden">
+                <a class="{% if not request.user.is_authenticated %} entry{% endif %}" href="{% if request.user.is_authenticated %}{% url 'account' %}{% else %}#{% endif %}" title="Личный кабинет">
+                    <i class="fal fa-user"></i> {% if not request.user.is_authenticated %}Войти{% else %}Личный кабинет{% endif %}
+                </a>
+            </li>
+            <li class="cart-li">
+                <a class="" href="{% url 'cart' %}" title="Корзина"><i class="fal fa-shopping-cart"></i><span class="cart-bage{% if not zakaz_count %} notactive{% endif %}">{{ zakaz_count }}</span></a>
+            </li>
+        </ul>
+        <div class="header__logo small-width-hidden">
+            <div class="header-logo">
+                <div class="header-logo__kostochka">
+                    {% if '' != current_link %}<a href="/" hreflang="ru">{% endif %}<span class="header__logo__icon"></span>kostochka<span class="header-logo__38">38</span>{% if '' != current_link %}</a>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="rotate3d">
+    <div class="full-width-menu">
+        <div class="container">
+            <ul class="menu-list">
+                {% for menu_item in menu.top %}
+                    <li>
+                        {% if menu_item.link == current_link %}
+                            <span class="active">{% if menu_item.link %}{{ menu_item.title }}{% else %}<i class="fal {{ menu_item.extra_class }}"></i>{% endif %}</span>
+                        {% else %}
+                            <a href="/{% if menu_item.link %}{{ menu_item.link }}/{% endif %}" title="{{ menu_item.title }}">{% if menu_item.link %}{{ menu_item.title }}{% else %}<i class="fa {{ menu_item.extra_class }}"></i>{% endif %}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                <li class="search-li">
+                    <a class="btn-search" href="#" alt="Поиск" title="Поиск">
+                        <i class="fal fa-search"></i><span class="">Поиск</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="full-width-hidden inline">
+                <a class="btn-menu menu" href="#" alt="Меню" title="Меню"><i class="fa fa-bars"></i></a>
+            </div>
+
+            <ul class="right-list small-width-hidden header-client-data-block" style="display: flex; align-items: center;">
+                <!-- <div class="dropdown">
+                    <button onclick="selectCity()" class="dropbtn">Выберите город</button>
+                    <div id="myDropdown" class="dropdown-content">
+                      <p onclick="setCity('Иркутск')">Иркутск</p>
+                      <p onclick="setCity('Ангарск')">Ангарск</p>
+                    </div>
+                  </div> -->
+                <form action="/setCity/" class="setCityForm" method="post">
+                    {% csrf_token %}
+                    <select value='Выберите город' class="cityChanger" name="city" id="cityChanger">
+                        <option value="Все">Все</option>
+                        <option value="Иркутск">Иркутск</option>
+                        <option value="Ангарск">Ангарск</option>
+                    </select>
+                    <input type="submit" value="выбрать" class="setCityBtn" onclick="setCurCity()">
+                </form>
+                <div id="currentCityTextValue" style="opacity: 0;">
+                    {{ city }}
+                </div>
+                <li class="">
+                    <a class="btn-account{% if not request.user.is_authenticated %} entry{% endif %}" href="{% if request.user.is_authenticated %}{% url 'account' %}{% else %}#{% endif %}" title="Личный кабинет">
+                        <span >{% if request.user.is_authenticated %}Личный кабинет{% else %}Войти{% endif %}</span>
+                    </a>
+                </li>
+
+
+            </ul>
+            <ul class="right-list full-width-hidden">
+                <li class="phone-li">
+                    <i class="fal fa-phone"></i>
+                    <a class="callibri_header" href="tel:+73952504038">
+                        <span class="header__phone-phone">50-40-38</span>
+                    </a>
+                </li>
+
+                <li class="search-li">
+                    <a class="btn-search" href="#" alt="Поиск" title="Поиск">
+                        <i class="fal fa-search"></i><span class="">Поиск</span>
+                    </a>
+                </li>
+
+                <li class="cart-li">
+                    <a class="" href="{% url 'cart' %}" title="Корзина">
+                        <i class="fal fa-shopping-cart"></i><span class="cart-bage{% if not zakaz_count %} notactive{% endif %}">{{ zakaz_count }}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container header__container">
+            <div class="header__logo">
+                <div class="header-logo">
+                    <div class="header-logo__kostochka">
+                        {% if '' != current_link %}<a href="/">{% endif %}<span class="header__logo__icon"></span>kostochka<span class="header-logo__38">38</span>{% if '' != current_link %}</a>{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="pull-right cart-wrapper">
+                <a class="btn-cart" href="{% url 'cart' %}" title="Корзина">
+                    <i class="fal fa-shopping-cart"></i>
+                    <span class="btn-cart-label">Корзина</span><br>
+                    <span class="btn-cart-bage{% if not zakaz_count %} notactive{% endif %}"><span class="cart-count-info">{{ zakaz_count }}</span> шт, <span class="cart-sum-info">{{ all_summ|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i></span>
+                </a>
+            </div>
+
+            <div class="header__phone">
+                <i class="fal fa-phone"></i>
+                <span class="header__phone-phone"><a class="callibri_header" href="tel:+73952504038"> <span class="small">8 (3952)</span> 50-40-38</a></span><br>
+                <span class="header__phone-times"> пн-пт: 9:00 &mdash; 19:00, сб-вс: выходной</span>
+            </div>
+        </div>
+    </header>
+
+<div class="category-menu">
+        <div class="container">
+            <nav class="animenu">
+                <button class="animenu__toggle">
+                    <span class="animenu__toggle__text">Категории</span> <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </button>
+                <ul class="animenu__nav">
+                    {% for menu_item in menu.food %}
+                        <li class="position-{{ forloop.counter }}">
+                            <a class="{{ menu_item.extra_class }} food-menu__element__link{% if category.section == menu_item.class %} active{% endif %}" href="#" title="Товары {{ menu_item.title|lower }}">
+                                <i class="flaticon-{{ forloop.counter }}"></i>
+                                {{ menu_item.title }}
+                            </a>
+
+                            <div class="animenu__nav__child">
+                                <div class="nav-col">
+                                    {% for j in menu_item.items %}
+                                        {% if not forloop.first %}
+                                            {% if j.get_filter_link %}</div><div class="nav-col">{% endif %}
+                                        {% endif %}
+                                            <div class="animenu__nav__child__sunchild {% if j.get_filter_link %}multi{% else %}solo{% endif %}">
+                                                <a class="main-category" href='/c/{{ j.link }}/'>{{ j.title }}</a>
+                                                {% if j.get_filter_link %}
+                                                    <ul>
+                                                        {% for k in j.get_filter_link %}
+                                                            <li><a  class="main-filter" href='{{ k.link_url }}'>{{ k.link_title }}</a></li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                         {% if not forloop.last %}
+                                            {% if j.get_filter_link %}</div><div class="nav-col">{% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    <li class="position-1000">
+                        <a class="food-menu__element__link " href="{% url 'discount' %}" title="Скидки" id = "nonhover">
+                            <i class="fal fa-percentage" style="font-size: 18px;"></i> Распродажа
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    {% if announcement is not None %}
+        <div class="alert alert-danger alert-dismissible announcement hidden" role="alert" data-announcement-hash="{{ announcement.hash }}" style="margin-bottom: 0; font-size: 14px">
+            <div class="container">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Закрыть и больше не показывать" title="Закрыть и больше не показывать">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ announcement.text|safe }}
+            </div>
+        </div>
+    {% endif %} 
+
+    <section>
+        {% block content %}{% endblock %}
+    </section>
+
+    {% block content_before_slider %}{% endblock %}
+        {% if not no_slider %}
+            {% if banners %}
+                <div id="banners" class="carousel slide" data-ride="carousel">
+                  <ol class="carousel-indicators hidden-xs">
+                    <li data-target="#banners" data-slide-to="0" class="active"></li>
+                    {% for banner in banners %}
+                        <li data-target="#banners" data-slide-to="{{ forloop.counter }}"{% if forloop.counter == 1 %} class="active"{% endif %}></li>
+                    {% endfor %}
+                  </ol>
+
+                  <div class="carousel-inner">
+                    {% for banner in banners %}
+                        <div class="item{% if forloop.counter == 1 %} active{% endif %}" data-number="{{ forloop.counter }}">
+                            {% if banner.slide_link %}<a href="{{ banner.slide_link }}" class="bx-slider-link">{% endif %}
+                                <img data-src="{{ banner.slide_image.url }}" data-src-mobile="{{ banner.slide_image_mobile.url }}" src="" class="{% if forloop.counter0 == 0 %}lazy{% endif %}" alt="">
+                            {% if banner.slide_link %}</a>{% endif %}
+                        </div>
+                    {% endfor %}
+                  </div>
+
+                  <a class="left carousel-control" href="#banners" data-slide="prev">
+                    <span class="icon-prev fa fa-angle-left"></span>
+                  </a>
+                  <a class="right carousel-control" href="#banners" data-slide="next">
+                    <span class="icon-next fa fa-angle-right"></span>
+                  </a>
+                </div>
+
+            {% else %}
+                <section class="article-wrapper">
+                    <div class="article">
+                        <a href="/article/{{ last_page.0.link }}/"><img alt="{{ last_page.0.title }}" title="{{ last_page.0.title }}" src="{{ last_page.0.slide_image.url }}"></a>
+                    </div>
+                </section>
+            {% endif %}
+        {% endif %}
+
+    {% block content_after_slider %}{% endblock %}
+
+
+<!--footer-->
+<footer class="footer1">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3"><!-- widgets column left -->
+                <ul class="list-unstyled clear-margins"><!-- widgets -->
+                    <li class="widget-container widget_nav_menu"><!-- widgets list -->
+                        <h1 class="title-widget">Меню</h1>
+                        <ul>
+                            {% for menu_item in menu.left %}
+                                <li>
+                                    <i class="fal fa-angle-double-right"></i>  <a href="/{% if menu_item.link %}{{ menu_item.link }}/{% endif %}" title="{{ menu_item.title }}">{{ menu_item.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- widgets column left end -->
+
+            <div class="col-lg-3 col-md-3"><!-- widgets column left -->
+                <ul class="list-unstyled clear-margins"><!-- widgets -->
+                    <li class="widget-container widget_nav_menu"><!-- widgets list -->
+                        <h1 class="title-widget">Категории</h1>
+                        <ul>
+                            {% for i in menu.footer_links.cat %}
+                                <li><i class="fal fa-angle-double-right"></i>  <a href="{{ i.link_url}}">{{ i.link_title }}</a></li>
+                            {% endfor %}
+                            {% for i in menu.footer_links.dog %}
+                                <li><i class="fal fa-angle-double-right"></i>  <a href="{{ i.link_url}}">{{ i.link_title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- widgets column left end -->
+
+            <div class="col-lg-3 col-md-3"><!-- widgets column left -->
+
+                <ul class="list-unstyled clear-margins"><!-- widgets -->
+                    <li class="widget-container widget_nav_menu"><!-- widgets list -->
+                        <h1 class="title-widget">Информация</h1>
+                        <ul>
+                            <li><i class="fal fa-angle-double-right"></i> <a href="/privacy/">Политика конфиденциальности</a></li>
+                            <li><i class="fal fa-angle-double-right"></i> <a href="/term/">Пользовательское соглашение</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- widgets column left end -->
+
+            <div class="col-lg-3 col-md-3"><!-- widgets column center -->
+                <ul class="list-unstyled clear-margins"><!-- widgets -->
+                    <li class="widget-container widget_recent_news"><!-- widgets list -->
+                        <h1 class="title-widget">Контакты </h1>
+                        <div class="footerp">
+                            <p><i class="fal fa-envelope mr5"></i> <a href="mailto:pochta@kostochka38.ru">pochta@kostochka38.ru</a></p>
+                            <p><i class="fal fa-phone mr5"></i> <a href="tel:+73952504038" class="callibri_footer">8 (3952) 50-40-38</a></p>
+                            <p><i class="fal fa-clock mr5"></i> пн-пт 9:00&mdash;19:00</p>
+                            <p><i class="fal fa-clock mr5"></i> сб-вс выходной </p>
+                        </div>
+
+                        <div class="social-icons">
+                            <ul class="nomargin">
+                                <li><a href="https://vk.com/kostochka38" target="_blank"><i class="fa fa-vk fa-3x social social-vk" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--header-->
+
+<div class="footer-bottom">
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<div class="copyright">
+					kostochka38.ru  © {{ now_year }}, г. Иркутск
+				</div>
+			</div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6     ">
+                <div class="design text-xs-center">
+                    <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;<a href="https://xn--80adei2bu.xn--p1ai/" target="_blank"> Разработка сайта — Вангер.рф</a>
+                </div>
+            </div>
+		</div>
+
+	</div>
+
+</div>
+</div>
+
+<!-- dialogs -->
+
+<div class="modal fade" id="availability-modal" tabindex="-1" role="dialog" aria-labelledby="availability-modal-label">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="availability-modal-label">Наличие в магазинах</h4>
+            </div>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EntryModal" tabindex="-1" role="dialog" aria-labelledby="EntryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-special-size autorisation-modal dialog-form-entry" data-backdrop="true">
+        <div class="modal-content">
+            <form role="form">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Войти</h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-xs-12 ">
+                        <div class="form-group">
+                            <label for="email" class="text-light">Email</label>
+                            <input placeholder="Email" type="email"  class="form-control" name="login" id="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="text-light">Пароль</label>
+                            <input placeholder="Пароль" type="password" class="form-control" name="pass" id="password" required>
+                        </div>
+                        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+
+                        <div class="alert alert-danger"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="oauth-links">
+                        <a href="https://oauth.vk.com/authorize?client_id=7927466&display=page&redirect_uri=https://kostochka38.ru/account/newuser/vk/&scope=email&response_type=code" title="Войти через Вконтакте">
+                            <i class="fa fa-vk fa-2x fa-fw social social-vk"></i>
+                        </a>
+                        <a href="https://connect.ok.ru/oauth/authorize?client_id=512001028834&scope=GET_EMAIL&response_type=code&redirect_uri=https://kostochka38.ru/account/newuser/ok/" title="Войти через Одноклассники">
+                            <i class="fa fa-odnoklassniki fa-2x fa-fw social social-ok"></i>
+                        </a>
+                        <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=381129474137-gaje4iq8s7ccqh2ij4rk5o0ep64m1m0f.apps.googleusercontent.com&redirect_uri=https://kostochka38.ru/account/newuser/google/&response_type=code&scope=email" title="Войти через Google">
+                            <i class="fa fa-google fa-2x fa-fw social social-fb"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer ">
+                    <div class="row">
+                        <div class="col-xs-12 text-left">
+                            <button type="submit" href="#" class="entry-submit btn-theme">Войти</button>
+                            <a href="#" class="recovery-link modal-link">Забыли пароль?</a>
+                            <a href="#" class="registration-link modal-link">Регистрация</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="RecoveryModal" tabindex="-1" role="dialog" aria-labelledby="RecoveryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-special-size autorisation-modal dialog-form-recovery" data-backdrop="true">
+        <div class="modal-content">
+            <form role="form" autocomplete="off">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Восстановление пароля</h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-xs-12 ">
+                        <div class="form-group hide-success">
+                            <label for="recovery_email" class="text-light">Email</label>
+                            <input placeholder="Email" type="email"  class="form-control" name="login" id="recovery_email" required>
+                        </div>
+                        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+
+                        <div class="alert alert-danger"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12 text-left">
+                            <button type="submit" href="#" class="recovery-submit btn-theme">Отправить инструкцию</button>
+                            <a href="#" class="go-back-entry modal-link">Вернуться ко входу</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="RegistrationModal" tabindex="-1" role="dialog" aria-labelledby="RegistrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-special-size autorisation-modal dialog-form-registration" data-backdrop="true">
+        <div class="modal-content">
+            <form role="form" autocomplete="off">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Регистрация</h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-xs-12 ">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" class="text-light">Email</label>
+                            <input placeholder="Email" type="email"  class="form-control" name="login" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" class="text-light">Пароль</label>
+                            <input placeholder="Пароль" type="password" name="pass"  class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" class="text-light">Пароль повторно</label>
+                            <input placeholder="Пароль повторно" type="password" name="pass2" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-normal">
+                                <input type="checkbox" name="subscribe" id="subscribe">&nbsp;&nbsp;Получать рассылку об акциях и скидках<br class="hidden-350">
+                                <span class="muted desc-text">не чаще 1 раза в неделю</span>
+                            </label>
+                        </div>
+
+                        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+
+                        <div class="alert alert-danger"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="oauth-links">
+                        <a href="https://oauth.vk.com/authorize?client_id=7927466&display=page&redirect_uri=https://kostochka38.ru/account/newuser/vk/&scope=email&response_type=code" title="Зарегистрироваться через Вконтакте">
+                            <i class="fa fa-vk fa-2x fa-fw social social-vk"></i>
+                        </a>
+                        <a href="https://connect.ok.ru/oauth/authorize?client_id=512001028834&scope=GET_EMAIL&response_type=code&redirect_uri=https://kostochka38.ru/account/newuser/ok/" title="Зарегистрироваться через Одноклассники">
+                            <i class="fa fa-odnoklassniki fa-2x fa-fw social social-ok"></i>
+                        </a>
+                        <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=381129474137-gaje4iq8s7ccqh2ij4rk5o0ep64m1m0f.apps.googleusercontent.com&redirect_uri=https://kostochka38.ru/account/newuser/google/&response_type=code&scope=email" title="Зарегистрироваться через Google">
+                            <i class="fa fa-google fa-2x fa-fw social social-fb"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12 text-left">
+                            <button type="submit" href="#" class="recovery-submit btn-theme">Зарегистрироваться</button>
+                            <a href="#" class="go-back-entry modal-link">Вернуться ко входу</a>
+                        </div>
+                        <div class="col-xs-12">
+                            <p class="policy-text muted small text-small">
+                                Нажимая кнопку «Зарегистрироваться», я подтверждаю свою дееспособность, согласие на обработку персональных
+                                данных в соответствии с указанным <a href="/privacy/" target="_blank">здесь</a> текстом.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% if repeat_order_modal %}
+    <div class="modal fade" id="RepeatOrderModal" tabindex="-1" role="dialog" aria-labelledby="RepeatOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-special-size dialog-form-repeat-order" data-backdrop="true">
+            <div class="modal-content">
+                <form role="form" autocomplete="off">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Повторить заказ</h4>
+                    </div>
+                    <div class="modal-body row">
+                        <div class="col-xs-12 ">
+                            <p class="mt-0">
+                                Вы действительно хотите повторить заказ #<span id="confirm_order_id">{{ zakaz.id }}</span>? <br>
+                            </p>
+
+                            <div class="alert alert-info">Все пункты этого заказа будут добавлены в корзину.</div>
+
+                            <button class="btn-theme repeat-order-confirm">Повторить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if last_review %}
+    {% for review in last_review %}
+        <div id="ReviewModal{{ review.id }}" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-review-size">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Отзыв клиента</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <img data-src="{{ review.screnshot.url }}" class="img-responsive img-height-responsive">
+                </div>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+{% endif %}
+<!-- end dialogs -->
+
+<div class="scroll_on_top"><i class="fa fa-chevron-circle-up"></i></div>
+
+{% if request.cookie_status %}
+    <div class="cookie_notification">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11 col-xs-10">
+                    Для повышения удобства работы сайт kostochka38.ru использует файлы cookie.
+                    В cookie содержатся данные о прошлых посещениях сайта.
+                    Если вы не хотите, чтобы эти данные обрабатывались, отключите cookie в настройках браузера.
+                </div>
+                <div class="col-md-1 col-xs-1 close_cookie_notification">
+                    <i class="fal fa-times"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+<div class="modal fade" id="aboutBasketOfGood" tabindex="-1" role="dialog" aria-labelledby="aboutBasketOfGoodLabel" aria-hidden="true">
+    <div class="modal-dialog" data-backdrop="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="aboutBasketOfGoodLabel">Что такое "корзина добра"?</h4>
+            </div>
+            <div class="modal-body">
+                <p>Приютам для бездомных животных всегда требуется помощь тех, кому не безразлична судьба брошенных питомцев. Поэтому мы предлагаем принять участие в благотворительном проекте "Корзина добра" по сбору необходимых товаров из ассортимента нашего интернет-магазина для приютов г. Иркутска.</p>
+                <p>Каждый желающий может приобрести на сайте корм и другие товары для бездомных животных. Ваша покупка будет передана в проверенный приют, мы доставим ее бесплатно и предоставим отчет.</p>
+                <p>Поделитесь добротой!</p>
+                <h4>Как помочь?</h4>
+                <ol>
+                    <li>Выберите товар(ы) из раздела "корзины добра", которые хотите подарить подопечным приюта. При добавлении их к вашему заказу, благотворительные товары отметятся синим фоном.</li>
+                    <li>Товар для передачи в приют остается на складе магазина до фактической доставки приюту (1 раз в месяц), Вам будет доставлен только товар из личного заказа.</li>
+                    <li>Оплата заказа осуществляется наличными курьеру или банковской картой Visa, MasterCard или МИР через мобильный терминал при получении товара. Также возможна оплата банковскими картами онлайн на сайте.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% compress js %}
+    <script src="{% static 'kostochka38/js/scripts.min.js' %}"></script>
+    <script src="{% static 'kostochka38/js/setCity.js' %}"></script>
+    <script src="{% static 'kostochka38/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'kostochka38/js/owl.carousel.js' %}"></script>
+    <script src="{% static 'kostochka38/js/jquery.lazy.min.js' %}"></script>
+    <script src="{% static 'kostochka38/js/general.js' %}?v{{ vers }}"></script>
+<script>
+$( document ).ready(function() {
+    el = document.getElementsByClassName('position-1000')[0].children[0];
+    elClone = el.cloneNode(true);
+el.parentNode.replaceChild(elClone, el);
+});
+
+</script>
+{% endcompress %}
+<script src="https://kit.fontawesome.com/5c9f66e107.js" crossorigin="anonymous"></script>
+
+{% block extra_footer %}{% endblock %}
+
+{% if not debug %}
+    {% include "shared/shared_yandex-metrika.html" %}
+    <script src="//cdn.callibri.ru/callibri.js" type="text/javascript" charset="utf-8"></script>
+{% endif %}
+</body>
+</html>

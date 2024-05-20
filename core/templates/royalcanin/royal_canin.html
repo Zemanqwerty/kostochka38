@@ -1,0 +1,177 @@
+{% extends "base.html" %}   
+{% load static %}
+       
+{% block title %}
+	Узнать больше о ROYAL CANIN ®
+{% endblock %} 
+
+{% block head_title %}
+    Узнать больше о ROYAL CANIN ®
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'royal/royalcanin.css' %}" type="text/css" />
+
+<div class="container">
+    <h1 class="category">Узнать больше о ROYAL CANIN ®</h1>
+    <div class='way'>
+        <a href='/'>Главная</a> &rarr; <span>Узнать больше о ROYAL CANIN ®</span>
+    </div>
+    <div class="page">
+
+        <div class="section">
+            <div class="header-logo">
+              <img src="{% static 'royal/images/logo.png' %}" alt="">
+            </div>
+          </div>
+
+          <div class="section section--red">
+            <div class="container">
+              <div class="header-title">
+                Узнать больше о ROYAL CANIN ®
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="container">
+              <div class="elements">
+                <a class="element" href="/c/korm-dlya-koshek/?page=1&f-age=kotenok&producer_filter=royal-canin">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/circle-kitten.png' %}" alt="">
+                  </div>
+                  <div class="element__text">
+                    Корм для котят
+                  </div>
+                </a>
+
+                <a class="element" href="/c/korm-dlya-koshek/?page=1&f-age=vzroslaya-koshka&producer_filter=royal-canin">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/circle-cat.png' %}" alt="">
+                  </div>
+                  <div class="element__text">
+                    Корм для кошек
+                  </div>
+                </a>
+
+                <a class="element" href="/c/korm-dlya-sobak/?page=1&f-age=schenok&producer_filter=royal-canin">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/circle-puppy.png' %}" alt="">
+                  </div>
+                  <div class="element__text">
+                    Корм для щенков
+                  </div>
+                </a>
+
+                <a class="element" href="/c/korm-dlya-sobak/?page=1&f-age=vzroslaya-sobaka&producer_filter=royal-canin">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/circle-dog.png' %}" alt="">
+                  </div>
+                  <div class="element__text">
+                    Корм для собак
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="container">
+              <h2>Сухой и влажный корм для котят и взрослых кошек</h2>
+              <div class="elements">
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/cat-kitten.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style='background-color: rgba(216, 118, 157, 0.5)'>
+                    <a href="/c/korm-dlya-koshek/?page=1&f-age=kotenok&producer_filter=royal-canin">Корм для котят</a>
+                  </div>
+                </div>
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/cat-breed.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style="background-color: rgba(206, 168, 68, 0.74);">
+                    <a href="/c/korm-dlya-koshek/?f-other=poroda&producer_filter=royal-canin">Корм для определенных пород</a>
+                  </div>
+                </div>
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/cat-daily.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style="background-color: rgba(122, 122, 122, 0.51);">
+                    <a href="/c/korm-dlya-koshek/?page=1&f-other=feline-daily&producer_filter=royal-canin">Корм для повседневного питания</a>
+                  </div>
+                </div>
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/cat-care.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style="background-color: rgba(63, 66, 71, 0.64);">
+                    <a href="/c/korm-dlya-koshek/?page=1&f-other=feline-care&producer_filter=royal-canin">Корм для кошек с особыми потребностями</a>
+                  </div>
+                </div>
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/cat-vet.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style="background-color: rgba(182, 128, 15, 0.74);">
+                    <a href="/c/veterinarnyie-dietyi-dlya-koshek/?page=1&producer_filter=royal-canin-vet">Ветеринарные диеты для кошек</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="container">
+              <h2>Сухой и влажный корм для щенков и взрослых собак</h2>
+              <div class="elements">
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/dog-puppy.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style="background-color: #62BBE1;">
+                    <a href="/c/korm-dlya-sobak/?page=1&f-age=schenok&producer_filter=royal-canin">Корм для щенков</a>
+                  </div>
+                </div>
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/dog-breed.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style="background-color: rgba(206, 168, 68, 0.74);" >
+                    <a href="/c/korm-dlya-sobak/?page=1&f-other=opredelennaiy-poroda&producer_filter=royal-canin">Корм для определенных пород</a>
+                  </div>
+                </div>
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/dog-daily.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style="background-color: #98C934;">
+                    <a href="/c/korm-dlya-sobak/?page=1&f-other=canine-daily&producer_filter=royal-canin">Корм для повседневного питания</a>
+                  </div>
+                </div>
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/dog-care.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style="background-color: rgba(122, 122, 122, 0.51);">
+                    <a href="/c/korm-dlya-sobak/?page=1&f-other=canine-care">Корм для собак с особыми потребностями</a>
+                  </div>
+                </div>
+                <div class="element">
+                  <div class="element__image">
+                    <img src="{% static 'royal/images/dog-vet.png' %}" alt="">
+                  </div>
+                  <div class="element__button" style="background-color: rgba(182, 128, 15, 0.74);">
+                    <a href="/c/veterinarnyie-dietyi-dlya-sobak/?page=1&producer_filter=royal-canin-vet">Ветеринарные диеты для собак</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    </div>
+</div>
+{% endblock %}

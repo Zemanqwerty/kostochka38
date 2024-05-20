@@ -1,0 +1,36 @@
+Metadata-Version: 2.0
+Name: django-recommends
+Version: 0.4.0
+Summary: A django app that builds item-based suggestions for users
+Home-page: https://github.com/python-recsys/django-recommends
+Author: Flavio Curella
+Author-email: flavio.curella@gmail.com
+License: MIT
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Framework :: Django
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Dist: Django (>=1.7)
+Requires-Dist: celery (>=3.0)
+Requires-Dist: python-dateutil (>=2.1)
+
+django-recommends
+======================================
+
+.. image:: https://travis-ci.org/fcurella/django-recommends.png?branch=master
+    :target: https://travis-ci.org/fcurella/django-recommends
+
+A django app that builds item-based suggestions for users.
+
+Documentation on `readthedocs <http://django-recommends.rtfd.org/>`_.
+
+

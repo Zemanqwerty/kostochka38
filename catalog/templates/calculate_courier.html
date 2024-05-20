@@ -1,0 +1,740 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% load intfilter %}
+{% load i18n %}
+{% block extrahead %}
+  <link rel="stylesheet" href="{% static 'kostochka38/css/admin-chosen.css' %}" />
+{% endblock %}
+{% block title %}Подсчет курьера | {% trans 'Django site admin' %}{% endblock %}
+
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/mz/">{% trans 'Home' %}</a> &rsaquo; Приемка курьера {{ courier_name }} за {{ date|date:'d M, D' }}</div>{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'kostochka38/css/bootstrap.min.css' %}">
+    <script src="{% static 'kostochka38/js/jquery-1.11.0.min.js' %}?v2"></script>
+    <script src="{% static 'kostochka38/js/html2canvas.min.js' %}?v2"></script>
+    <script src="{% static 'kostochka38/js/reimg.js' %}?v2"></script>
+    <link rel="stylesheet" href="{% static 'kostochka38/css/font-awesome.min.css' %}">
+    <script>
+        const CASH = 0;
+        const NON_CASH = 1;
+        $(function() {
+
+            $('.bbox_courier_cost').on('change', function(event) {
+                let bbox_courier_zp_zakaz = 0;
+                $('.bbox_courier_cost').each(function (index, element) {
+                    bbox_courier_zp_zakaz += parseInt(element.value);
+                })
+                $('#bbox_courier_zp_zakaz')[0].value = bbox_courier_zp_zakaz;
+                $('#val_bbox_courier_zp_zakaz').html(bbox_courier_zp_zakaz);
+            });
+
+            $(".change-type-to-mix").click(function(){
+                let hidden = parseInt($(this).attr('data-hidden'));
+                $(this).attr('data-hidden', hidden * -1);
+                let input = $($(this).parent().children()[1]);
+                input.toggle();
+                let row = $($(this).closest('tr')[0]);
+                $(row.find('a')[1]).toggle();
+                let pay_type = row.attr('data-paytype');
+                let input_val = parseInt(input.val());
+                let sum_cash = parseInt($("#check_sum_cash").text());
+                let sum_non_cash = parseInt($('#check_sum_card').text());
+                if (pay_type == CASH){
+                    $('#check_count_card').html($('#check_count_card').html()*1 + hidden);
+                } else if (pay_type == NON_CASH){
+                    $('#check_count_cash').html($('#check_count_cash').html()*1 + hidden);
+                }
+                if (hidden < 0){
+                    let chck_sum = parseInt($("#check_summ").val());
+                    let prev_val = parseInt($(input).attr('prev_val'));
+                    $(input).attr('prev_val', 0);
+                    let summ = parseInt($(input).attr('data-summ'));
+                    if (pay_type == CASH) {
+                        if (isNaN(input_val)) {
+                            input_val = prev_val;
+                            $("#check_summ").val(chck_sum + input_val);
+                            $("#check_sum_cash").text(sum_cash + input_val);
+                            $("#check_sum_cash_input").val(sum_cash + input_val);
+                            $("#check_sum_card").text(sum_non_cash - input_val);
+                        } else {
+                            $("#check_sum_cash").text(sum_cash + summ - input_val);
+                            $("#check_sum_cash_input").val(sum_cash + summ - input_val);
+                            $("#check_sum_card").text(sum_non_cash - summ + input_val);
+                            $("#check_summ").val(chck_sum + summ - input_val);
+                        }
+                    } else if (pay_type == NON_CASH) {
+                        if (isNaN(input_val)) {
+                            input_val = 0;
+                        }
+                        $("#check_summ").val(chck_sum - input_val);
+                        $("#check_sum_cash").text(sum_cash - input_val);
+                        $("#check_sum_cash_input").val(sum_cash - input_val);
+                        $("#check_sum_card").text(sum_non_cash + input_val);
+                    }
+                    $(input).val('');
+                    change_balance();
+                } else {
+                    $(input).attr('prev_val', 0);
+                }
+            });
+            $(".cash-input").on('input', function(){
+                let prev_val = $(this).attr('prev_val');
+                let paytype = $($(this).closest('tr')[0]).attr('data-paytype');
+                let summ = $(this).attr('data-summ');
+                let chck_sum = $("#check_summ").val();
+                let val = parseInt($(this).val());
+                summ = parseInt(summ);
+                if (isNaN(val)){
+                    val = 0;
+                }
+                $(this).attr('prev_val', val);
+                let part_non_cash = summ - val;
+                let sum_cash = parseInt($("#check_sum_cash").text());
+                let sum_non_cash = parseInt($('#check_sum_card').text());
+
+                if (paytype == NON_CASH){
+                    chck_sum = parseInt(chck_sum) - parseInt(prev_val) + val;
+                    sum_cash = sum_cash - parseInt(prev_val) + val;
+                    sum_non_cash = sum_non_cash + parseInt(prev_val) - val;
+                    $("#check_sum_cash").text(sum_cash);
+                    $("#check_sum_cash_input").val(sum_cash);
+                    $("#check_sum_card").text(sum_non_cash);
+                } else if (paytype == CASH){
+                    $(this).attr('prev_val', part_non_cash);
+                    chck_sum = parseInt(chck_sum) + parseInt(prev_val) - part_non_cash;
+                    sum_cash = sum_cash + parseInt(prev_val) - part_non_cash;
+                    sum_non_cash = sum_non_cash - parseInt(prev_val) + part_non_cash;
+                    $("#check_sum_cash").text(sum_cash);
+                    $("#check_sum_cash_input").val(sum_cash);
+                    $("#check_sum_card").text(sum_non_cash);
+                }
+                $("#check_summ").val(chck_sum);
+                change_balance();
+            });
+            $('#check_summ').keyup(function(){
+                $('#val_check_summ').html($(this).val());
+                change_balance();
+            });
+            $('#pay_insidezakazs').keyup(function(){
+                $('#val_pay_insidezakazs').html($(this).val());
+                change_balance();
+            });
+            $('#cash').keyup(function(){
+                change_balance();
+            });
+
+            $('#bbox_courier_zp_zakaz').keyup(function(){
+                bbox_change_zp_courier();
+            });
+            $('#courier_zp_zakaz').keyup(function(){
+                change_zp_courier();
+            });
+            $('#courier_zp_insidezakaz').keyup(function(){
+                change_zp_courier();
+            });
+
+            $('.change-oplata-type-inside').click(function () {
+                var zakaz_id = $(this).attr('data-zakazid');
+                var cost = $(this).attr('data-cost');
+                console.log('cost: ' + cost);
+
+                var paytype = $(this).attr('data-paytype');
+                var this_item  = $(this);
+                var sum_inside_input = $('#pay_insidezakazs');
+                var sum_inside = sum_inside_input.val();
+                console.log('sum_inside: ' + sum_inside);
+
+                if(this_item.hasClass('changed')){
+                    this_item.removeClass('changed');
+                    $('tr.zakaz-inside-'+zakaz_id).removeClass('warning');
+
+                    if (paytype == 1){
+                        this_item.find('img.oplata-0').show();
+                        this_item.find('img.oplata-1').hide();
+
+                        sum_inside_input.val((sum_inside*1 + cost*1).toFixed(2))
+                    }
+                    if (paytype == 2){
+                        this_item.find('img.oplata-0').hide();
+                        this_item.find('img.oplata-1').show();
+
+                        sum_inside_input.val((sum_inside*1 - cost*1).toFixed(2))
+                    }
+                } else {
+                    this_item.addClass('changed');
+                    $('tr.zakaz-'+zakaz_id).addClass('warning');
+
+                    if (paytype == 1){
+                        this_item.find('img.oplata-0').hide();
+                        this_item.find('img.oplata-1').show();
+
+                        sum_inside_input.val((sum_inside*1 - cost*1).toFixed(2))
+                    }
+                    if (paytype == 2){
+                        this_item.find('img.oplata-0').show();
+                        this_item.find('img.oplata-1').hide();
+
+                        sum_inside_input.val((sum_inside*1 + cost*1).toFixed(2))
+                    }
+                }
+
+                change_balance();
+                return false;
+            });
+
+            $('.change-oplata-type').click(function () {
+                var zakaz_id = $(this).attr('data-zakazid');
+                var k_oplate = $(this).attr('data-k_oplate');
+                var check_sum = $(this).attr('data-check_sum')
+                var sdacha = $(this).attr('data-sdacha');
+                var paytype = $(this).attr('data-paytype');
+                var global_check_sum = $('#check_summ').val();
+                var check_sum_cash = $('#check_sum_cash').html();
+                var check_sum_card = $('#check_sum_card').html();
+
+                if($(this).hasClass('changed')){
+                    $(`#change-oplata-type-${zakaz_id}`).removeClass('changed');
+                    $(`tr.zakaz-${zakaz_id}`).removeClass('warning');
+
+                    if (paytype == 0){
+                        $(`tr.zakaz-${zakaz_id} .check-sum`).html(devSpacer(check_sum));
+                        $(`#change-oplata-type-${zakaz_id} img.oplata-0`).show();
+                        $(`#change-oplata-type-${zakaz_id} img.oplata-1`).hide();
+                        $('#check_summ').val(global_check_sum*1 + k_oplate*1);
+
+                        $('#check_sum_cash').html(check_sum_cash*1 + k_oplate*1);
+                        $('#check_sum_cash_input').val(check_sum_cash*1 + k_oplate*1);
+
+                        $('#check_sum_card').html(check_sum_card*1 - k_oplate*1);
+
+                        $('#check_count_cash').html($('#check_count_cash').html()*1 + 1);
+                        $('#check_count_card').html($('#check_count_card').html()*1 - 1);
+                        $(`#zakaz${zakaz_id}`).val(0);
+                    }
+
+                    if (paytype == 1){
+
+                        $(`tr.zakaz-${zakaz_id} .check-sum`).html(devSpacer(check_sum));
+                        $(`#change-oplata-type-${zakaz_id} img.oplata-1`).show();
+                        $(`#change-oplata-type-${zakaz_id} img.oplata-0`).hide();
+                        $('#check_summ').val(global_check_sum*1 - k_oplate*1);
+
+                        $('#check_sum_cash').html(check_sum_cash*1 - k_oplate*1);
+                        $('#check_sum_cash_input').val(check_sum_cash*1 - k_oplate*1);
+
+                        $('#check_sum_card').html(check_sum_card*1 + k_oplate*1);
+
+                        $('#check_count_cash').html($('#check_count_cash').html()*1 - 1);
+                        $('#check_count_card').html($('#check_count_card').html()*1 + 1);
+                       $(`#zakaz${zakaz_id}`).val(1);
+                    }
+
+                } else {
+                    $('#change-oplata-type-'+zakaz_id).addClass('changed');
+                    $('tr.zakaz-'+zakaz_id).addClass('warning');
+
+                    if (paytype == 0){
+                        $('tr.zakaz-' + zakaz_id + ' .check-sum').html(devSpacer(sdacha));
+                        $('#change-oplata-type-'+zakaz_id + ' img.oplata-1').show();
+                        $('#change-oplata-type-'+zakaz_id + ' img.oplata-0').hide();
+                        $('#check_summ').val(global_check_sum*1 - k_oplate*1);
+
+                        $('#check_sum_cash').html(check_sum_cash*1 - k_oplate*1);
+                        $('#check_sum_cash_input').val(check_sum_cash*1 - k_oplate*1);
+
+                        $('#check_sum_card').html(check_sum_card*1 + k_oplate*1);
+
+                        $('#check_count_cash').html($('#check_count_cash').html()*1 - 1);
+                        $('#check_count_card').html($('#check_count_card').html()*1 + 1);
+                        $('#zakaz'+zakaz_id).val(1);
+                    }
+
+                    if (paytype == 1){
+                        $('tr.zakaz-' + zakaz_id + ' .check-sum').html(devSpacer(k_oplate));
+                        $('#change-oplata-type-'+zakaz_id + ' img.oplata-0').show();
+                        $('#change-oplata-type-'+zakaz_id + ' img.oplata-1').hide();
+                        $('#check_summ').val(global_check_sum*1 + k_oplate*1);
+
+                        $('#check_sum_cash').html(check_sum_cash*1 + k_oplate*1);
+                        $('#check_sum_cash_input').val(check_sum_cash*1 + k_oplate*1);
+
+                        $('#check_sum_card').html(check_sum_card*1 - k_oplate*1);
+
+                        $('#check_count_cash').html($('#check_count_cash').html()*1 + 1);
+                        $('#check_count_card').html($('#check_count_card').html()*1 - 1);
+                        $('#zakaz'+zakaz_id).val(0);
+                    }
+
+                }
+
+                change_balance();
+                return false;
+            });
+
+            $('.bbox-change-oplata-type').click(function () {
+                var zakaz_id = $(this).attr('data-zakazid');
+                var k_oplate = $(this).attr('data-k_oplate');
+                var check_sum = $(this).attr('data-check_sum');
+                var sdacha = $(this).attr('data-sdacha');
+                var paytype = $(this).attr('data-paytype');
+                var global_check_sum = $('#bbox-check_summ').val();
+                var bbox_check_sum_cash = $('#bbox_check_sum_cash').html();
+                var bbox_check_sum_card = $('#bbox_check_sum_card').html();
+
+                if($(this).hasClass('changed')){
+                    $('#bbox-change-oplata-type-'+zakaz_id).removeClass('changed');
+                    $('tr.bbox-'+zakaz_id).removeClass('warning');
+
+                    if (paytype == 0){
+                        $('tr.bbox-' + zakaz_id + ' .check-sum').html(devSpacer(check_sum));
+                        $('#bbox-change-oplata-type-'+zakaz_id + ' img.oplata-0').show();
+                        $('#bbox-change-oplata-type-'+zakaz_id + ' img.oplata-1').hide();
+                        $('#bbox-check_summ').val(global_check_sum*1 + k_oplate*1);
+
+                        $('#bbox_check_sum_cash').html(bbox_check_sum_cash*1 + k_oplate*1);
+                        $('#bbox_check_sum_card').html(bbox_check_sum_card*1 - k_oplate*1);
+
+                        $('#bbox_check_count_cash').html($('#bbox_check_count_cash').html()*1 + 1);
+                        $('#bbox_check_count_card').html($('#bbox_check_count_card').html()*1 - 1);
+                        $('#zakaz'+zakaz_id).val(0);
+                    }
+
+                    if (paytype == 1){
+                        $('tr.bbox-' + zakaz_id + ' .check-sum').html(devSpacer(check_sum));
+                        $('#bbox-change-oplata-type-'+zakaz_id + ' img.oplata-1').show();
+                        $('#bbox-change-oplata-type-'+zakaz_id + ' img.oplata-0').hide();
+                        $('#bbox-check_summ').val(global_check_sum*1 - k_oplate*1);
+
+                        $('#bbox_check_sum_cash').html(bbox_check_sum_cash*1 - k_oplate*1);
+                        $('#bbox_check_sum_card').html(bbox_check_sum_card*1 + k_oplate*1);
+
+                        $('#bbox_check_count_cash').html($('#bbox_check_count_cash').html()*1 - 1);
+                        $('#bbox_check_count_card').html($('#bbox_check_count_card').html()*1 + 1);
+                        $('#zakaz'+zakaz_id).val(1);
+                    }
+
+                } else {
+                    $('#bbox-change-oplata-type-'+zakaz_id).addClass('changed');
+                    $('tr.bbox-'+zakaz_id).addClass('warning');
+
+                    if (paytype == 0){
+                        $('tr.bbox-' + zakaz_id + ' .check-sum').html(devSpacer(sdacha));
+                        $('#bbox-change-oplata-type-'+zakaz_id + ' img.oplata-1').show();
+                        $('#bbox-change-oplata-type-'+zakaz_id + ' img.oplata-0').hide();
+                        $('#bbox-check_summ').val(global_check_sum*1 - k_oplate*1);
+
+                        $('#bbox_check_sum_cash').html(bbox_check_sum_cash*1 - k_oplate*1);
+                        $('#bbox_check_sum_card').html(bbox_check_sum_card*1 + k_oplate*1);
+
+                        $('#bbox_check_count_cash').html($('#bbox_check_count_cash').html()*1 - 1);
+                        $('#bbox_check_count_card').html($('#bbox_check_count_card').html()*1 + 1);
+                        $('#zakaz'+zakaz_id).val(1);
+                    }
+
+                    if (paytype == 1){
+                        $('tr.bbox-' + zakaz_id + ' .check-sum').html(devSpacer(k_oplate));
+                        $('#bbox-change-oplata-type-'+zakaz_id + ' img.oplata-0').show();
+                        $('#bbox-change-oplata-type-'+zakaz_id + ' img.oplata-1').hide();
+                        $('#bbox-check_summ').val(global_check_sum*1 + k_oplate*1);
+
+                        $('#bbox_check_sum_cash').html(bbox_check_sum_cash*1 + k_oplate*1);
+                        $('#bbox_check_sum_card').html(bbox_check_sum_card*1 - k_oplate*1);
+
+                        $('#bbox_check_count_cash').html($('#bbox_check_count_cash').html()*1 + 1);
+                        $('#bbox_check_count_card').html($('#bbox_check_count_card').html()*1 - 1);
+                        $('#zakaz'+zakaz_id).val(0);
+                    }
+
+                }
+
+                //change_balance();
+                return false;
+            });
+
+            function change_zp_courier(){
+                var sum_courier = $('#courier_zp_zakaz').val()*1 + $('#courier_zp_insidezakaz').val()*1 + $('#fix_zp_courier').val()*1;
+                $('#val_zp_courier').html(devSpacer(sum_courier));
+                $('#zp_courier').val(sum_courier);
+                change_balance();
+            }
+            function bbox_change_zp_courier(){
+                var sum_courier = $('#bbox_courier_zp_zakaz').val()*1;
+                $('#val_bbox_courier_zp_zakaz').html(devSpacer(sum_courier));
+
+            }
+
+            function change_balance(){
+                var real_summ = $('#zp_courier').val()*1 + $('#pay_insidezakazs').val()*1 + $('#cash').val()*1;
+                $('#val_real_summ').html(real_summ);
+
+                var balance = real_summ*1 - $('#check_summ').val()*1;
+                if (balance < 0) {
+                    $('#val_balance').removeClass('label-success').addClass('label-danger');
+                } else {
+                    $('#val_balance').removeClass('label-danger').addClass('label-success');
+                }
+                $('#val_balance').html(devSpacer(parseFloat(balance.toFixed(2))));
+
+            }
+
+            function devSpacer(number)
+            {
+                number = ' '+ number;
+                return number.replace(/(\d{1,3})(?=((\d{3})*([^\d]|$)))/g, " $1 ");
+            }
+            //$('#courier-form').submit(function (e) {
+            //    e.preventDefault();
+            //    $('#submit-form').hide();
+            //    $('#form-submiting').removeClass('hidden');
+            //    html2canvas(document.body).then(function(canvas) {
+            //        var png = ReImg.fromCanvas(canvas).toPng();
+            //        $('canvas').hide();
+            //        png.setAttribute('id', 'screenshot-image');
+            //        png.setAttribute('class', 'hidden');
+            //        document.body.appendChild(png);
+            //        var text_image = png.getAttribute('src');
+            //        console.log(text_image);
+            //        $('#screenshot').val(text_image);
+            //        setTimeout(function () {
+            //            $('#courier-form').submit();
+            //        }, 5000);
+            //    });
+            //})
+        });
+    </script>
+
+<div class="container" id="screenshot-wrapper">
+    <form method="POST" enctype="multipart/form-data" id="courier-form" action="finish">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12" style="margin: 20px 0">
+                <a class="btn btn-default" href="/manage/calculate_courier/{{ date_m_2|date:'Y-m-d' }}/?user={{ courier_name }}&category={{ category }}">{{ date_m_2|date:"d M, D" }}</a>
+                <a class="btn btn-default" href="/manage/calculate_courier/{{ date_m_1|date:'Y-m-d' }}/?user={{ courier_name }}&category={{ category }}">{{ date_m_1|date:"d M, D" }}</a>
+                <a class="btn btn-primary btn-lg" style="color: #fff;" href="#">{{ date|date:"d M, D" }}</a>
+                <a class="btn btn-default" href="/manage/calculate_courier/{{ date_p_1|date:'Y-m-d' }}/?user={{ courier_name }}&category={{ category }}">{{ date_p_1|date:"d M, D" }}</a>
+                <a class="btn btn-default" href="/manage/calculate_courier/{{ date_p_2|date:'Y-m-d' }}/?user={{ courier_name }}&category={{ category }}">{{ date_p_2|date:"d M, D" }}</a>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            Цифры
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group has-warning col-xs-12">
+                        <h2><span id='val_balance' class="label {% if balance < 0 %}label-danger{% else %}label-success{% endif %}">{{ balance|intspace }}</span>&nbsp;<i class="far fa-ruble-sign"></i></h2>
+                    </div>
+                    <div class="form-group has-warning col-xs-6">
+                        <label class="control-label" for="cash">Сдал наличных</label>
+                        <input class="form-control input-lg" name="cash" id="cash" type="text" value="{{ cash }}">
+                    </div>
+                </div>
+                <div class="col-md-4 {% if category == 'bbox' %} hidden{% endif %}">
+                    <div class="form-group has-warning col-xs-12 text-right">
+                        <h4>ЗП kst38 <span id='val_zp_courier' class="label label-warning">{{ zp_courier|intspace }}</span>&nbsp;<i class="far fa-ruble-sign"></i></h4>
+                        <hr>
+                        <h4><span id='check_count_cash' class="label label-info">{{ check_count_cash }}</span> <img src="/static/kostochka38/images/i_oplata_0.png" width="16px">
+                        <span id='check_sum_cash' class="label label-warning">{{ check_summ }}</span> <i class="far fa-ruble-sign"></i></h4>
+                        <input type="hidden" name="check_sum_cash" id="check_sum_cash_input" value="{{ check_summ }}">
+
+
+                        <h4><span id='check_count_card' class="label label-info">{{ check_count_card }}</span> <img src="/static/kostochka38/images/i_oplata_1.png" width="16px">
+                        <span id='check_sum_card' class="label label-warning">{{ check_sum_card }}</span> <i class="far fa-ruble-sign"></i></h4>
+                    </div>
+                </div>
+                <div class="col-md-4 {% if courier_name == 'pickup' or category == 'kostochka' %} hidden{% endif %}">
+                    <div class="form-group has-warning col-xs-12 text-right">
+                        <h4>ЗП bbox38 <span id='val_bbox_courier_zp_zakaz' class="label label-warning">{{ bbox_courier_zp_zakaz|intspace }}</span>&nbsp;<i class="far fa-ruble-sign"></i></h4>
+                        <hr>
+                        <h4><span id='bbox_check_count_cash' class="label label-info">{{ bbox_check_count_cash }}</span> <img src="/static/kostochka38/images/i_oplata_0.png" width="16px">
+                        <span id='bbox_check_sum_cash' class="label label-warning">{{ bbox_check_summ }}</span> <i class="far fa-ruble-sign"></i></h4>
+
+
+                        <h4><span id='bbox_check_count_card' class="label label-info">{{ bbox_check_count_card }}</span> <img src="/static/kostochka38/images/i_oplata_1.png" width="16px">
+                        <span id='bbox_check_sum_card' class="label label-warning">{{ bbox_check_sum_card }}</span> <i class="far fa-ruble-sign"></i></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default {% if category == 'bbox' %} hidden{% endif %}">
+                <div class="panel-heading ">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-left">
+                                {% if courier_name == 'pickup' %}Самовывозы для приемки{% else %}Заказы клиентов{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-striped">
+                {% for i in zakazs %}
+                    <tr class="zakaz-{{ i.id }}{% if i.paytype == 2 or i.status != 5 %}{% if not i.movement %} text-danger{% endif %}{% endif %}{% if i.movement %} info{% endif %}" data-paytype="{{ i.paytype }}" data-sum="{{ i.summ }}">
+                        <td class="" align="center" width="2%">#{{ forloop.counter }}</td>
+                        <td><input type="checkbox" name="{% if i.movement %}movement{% else %}zakaz{% endif %}{{ i.id }}" id="{% if i.movement %}movement{% else %}zakaz{% endif %}{{ i.id }}" value="{% if i.movement %}1{% endif %}{{ i.paytype }}" {% if i.status == 5 or i.movement %}checked{% endif %} {% if i.status != 5 and not i.movement %}disabled{% endif %}></td>
+                        <td align="center"><a href="/DgJrfdJg/catalog/{% if i.movement %}movementofgoods{% else %}zakaz{% endif %}/{{ i.id }}/" target="_blank">#{% if i.movement %}move-{% endif %}{{ i.id }}</a></td>
+                        <td align="right">{{ i.koplate|intspace }} р. (<span class="check-sum">{{ i.for_check_sum|intspace }}</span> р.)</td>
+                        <td>
+                            {% if not i.movement %}
+                              {% if i.paytype != 6 %}
+                                <img src="/static/kostochka38/images/i_oplata_{{ i.paytype }}.png" width="16px">
+                              {% else %}
+                                <img style="display: inline-block" src="{% static 'kostochka38/images/i_oplata_0.png' %}" width="16px">
+                                <img style="display: inline-block"  src="{% static 'kostochka38/images/i_oplata_1.png' %}" width="16px">
+                              {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>{% if not i.movement %}{% if i.paytype != 4 and i.paytype != 2 %}&rarr;{% endif %}{% endif %}</td>
+                        <td>
+                            {% if not i.movement %}
+                                {% if i.status != 5 %}
+                                    {% if i.status == 31 %}
+                                        <i class="fa fa-universal-access text-info" aria-hidden="true"></i>
+                                    {% else %}
+                                        <i class="fa fa-ban text-danger" aria-hidden="true"></i>
+                                    {% endif %}
+                                {% else %}
+                                    {% if i.paytype != 4 and i.paytype != 2 %}
+                                        <a href="#" class="change-oplata-type" id="change-oplata-type-{{ i.id }}"
+                                           data-paytype="{{ i.paytype }}"
+                                           data-zakazid="{{ i.id }}"
+                                           data-k_oplate="{{ i.koplate }}"
+                                           data-check_sum="{{ i.for_check_sum }}"
+                                           data-sdacha="{{ i.sdacha }}"
+                                        >
+                                          <img style="display: {% if i.paytype == 0  %}block{% else %}none{% endif %}" class="oplata-0" src="{% static 'kostochka38/images/i_oplata_0.png' %}" width="16px">
+                                          <img style="display: {% if i.paytype == 1  %}block{% else %}none{% endif %}" class="oplata-1" src="{% static 'kostochka38/images/i_oplata_1.png' %}" width="16px">
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not i.movement %}
+                              {% if i.paytype != 4 and i.paytype != 2 %}
+                                <div class="form-row" style="display: inline-flex">
+                                  <a class="btn btn-primary change-type-to-mix" style="margin-right: 5px" data-hidden="1"><i class="fal fa-retweet"></i></a>
+                                  <input prev_val="0" name="cash-input-{{ i.id }}" type="text" class="cash-input form-control cash-input-{{ i.id }}" style="display: none" placeholder="Наличные" data-paytype="{{ i.paytype }}" data-summ="{{ i.k_oplate }}">
+                                </div>
+                              {% endif %}
+                            {% endif %}
+                        </td>
+                        <td align="center">
+                            {% if i.movement %}
+                                {{ i.warehouse_donor.name }} &rarr; {{ i.warehouse_recieving.name }}
+                            {% else %}
+                                {{ i.city }}, {{ i.get_district_display }}
+                            {% endif %}
+                        </td>
+                        <td align="right">{{ i.courier_cost }} р.</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2"></td>
+                    <td align="right" >
+                        <div class="form-group has-success col-xs-6 pull-right">
+                            <input class="form-control col-sm-6" type="text" id="check_summ" value="{{ check_summ }}">
+                        </div>
+                    </td>
+                    <td colspan="4"></td>
+                    <td align="right">
+                        <div class="form-group has-error form-horizontal col-xs-6 pull-right">
+                            <input class="form-control" id="courier_zp_zakaz" value="{{ courier_zp_zakaz }}">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="row{% if courier_name == 'pickup' or category == 'bbox' %} hidden{% endif %}">
+            <div class="col-xs-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pull-left">
+                                    Заказы поставщиков для оплаты курьера
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        {% for i in insidezakazs_yesterday %}
+                            <tr>
+                                <td class="" align="center" width="2%">#{{ forloop.counter }}</td>
+                                <td style="text-align: center"><input type="checkbox" value="{{ i.id }}" name="insidezakazs_yesterday{{ i.id }}" checked></td>
+                                <td align="center"><a href="/DgJrfdJg/catalog/insidezakaz/{{ i.id }}/" target="_blank">#{{ i.id }}</a></td>
+                                <td align="center">{{ i.segment_new.title }}</td>
+                                <td align="right">{{ fix_pay_courier }} р</td>
+                                <td>{% if i.paid_courier %}<span class="true"></span>{% else %}<span class="false"></span>{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="3"></td>
+                            <td align="right">
+                                <div class="form-group has-error col-xs-8 pull-right">
+                                    <input class="form-control" id="courier_zp_insidezakaz" value="{{ courier_zp_insidezakaz }}">
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pull-left">
+                                    Заказы поставщиков сегодня
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table">
+                        {% for i in insidezakazs_today %}
+                            <tr class="zakaz-inside-{{ i.id }}">
+                                <td class="" align="center" width="2%">#{{ forloop.counter }}</td>
+                                <td style="text-align: center"><input type="checkbox" value="{{ i.id }}" name="insidezakazs_today{{ i.id }}" checked></td>
+                                <td align="center"><a href="/DgJrfdJg/catalog/insidezakaz/{{ i.id }}/" target="_blank">#{{ i.id }}</a></td>
+                                <td align="center">{{ i.segment_new.title }}</td>
+
+                                <td width="50px">
+                                    <img class="oplata-0" src="{% if i.paid_type == 1  %}{% static 'kostochka38/images/i_oplata_0.png' %}{% endif %}{% if i.paid_type == 2  %}{% static 'kostochka38/images/i_oplata_1.png' %}{% endif %}{% if i.paid_type == 3  %}{% static 'admin/credit-512_c.png' %}{% endif %}" width="24px">
+                                </td>
+                                <td  width="50px">{% if i.paid_type != 3 %}&rarr;{% endif %}</td>
+                                <td  width="50px">
+                                    {% if i.paid_type != 3 %}
+                                        <a href="#" class="change-oplata-type-inside" id="change-oplata-type-inside-{{ i.id }}"
+                                           data-paytype="{{ i.paid_type }}"
+                                           data-zakazid="{{ i.id }}"
+                                           data-cost="{{ i.cost }}"
+                                        >
+
+                                        <img style="display: {% if i.paid_type == 1  %}block{% else %}none{% endif %}" class="oplata-0" src="{% static 'kostochka38/images/i_oplata_0.png' %}" width="24px">
+                                        <img style="display: {% if i.paid_type == 2  %}block{% else %}none{% endif %}" class="oplata-1" src="{% static 'kostochka38/images/i_oplata_1.png' %}" width="24px">
+                                        <img style="display: {% if i.paid_type == 3  %}block{% else %}none{% endif %}" class="oplata-2" src="{% static 'admin/credit-512_c.png' %}" width="24px">
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td align="right" style="{% if i.segment_new.id == 0 or i.segment_new.id == 1 or i.segment_new.id == 2 %}color: green;{% endif %}">{{ i.cost }} р. (0 р.)</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="6"></td>
+                            <td align="right">
+                                <div class="form-group has-error col-xs-8 pull-right">
+                                    <input class="form-control" id="pay_insidezakazs" value="0">
+                                </div>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel panel-warning{% if courier_name == 'pickup' or category == 'kostochka' %} hidden{% endif %}">
+                <div class="panel-heading ">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-left">
+                                Заказы bbox38
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-striped">
+                {% for i in bbox %}
+                    <tr class="bbox-{{ i.id }}{% if i.paytype == 2 %} danger{% endif %}">
+                        <td class="" align="center" width="2%">#{{ forloop.counter }}</td>
+                        <td><input type="checkbox" name="zakaz{{ i.id }}" id="zakaz{{ i.id }}" value="{{ i.paytype }}" {% if i.status_id != '7' and i.status_id != '8' %}checked{% endif %} {% if i.status_id == '7' or i.status_id == '8' %}disabled{% endif %}></td>
+                        <td align="center"><a href="/DgJrfdJg/catalog/zakaz/{{ i.id }}/" target="_blank">#{{ i.id }}</a></td>
+                        <td align="right">{{ i.koplate|intspace }} р. (<span class="check-sum">{{ i.for_check_sum|intspace }}</span> р.)</td>
+                        <td><img src="/static/kostochka38/images/i_oplata_{{ i.paytype }}.png" width="16px"></td>
+                        <td>{% if i.paytype != 4 and i.paytype != 2 %}&rarr;{% endif %}</td>
+                        <td>
+                            {% if i.status_id == '7' %}
+                                <i class="fa fa-ban text-danger" aria-hidden="true"></i>
+                            {% else %}
+                                {% if i.status_id == '8'  %}
+                                    <i class="fa fa-universal-access text-info" aria-hidden="true"></i>
+                                {% else %}
+                                    {% if i.paytype != 4 and i.paytype != 2 %}
+                                        <a href="#" class="bbox-change-oplata-type" id="bbox-change-oplata-type-{{ i.id }}"
+                                           data-paytype="{{ i.paytype }}"
+                                           data-zakazid="{{ i.id }}"
+                                           data-k_oplate="{{ i.koplate }}"
+                                           data-check_sum="{{ i.for_check_sum }}"
+                                           data-sdacha="{{ i.sdacha }}"
+                                        >
+                                            <img style="display: {% if i.paytype == 0  %}block{% else %}none{% endif %}" class="oplata-0" src="/static/kostochka38/images/i_oplata_0.png" width="16px">
+                                            <img style="display: {% if i.paytype == 1  %}block{% else %}none{% endif %}" class="oplata-1" src="/static/kostochka38/images/i_oplata_1.png" width="16px">
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td align="center">{{ i.address }}</td>
+                        <td align="right"><input type="number" name="bbox_courier_cost_{{ i.id }}" value="{{ i.courier_cost }}" class="bbox_courier_cost"></td>
+                    </tr>
+                {% endfor %}
+                {% for i in finish_outside_zakaz %}
+                    <tr class="outside-{{ i.id }} warning">
+                        <td><input type="checkbox" name="outside{{ i.id }}" id="outside{{ i.id }}" value="{{ i.paytype }}" checked></td>
+                        <td align="center"><a href="/DgJrfdJg/catalog/outsidezakaz/{{ i.id }}/" target="_blank">#{{ i.zakaz_id }}</a></td>
+                        <td align="right">{% if i.paid_client %}0{% else %}-{{ i.summ }}{% endif %} р.</td>
+                        <td><img src="/static/kostochka38/images/i_oplata_{{ i.paytype }}.png" width="16px"></td>
+                        <td></td>
+                        <td></td>
+                        <td align="center">{{ i.address }}</td>
+                        <td align="right">{% if i.dostavka %}{{ i.dostavka }}{% else %}0{% endif %} р.</td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <td colspan="2"></td>
+                    <td align="right" >
+                        <div class="form-group has-success col-xs-6 pull-right">
+                            <input class="form-control col-sm-6" type="text" id="bbox-check_summ" value="{{ bbox_check_summ }}">
+                        </div>
+                    </td>
+                    <td colspan="4"></td>
+                    <td align="right">
+                        <div class="form-group has-error form-horizontal col-xs-6 pull-right">
+                            <input class="form-control" id="bbox_courier_zp_zakaz" value="{{ bbox_courier_zp_zakaz }}" disabled>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <input type="hidden" value="{{ category }}" name="category">
+        <input type="hidden" value="{{ fix_zp_courier }}" id="fix_zp_courier" name="fix_zp_courier">
+        <input type="hidden" value="{{ zp_courier }}" id="zp_courier" name="zp_courier">
+        <input type="hidden" value="{{ courier_name }}" id="user" name="user">
+
+        <input id="submit-form" type="submit" onclick="return confirm('Провести все заказы?');" value="Провести все заказы!">
+        <div class="alert alert-info hidden" id="form-submiting">Сохраняем ...</div>
+        <br><br><br>
+    </form>
+</div>
+{% endblock %}
+{% block footer %}
+  {{ block.super }}
+  <script src="https://kit.fontawesome.com/5c9f66e107.js" crossorigin="anonymous"></script>
+{% endblock %}

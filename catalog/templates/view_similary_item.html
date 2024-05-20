@@ -1,0 +1,14 @@
+{% load intfilter %}
+{% load deck_row %}
+{% if similar %}
+    <h3>С этим товаром также {{ title_verb }}</h3>
+    <div class="catalog-goods">
+        <ul class="catalog-goods-container">
+            {% for similarity in similar %}
+                {% with similarity.related_object as sim_item %}
+                    {% include 'items_card.html' with item=sim_item  type='similar' %}
+                {% endwith %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

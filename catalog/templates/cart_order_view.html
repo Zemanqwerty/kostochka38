@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load intfilter %}
+{% load static %}
+
+{% block title %}
+    Заказ №{{ zakaz.id }}
+{% endblock %}
+
+{% block head_title %}
+    Заказ №{{ zakaz.id }}
+{% endblock %}
+
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.autorepeat-small')
+                .keypress(function (key) {
+                    if (key.charCode < 48 || key.charCode > 57) return false;
+                })
+                .focusin(function () {
+                    //
+                })
+                .focusout(function () {
+                    if ($(this).val() < 10) {
+                        $('.autorepeat-small').val(10);
+                    }
+                    if ($(this).val() > 90) {
+                        $('.autorepeat-small').val(90);
+                    }
+                });
+        });
+    </script>
+{% endblock %}
+
+{% block content %} 
+<div class="container">
+    <h1>Заказ №{{ zakaz.id }}</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <a href='/account/'>Личный кабинет</a> &rarr; <a href='/account/orders/'>История заказов</a> &rarr; <span>Заказ №{{ zakaz.id }}</span>
+    </div>
+
+    <div class='page order-detailes-view' id='my_cart_form'>
+        {% if autorized %}
+            {% if zakaz %}
+                <p class=''>
+                    <b>Заказ №{{ zakaz.id }}, <span class="order-date">{{ zakaz.date|ru_strftime:"%d %B %Y, %H:%M" }}</span></b> &mdash;
+                    <span>{{ zakaz.status_text }}</span> {% if zakaz.paid_client %}(<b>Заказ оплачен</b>) {% endif %}
+                </p>
+
+                <table width='100%' id='cart_table' cellspacing='0' cellpadding='0'>
+                    {% for j in result %}
+                        <tr id="line_{{ j.id }}" class="cart_line items{% if j.presale == 1 %} noborder{% endif %}">
+                            <td class='number' align='center'><div>#{{ j.number }}</div></td>
+                            <td class="photo{% if not j.goods.deckitem.cover %} noimage{% endif %}">
+                                {% if j.goods.active == 1 and j.goods.deckitem.active == 1 %}<a href='{{ j.goods.deckitem.get_absolute_url }}#{{ j.goods.id }}'>{% endif %}
+                                    <img src="{% if j.goods.deckitem.cover %}{{ j.goods.deckitem.cover.0.cart_thumbnail.url }}{% else %}{% static 'kostochka38/images/noimage.png' %}{% endif %}">
+                                {% if j.goods.active == 1 and j.goods.deckitem.active == 1 %}</a>{% endif %}
+                            </td>
+                            <td class='title'>
+                                <div>
+                                    <div class="labels_block">
+                                        {% if j.sale or j.sale == 0 %}
+                                            {% if j.sale != 0 %}
+                                                <div class="label action">
+                                                    -{{ j.sale }}%
+                                                </div>
+                                            {% endif %}
+                                        {% else %}
+                                            {% if procent %}
+                                                <div class="label action">
+                                                    -{{ procent }}%
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {% if item.items.0.new %}
+                                            <div class="label new">
+                                                new
+                                            </div>
+                                        {% endif %}
+                                        {% if item.items.0.hit %}
+                                            <div class="label hit">
+                                                хит
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    {% if j.goods.active == 1 and j.goods.deckitem.active == 1 %}<a href='{{ j.goods.deckitem.get_absolute_url }}#{{ j.goods.id }}'>{% endif %}
+                                    {{ j.goods.deckitem.producer.title }}, {{ j.goods.deckitem.title|safe }}{% if j.goods.active == 1 and j.goods.deckitem.active == 1 %}</a>{% endif %}, <div style="font-style: normal; font-weight: bold; font-size: 16px">{{ j.goods.weight }}</div>
+                                </div>
+                            </td>
+                            <td class="td-count">
+                                <div>
+                                    <input data-lineid='{{ j.id }}' class='count' type='text' value='{{ j.quantity }}' name='quantity_{{ j.number }}' size='1' id='quantity_{{ j.number }}' disabled>
+                                </div>
+                                <input type='hidden' value='{{ j.id }}' name='id_goods_{{ j.number }}'>
+                                <input type='hidden' value='{{ j.hash }}' id='hash_goods_{{ j.number }}' name='hash_goods_{{ j.number }}'>
+                            </td>
+                            <td align='right' class='price'>
+                                <div>
+                                    {% if j.sale %}<span class="real_price">{{ j.summ|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i></span><br>{% endif %}
+                                    <span class="price_price {% if j.sale %}price_sale{% endif %}">{% if j.sale or j.sale == 0 %}{{ j.summ_sale|floatformat:2|intspace }}{% else %}{{ j.summ|floatformat:2|intspace }}{% endif %} <i class="far fa-ruble-sign"></i></span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% if j.presale == 1 %}
+                            <tr class="presale-cart-info">
+                                <td colspan="1"></td>
+                                <td colspan="1" class="photo"></td>
+                                <td colspan="1">
+                                    <div class="label presale visible in_cart">
+                                        Обратите внимание!
+                                        Данный товар был оформлен под заказ. Уточняйте детали у операторов.
+                                    </div>
+                                </td>
+                                <td colspan="3"></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+
+                <div class="all_summ_block histori" id="comment_form">
+                        <div class="all-summ">
+                            Итого<span class="hidden500"> к оплате</span>: <big><b><span id="summ_so_skidkoi">{{ summ_so_skidkoi|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i></b></big>
+                        </div>
+                        <br class='clear'>
+                        <br class='clear'>
+                        <div class="default-summ">
+                            Сумма заказа: <span id="summ_s_dostavkoy">{{ zakaz.summ|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i>
+                        </div>
+                        <br class='clear'>
+
+                        {% if dostavka > 0 %}
+                            <div class="default-summ">
+                                Доставка: <span id="dostavka">{{ dostavka|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i>
+                            </div>
+                            <br class='clear'>
+                        {% endif %}
+
+                        {% if sale %}
+                            <div class="default-summ">
+                                Скидка: <span id="skidka">{{ skidka|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i>
+                            </div>
+                            <br class='clear'>
+                        {% endif %}
+                        {% if skidka_na_meloch %}
+                            <div class="default-summ">
+                                Скидка на мелочь: <span id="skidka_na_meloch">{{ skidka_na_meloch|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i>
+                            </div>
+                            <br class='clear'>
+                        {% endif %}
+                        <hr class="small-big">
+
+                        <div id='cart_button' class="repeat-btn">Повторить заказ</div>
+
+                        {% if order_need_pay %}
+                            <a href="{% url 'payment_redirect' zakaz_id=zakaz_id %}" id='pay_button' class="pay_btn">Оплатить</a>
+                        {% endif %}
+
+                        <br class='clear'>
+                    </div>
+
+                <br class='clear'>
+                <input type="hidden" id="data-order-id" value="{{ zakaz_id }}">
+            {% else %}
+                <p class='meta'>У вас нет активных заказов</p>
+            {% endif %}
+        {% else %}
+            {% include 'need_autirozed.html' %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

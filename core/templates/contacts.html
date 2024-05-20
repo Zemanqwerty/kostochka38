@@ -1,0 +1,117 @@
+{% extends "base.html" %}   
+       
+{% block title %}
+	Контактная информация
+{% endblock %} 
+
+{% block head %}
+    <meta content="Контакты" name="keywords">
+    <meta content="Контакты" name="description">
+{% endblock %}  
+         
+{% block head_title %} 
+	Контактная информация
+{% endblock %}    
+         
+{% block content %}  
+<div class="container">
+    <h1 class="category">Контактная информация</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <span>Контактная информация</span>
+    </div>
+
+    <div class="page contacts">
+
+        <div class="row row-shops">
+            <div class="col-xs-12 col-sm-4">
+                <div class="shop-contact-block">
+                    <div class="contact-block-header"><i class="fad fa-store-alt"></i> Магазины</div>
+                    <div class="contact-block-address">г. Иркутск, ул. Пискунова, д. 79</div>
+                    <p class="contact-block-description">
+                        Ежедневно 09:00&mdash;22:00
+                    </p>
+                    <br>
+                    <div class="contact-block-address">г. Ангарск, 22-й мкр., д. 42</div>
+                    <p class="contact-block-description">
+                        Ежедневно 10:00&mdash;21:00
+                    </p>
+                    <br>
+                    <div class="contact-block-address">г. Ангарск, 219-й кв., д. 13</div>
+                    <p class="contact-block-description">
+                        Ежедневно 10:00&mdash;21:00
+                    </p>
+                </div>
+                <div class="shop-contact-block">
+                    <div class="contact-block-header"><i class="fad fa-warehouse-alt"></i> Пункт выдачи</div>
+                    <div class="contact-block-address">г. Иркутск, Ново-Ленино, территория Горка,5/5Б</div>
+                    <p class="contact-block-description">
+                        пн-пт 08:30&mdash;19:00<br>
+                        сб-вс выходной
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-8">
+                <div class="yandex-map">
+                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A8be3e35fc04655e4b6dfd744545a71100de3f70ade9c3e6ec92ab9927c2ff0e3&amp;width=100%25&amp;height=300&amp;lang=ru_RU&amp;scroll=true"></script>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="contact-header">Контакты</h3>
+                <hr class="contact-hr">
+            </div>
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-sm-4 contact-block-wrapper">
+                        <i class="fal fa-phone"></i> <a href="tel:+73952504038" class="callibri_contacts" style="color: #222"><span>+7 (3952)</span> 50-40-38</a><br/>
+                        <i class="fal fa-envelope"></i> pochta@kostochka38.ru<br/>
+                        <i class="fab fa-vk"></i> https://vk.com/kostochka38
+                    </div>
+                    <div class="col-sm-4 contact-block-wrapper">
+                        <div class="contact-subheader"> По вопросам дистрибьюции</div>
+
+                        <i class="fal fa-phone"></i> +7 (983) 446-59-13<br/>
+                        <i class="fal fa-envelope"></i> opt@kostochka38.ru<br/>
+                        <i class="fal fa-clock"></i> пн-пт 10:00&mdash;17:00
+
+                    </div>
+                    <div class="col-sm-4 contact-block-wrapper">
+                        <div class="contact-subheader">Отдел контроля качества обслуживания</div>
+
+                        <i class="fal fa-phone"></i> +7 (983) 446-59-13<br/>
+                        <i class="fal fa-envelope"></i> help@kostochka38.ru<br/>
+                        <i class="fal fa-clock"></i> пн-пт 10:00&mdash;17:00
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <h3 class="mt-40 contact-header">Режим работы</h3>
+                <hr class="contact-hr">
+            </div>
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-sm-4 contact-block-wrapper">
+                        <div class="contact-subheader nomargin-top-xs"> Оператор</div>
+
+                        <i class="fal fa-clock"></i> пн-пт 08:30&mdash;19:00<br/>
+                        <i class="fal fa-clock"></i> сб-вс выходной
+
+                    </div>
+                    <div class="col-sm-4 contact-block-wrapper">
+                        <div class="contact-subheader">Служба доставки</div>
+
+                        <i class="fal fa-clock"></i> пн-пт 10:00&mdash;22:00<br/>
+                        <i class="fal fa-clock"></i> сб-вс выходной
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

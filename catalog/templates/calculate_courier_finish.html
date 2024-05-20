@@ -1,0 +1,39 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% load intfilter %}
+{% load i18n %}
+{% block extrahead %}
+  <link rel="stylesheet" href="{% static 'kostochka38/css/admin-chosen.css' %}" />
+{% endblock %}
+{% block title %}Подсчет курьера | {% trans 'Django site admin' %}{% endblock %}
+
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/mz/">{% trans 'Home' %}</a> &rsaquo; Заказы</div>{% endblock %}
+
+{% block content %}
+
+  <h3>{{ date|date:'d M' }}</h3><br>
+  {% if category == 'kostochka' %}
+    Заказы клиентов проведеы и закрыты:<br>
+    {{ zakazs_str }}
+    <br><br>
+    u'Перемещения оплата курьера закрыта:<br>
+    {{ dict_movement_str }}
+    <br><br>
+    Заказы поставщиков за вчера проведены, оплата курьера закрыта:<br>
+    {{ insidezakazs_yesterday_str }}
+    <br><br>
+    Заказы поставщиков за сегодня, закрыты и оплачены:<br>
+    {{ insidezakazs_today_str }}
+    <br><br>
+  {% elif category == 'bbox' %}
+    ulr закрытия заказов:<br>
+    {{ bbxourl }}
+    <br><br>
+    {{ bbox_response }}
+    <br><br>
+    Сторонние доставки закрыты:<br>
+    {{ finish_outside_zakaz_str }}
+    <br><br>
+  {% endif %}
+
+{% endblock %}

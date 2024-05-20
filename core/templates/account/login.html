@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	Авторизация
+{% endblock %}
+
+{% block head_title %}
+	Авторизация
+{% endblock %}
+
+{% block meta_keywords %}
+    Авторизация
+{% endblock %}
+
+{% block meta_descroption %}
+    Авторизация
+{% endblock %}
+
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#rpassword').focus();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+ <div class="container">
+        <h1 class="category">Авторизация</h1>
+
+         <div class='way'>
+            <a href='/'>Главная</a> &rarr; <span>Авторизация</span>
+        </div>
+
+        <div class="page">
+            <form class='myform' action='' id='comment_form' method='post'>
+                <div class="validateTips static-page" id="validateTips_login"></div>
+
+                E-mail<br>
+                <input placeholder="E-mail" type="text" name="email_login_static" id="email_login_static" value="" class="text ui-widget-content ui-corner-all"><br>
+
+                Пароль<br>
+                <input placeholder="Пароль" type="password" name="password_login_static" id="password_login_static" value="" class="text ui-widget-content ui-corner-all"><br>
+
+                <input id='comment_button'  type="submit" tabindex="-1" value="Войти" class='button login-static'>
+            </form>
+
+            <br>
+            <div class="dialog-links static-page">
+                <a href="#" class="recovery-link">Забыли пароль?</a><br>
+                <a href="#" class="registration-link">Регистрация</a>
+            </div>
+            <img src="{% static 'kostochka38/images/ajax-loader.gif' %}" style="display: none;">
+        </div>
+    </div>
+{% endblock %}

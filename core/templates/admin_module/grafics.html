@@ -1,0 +1,225 @@
+{% extends "admin/base_site.html" %}
+{% load chart_tags %}
+{% load intfilter %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Статистика | {% trans 'Django site admin' %}{% endblock %}
+
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="/DgJrfdJg/">{% trans 'Home' %}</a> &rsaquo; Статистика</div>{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'admin_tools/css/jquery/jquery-ui.css' %}" type="text/css" media="screen, projection">
+<script type="text/javascript" src="{% static 'admin_tools/js/utils.js' %}"></script>
+<script type="text/javascript" charset="utf-8">
+    // Load js files syncronously and conditionally
+
+    var js_files = [
+        {
+            src : "{% static 'admin_tools/js/jquery/jquery.min.js' %}",
+            test: function() { return typeof(jQuery) == 'undefined'; }
+        },
+        {
+            src : "{% static 'admin_tools/js/jquery/jquery-ui.min.js' %}",
+            test: function() { return typeof(jQuery.ui) == 'undefined'; }
+        },
+        {
+            src : "{% static 'admin_tools/js/json.min.js' %}",
+            test: function() { return typeof(JSON.stringify) == 'undefined'; }
+        },
+        {
+            src : "{% static 'kostochka38/js/lib/highcharts.js' %}",
+            test: function() { return typeof(jQuery.cookie) == 'undefined'; }
+        },
+        {
+            src : "{% static 'kostochka38/js/lib/exporting.js' %}",
+            test: function() { return true; }
+        },
+        {
+            src : "{% static 'kostochka38/js/lib/dark-unica.js' %}",
+            test: function() { return true; }
+        }
+    ];
+</script>
+<script type="text/javascript">
+
+loadScripts(js_files, function(){
+    handle = function (data) {
+        var selector = '#' + data.selector;
+        $(selector).html('');
+        $.each(data.plot, function(key, val) {
+            var $div = $("<div></div>");
+            $(selector).append($div);
+            $(selector).append("<br><br>");
+            $div.highcharts({
+
+                title: {
+                    text: this.title
+                },
+
+                xAxis: {
+                    categories: typeof this.categories !== 'undefined' ? this.categories : data.categories
+                },
+
+                yAxis: [
+                    { // left y axis
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            align: 'left',
+                            x: 3,
+                            y: 16,
+                            format: '{value:.,0f}'
+                        },
+                        showFirstLabel: true,
+                        min: 0
+                    },
+                    { // right y axis
+                        linkedTo: 0,
+                        gridLineWidth: 0,
+                        opposite: true,
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            align: 'right',
+                            x: -3,
+                            y: 16,
+                            format: '{value:.,0f}'
+                        },
+                        showFirstLabel: false,
+                        min: 0
+                    }
+                ],
+
+                legend: {
+                    width: 300,
+                    align: 'left',
+                    verticalAlign: 'top',
+                    x: 00, // = marginLeft - default spacingLeft
+                    borderWidth: 1
+                },
+
+                tooltip: {
+                    shared: true,
+                    crosshairs: true
+                },
+
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    },
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function (e) {
+                                    hs.htmlExpand(null, {
+                                        pageOrigin: {
+                                            x: e.pageX,
+                                            y: e.pageY
+                                        },
+                                        headingText: this.series.name,
+                                        maincontentText: Highcharts.dateFormat('%A, %b %e, %Y', this.x) + ':<br/> ' +
+                                                this.y + ' visits',
+                                        width: 200
+                                    });
+                                }
+                            }
+                        },
+                        marker: {
+                            lineWidth: 1
+                        }
+                    }
+                },
+
+                series: this.series
+
+            });
+        });
+    };
+    $(".group-tabs").tabs();
+    $( "#datepicker" ).datepicker({
+        showWeek: true,
+        firstDay: 1
+    });
+    $('#filter-form input, #filter-form select').on('change', function(e) {
+        $('#filter-form').submit();
+    });
+    $(".group-tabs-link a").on("click", function(e) {
+        var selector = $(this).attr('href');
+        $('#d-type').val($(selector).attr('id'));
+        if ($(selector).children().length > 0) {
+            return false;
+        }
+        $('#filter-form').submit();
+    });
+    $('#filter-form').on('submit', function(e) {
+        $.post('.', $(this).serializeArray(), handle, "json");
+        return false;
+    });
+    $('#init_link').click();
+});
+</script>
+<div class="dashboard-module-content">
+    <form action="" method="POST" id="filter-form">
+        <p class="datetime">Дата: <input class="vDateField" id="datepicker" name="end" size="10" type="text" value="{% now 'm' %}/1/{% now 'Y' %}"/> &nbsp;&nbsp;&nbsp;&nbsp;
+            Интервал: <select name="type">
+                <option value="1" selected>Месяцы</option>
+                <option value="0">Недели</option>
+            </select> &nbsp;&nbsp;&nbsp;&nbsp;
+            Период: <select name="count">
+                <option selected="selected" value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="18">18</option>
+                <option value="24">24</option>
+                <option value="48">48</option>
+            </select>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" value="Обновить"><br /></p>
+        <input type="hidden" id="d-type" name="block" value="order_sum">
+    </form>
+    <div class="group group-tabs">
+        <ul>
+            <li class="group-tabs-link">
+                <a href="#order_sum" id="init_link">Суммы заказов</a>
+            </li>
+            <li class="group-tabs-link">
+                <a href="#order_sum_real_sum" id="init_link">[-скидки] Суммы заказов</a>
+            </li>
+            <li class="group-tabs-link">
+                <a href="#order_count">Кол-во заказов</a>
+            </li>
+            <li class="group-tabs-link">
+                <a href="#avg_sum">Средний чек</a>
+            </li>
+            <li class="group-tabs-link">
+                <a href="#order_sum_supplier">Сумма заказов постав.</a>
+            </li>
+            <li class="group-tabs-link">
+                <a href="#order_count_supplier">Кол-во заказов постав.</a>
+            </li>
+        </ul>
+        <div id="order_sum" class="dashboard-module">
+        </div>
+        <div id="order_sum_real_sum" class="dashboard-module">
+        </div>
+        <div id="order_count" class="dashboard-module">
+        </div>
+        <div id="avg_sum" class="dashboard-module">
+        </div>
+        <div id="order_sum_supplier" class="dashboard-module">
+        </div>
+        <div id="order_count_supplier" class="dashboard-module">
+        </div>
+    </div>
+</div>
+{% endblock %}

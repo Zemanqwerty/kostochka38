@@ -1,0 +1,103 @@
+@font-face {
+    font-family: Flaticon;
+    src: url(../fonts/flaticon.eot);
+    font-display: swap;
+    src: url(../fonts/flaticon.eot#iefix) format("embedded-opentype"), url(../fonts/flaticon.woff) format("woff"), url(../fonts/flaticon.ttf) format("truetype"), url(../fonts/flaticon.svg) format("svg");
+    font-weight: 400;
+    font-style: normal
+}
+
+[class*=" flaticon-"]:after, [class*=" flaticon-"]:before, [class^=flaticon-]:after, [class^=flaticon-]:before {
+    font-family: Flaticon;
+    font-size: 20px;
+    font-style: normal;
+    margin-left: 20px
+}
+
+.flaticon-animal2:before {
+    content: "\e000"
+}
+
+.flaticon-b:before {
+    content: "\e001"
+}
+
+.flaticon-4:before, .flaticon-bird12:before {
+    content: "\e002"
+}
+
+.flaticon-bird43:before {
+    content: "\e003"
+}
+
+.flaticon-cat19:before {
+    content: "\e004"
+}
+
+.flaticon-2:before, .flaticon-cats4:before {
+    content: "\e005"
+}
+
+.flaticon-6:before, .flaticon-chameleons:before {
+    content: "\e006"
+}
+
+.flaticon-dog56:before {
+    content: "\e007"
+}
+
+.flaticon-dog68:before {
+    content: "\e008"
+}
+
+.flaticon-dog98:before {
+    content: "\e009"
+}
+
+.flaticon-1:before, .flaticon-dogs9:before {
+    content: "\e00a"
+}
+
+.flaticon-facebook29:before {
+    content: "\e00b"
+}
+
+.flaticon-5:before, .flaticon-fishes10:before {
+    content: "\e00c"
+}
+
+.flaticon-fishes7:before {
+    content: "\e00d"
+}
+
+.flaticon-gecko2:before {
+    content: "\e00e"
+}
+
+.flaticon-man421:before {
+    content: "\e00f"
+}
+
+.flaticon-man423:before {
+    content: "\e010"
+}
+
+.flaticon-pets10:before {
+    content: "\e011"
+}
+
+.flaticon-pets8:before {
+    content: "\e012"
+}
+
+.flaticon-rabbit5:before {
+    content: "\e013"
+}
+
+.flaticon-3:before, .flaticon-rabbits1:before {
+    content: "\e014"
+}
+
+.flaticon-reindeer3:before {
+    content: "\e015"
+}

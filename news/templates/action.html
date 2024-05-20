@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load humanize %}
+
+{% block title %}
+    {{ flatpage.title }}
+{% endblock %}   
+
+{% block head_title %}    
+    {{ flatpage.title }}
+{% endblock%}    
+           
+{% block content %} 
+<div class="container">
+    <h1 class="category">{{ flatpage.title }}</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; {{ flatpage.title }}
+    </div>
+
+    <div class="page catalog-goods">
+        {% if news %}
+            <h3>Акции</h3>
+            {% for new in news %}
+                {% if new != news|first %}<hr class="small-big">{% endif %}
+                <div class='news_block adv_padding'>
+                    <h2{% if new.original_image %} class="withimage"{% endif %}><a href="/promo/{{ new.link }}/">{{ new.title }}</a></h2>
+                    {% if new.original_image %}
+                        <div class="thumb-iamge">
+                            <a href="/promo/{{ new.link }}/"><img src="{{ new.thumbnail.url }}"></a>
+                        </div>
+                    {% endif %}
+                    <div class="news-body">
+                        <div class='date'>
+                            {{ new.date|ru_strftime:"%d %B %Y" }}
+                        </div>
+                        {% if new.short %}
+                            {{ new.short|safe }}
+                        {% else %}
+                            {{ new.body|safe }}
+                        {% endif %}
+                    </div>
+                    <br class="clear">
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="" style="margin-top: 30px">
+            <hr>
+            {{ flatpage.body|safe }}
+        </div>
+    </div>
+</div>
+{% endblock %}

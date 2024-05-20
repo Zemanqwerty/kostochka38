@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  {% load intfilter %}
+  <meta charset="UTF-8">
+  <title>Касса №{{ user.id }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.css" integrity="sha512-6g9IGCc67eh+xK03Z8ILcnKLbJnKBW+qpEdoUVD/4hBa2Ghiq5dQgeNOGWJfGoe9tdCRM4GpJMnsRXa2FDJp9Q==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap-reboot.css" integrity="sha512-Sy3VCgdIfHh89AaGlOrvge7t4JoCU4yeWthZQiSftozX5IVeAVKss1SKy+JPqdesEGo7mZ9rer8TK5275fAiZA==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap-grid.css" integrity="sha512-w9IzV2OLOGDb1YzMeCxBUYKbdd0Xiwpwx3UmHBdpLXO7F4pj78CX7DuVUU9poyt6t0eT7LM1Df/7N/g+LCcPkQ==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{% static 'kassa.css' %}">
+  <link rel="stylesheet" href="{% static 'kostochka38/css/checkboxes.css' %}">
+
+</head>
+<body>
+{% block head_script %}
+  <script>
+    let current_autocomplete_item_index = -1;
+    let max_items = 0;
+    let UPDATE_CART = false;
+  </script>
+{% endblock %}
+{% block content %}{% endblock %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js" integrity="sha512-eUQ9hGdLjBjY3F41CScH3UX+4JDSI9zXeroz7hJ+RteoCaY+GP/LDoM8AO+Pt+DRFw3nXqsjh9Zsts8hnYv8/A==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.js" integrity="sha512-VtmdOFNyOniRUIHzkfL4GAe+yuAhoWzJIWYW/9elcd+7zNu12OKscWFIe9PRQ6VBy4djrwGVzK6MLD3oTpLpRQ==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/5c9f66e107.js" crossorigin="anonymous"></script>
+  {% block foot_script %}{% endblock %}
+</body>
+</html>

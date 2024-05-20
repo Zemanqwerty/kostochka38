@@ -1,0 +1,19 @@
+{% if items %}
+    {% if catalog_group_view == 'group' %}
+        {% for item in items %}
+            {% include 'items_card.html' with item=item %}
+        {% endfor %}
+    {% else %}
+        {% for item in items %}
+            {% include 'items_card_no_group.html' with item=item request=request %}
+        {% endfor %}
+    {% endif %}
+{% else %}
+    <li class="item_block">
+        <p class="text-info">
+            <br><br>
+            К сожалению, с выбранными фильтрами ничего не найдено.<br> Пожалуйста, выберите другие фильтры.
+            <br><br>
+        </p>
+    </li>
+{% endif %}

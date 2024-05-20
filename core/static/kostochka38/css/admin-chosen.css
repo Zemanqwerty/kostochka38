@@ -1,0 +1,201 @@
+.chosen-container {
+    max-width: 800px;
+}
+
+.type_color0 { /* расход */
+    background-color: #ffe8ed;
+}
+.type_color1 { /* доход */
+    background-color: #e6ffd6;
+}
+
+.color0 { /*Новый */
+    background-color: #96f491;
+}
+.color11 { /* Обрабатывается */
+    background-color: #ffd19b;
+}
+.color1 { /*Не удалось дозвониться*/
+    background-color: #e6ffd6;
+    color: #ff0000;
+}
+.color8 { /* Необходимо перезвонить, Ждем звонка от клиента */
+    background-color: #e6ffd6;
+}
+.color81, .color82 { /* Ждем звонка от клиента*/
+    background-color: #e6ffd6;
+    color: #999
+}
+/*.color15, .color151 { !* Заказ bbox38 *!*/
+    /*background-color: #77ffda;*/
+/*}*/
+    /*.color15 td, .color151 td { !* Заказ bbox38 *!*/
+        /*color: #CB46CF !important;*/
+    /*}*/
+        /*.color151 td{*/
+            /*font-weight: bold;*/
+        /*}*/
+
+/*.color95, .color951 { !* Заказ bbox38 *!*/
+    /*background-color: #e7ecff;*/
+/*}*/
+    /*.color95 td, .color951 td { !* Заказ bbox38 *!*/
+        /*color: #cf5407 !important;*/
+    /*}*/
+        /*.color951 td{*/
+            /*font-weight: bold;*/
+        /*}*/
+
+/*.color32, .color82 { !* Заказ outside kupi38 *!*/
+    /*background-color: #bfffbb;*/
+/*}*/
+    /*.color32 td, .color82 td { !* Заказ outside kupi38 *!*/
+        /*color: #3c4ecf !important;*/
+    /*}*/
+        /*.color82 td{*/
+            /*font-weight: bold;*/
+        /*}*/
+
+    .color1 a{
+        color: #ff0000;
+    }
+.color2 { /* Доставка согласована */
+    background-color: #b2fdff;
+}
+.color3 { /* Заказ собран */
+    background-color: #fffcac;
+}
+.color31 { /* Заказ у курьера */
+    background-color: #fffcac;
+}
+    .color23 { /*Заказ собран*/
+        background-color: #fffcac;
+        font-weight: bold;
+    }
+
+.color4 { /*Курьер выехал*/
+    background-color: #ffc8fc;
+}
+.color5 { /*Заказ доставлен*/
+    background-color: #ebebeb;
+    color: #00bb00;
+}
+.color16 { /* Заказ bbox38 достален */
+    background-color: #ebebeb;
+    color: #CB46CF;
+}
+.color17 { /* Заказ outside доставлен */
+    background-color: #ebebeb;
+    color: #3c4ecf;
+}
+.color97 { /* Заказ outside доставлен */
+    background-color: #ebebeb;
+    color: #cf5407 !important;
+}
+    .color5 a{ /*Заказ доставлен*/
+        color: #00bb00;
+    }
+.color6 { /*Завершен*/
+    background-color: #ebebeb;
+    color: #999;
+}
+    .color6 a{ /*Завершен*/
+        color: #999;
+    }
+    .color6.paid0,  .color6.paid_s0 { /*Завершен*/
+        background-color: #ebebeb;
+        color: #f88;
+    }
+        .color6.paid0 a,  .color6.paid_s0 a{ /*Завершен*/
+            color: #f55;
+        }
+.color7 { /*Отказ от заказа*/
+    background-color: #ffd4da;
+    color: #994144;
+}
+.color10 { /*Отменен*/
+    background-color: #ffd4da;
+    color: #994144;
+}
+
+.color_basket { /* Доставка согласована */
+    background-color: #b2fdff;
+}
+
+.status1{
+    color: #CA24C1 !important;
+}
+
+.pay_type2{
+    background-color: #a68579 !important;
+    color: #fff !important;
+}
+
+.wide .form-row input.vTextField{
+    width: 710px;
+}
+.wide .form-row textarea.vLargeTextField{
+    width: 710px;
+    height: 250px;
+}
+.wide .form-row div.selector-available, .wide .form-row div.selector-chosen{
+    width: 710px;
+}
+.wide .form-row div.selector-available .selector-filter label{
+    width: 17px !important;
+}
+.wide .form-row div.selector-available .selector-filter input{
+    /*width: 665px !important;*/
+}
+.wide .form-row div.selector-available select.filtered, .wide .form-row div.selector-chosen select.filtered{
+    width: 710px;
+}
+td.complete_url{
+    background: #fff !important;
+}
+
+.autocreate1{
+ color: #0099FF ;
+}
+
+.active0{
+    opacity: 0.3;
+}
+.active0:hover{
+    opacity: 1;
+}
+
+.availability0{
+    background: #fdd;
+}
+
+.update-layer{
+    display: none;
+    padding: 12px 14px;
+    margin: 0 0 20px;
+    background: #f8f8f8;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    text-align: center;
+    overflow: hidden;
+}
+
+a.btn-update{
+    display: inline-block;
+    background: #ff511a;
+    border-radius: 4px;
+    padding: 10px 15px;
+    height: 15px;
+    line-height: 15px;
+    margin-left: 30px;
+    color: #fff;
+}
+    a.btn-update:hover{
+        text-decoration: none;
+        background: #942809;
+    }
+
+#update-username{
+    display: inline-block;
+    margin: 10px 0;
+}

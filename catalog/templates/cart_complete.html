@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load humanize %}  
+{% load pytils_numeral %}
+{% load intfilter %}
+
+{% block title %}
+    Заказ успешно оформлен
+{% endblock %}
+
+{% block head_title %}
+     Заказ успешно оформлен
+{% endblock %}
+
+{% block extra_footer %}
+    {% if target_not_sended %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                // цель в метрику об оформленном заказе
+                ym(23691958,'reachGoal','order_complete');
+
+                // цель в метрику об оформленном заказе
+                window.dataLayer.push({
+                    "ecommerce": {
+                        "purchase": {
+                            "currencyCode": "RUB",
+                            "actionField": {
+                                "id" : {{ zakaz.id }}
+                            },
+                            "products":[
+                                {% for i in zakaz.items %}
+                                    {
+                                        "id": "{{ i.item.id }}",
+                                        "name": "{{ i.item.deckitem.title }}",
+                                        "price": {{ i.get_sale_price_dot }},
+                                        "brand": "{{ i.item.deckitem.producer.title }}",
+                                        "category": "{{ i.item.deckitem.tag.title }} {{ i.item.deckitem.tag.get_section_display|lower }}",
+                                        "variant": "{{ i.item.weight }}",
+                                        "quantity": {{ i.quantity }}
+                                    }{% if forloop.revcounter0 != 0 %},{% endif %}
+                                {% endfor %}
+                            ]
+                        }
+                    }
+                });
+
+                // цель в GA об оформленном заказе
+                gtag('event', 'send', {'event_category': 'cart_buy', 'event_action': 'cart_done'});
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block content %} 
+<div class="container">
+    <h1>Спасибо за покупку!</h1>
+
+    <div class="page oficial finish-screen">
+        <p>
+            Ваш заказ #<b>{{ zakaz.id }}</b> успешно оформлен.<br>
+        </p>
+        {% if zakaz.paytype == 4 and request.user.is_authenticated %}
+            <br>
+            Вы выбрали "Онлайн оплату на сайте".<br>
+            Ссылка на оплату заказа придет к Вам на почту и появится в <a href='/account/order/{{ zakaz.id }}/'>Личном кабинете</a>
+            после подтверждения заказа оператором.
+        {% endif %}
+        {% if zakaz.paytype == 4 and not request.user.is_authenticated %}
+            <br>
+            Вы выбрали "Онлайн оплату на сайте".<br>
+            Ссылка на оплату заказа придет к Вам на почту<br>
+            после подтверждения заказа оператором.
+        {% endif %}
+        <br>
+        <p>
+            {% if request.user.is_authenticated %}
+                Вы можете следить за состоянием своего заказа в разделе <a href='/account/orders/'>Мои заказы</a> <br>
+                При любом изменении статуса заказа вам придет уведомление на почту.
+            {% endif %}
+            <br><br>
+            Мы свяжемся с вами в ближайшее время.<br>
+            С наилучшими пожеланиями, Kostochka38.ru
+        </p>
+        <br class='clear'>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отписаться от рассылки</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        button{
+            padding: 15px 20px; background: #ff7272; color: #fff; font-size: 16px; border-radius: 10px
+        }
+        button:hover{
+            cursor: pointer;
+            background: #c45858;
+        }
+    </style>
+</head>
+<body>
+    <p style="font-size: 20px; text-align: center; display: block; margin: 50px 30px">
+        Вы уверены, что хотите отписать email адрес {{ email }} от всех рассылок?
+        <br>
+        <form action="." method="GET" style="text-align: center;">
+            <input type="hidden" name="email" value="{{ email }}">
+            <input type="hidden" name="id" value="{{ id }}">
+            <input type="hidden" name="success" value="1">
+            <button type="submit">Отписаться</button>
+        </form>
+    </p>
+</body>
+</html>

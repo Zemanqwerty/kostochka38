@@ -1,0 +1,34 @@
+
+    <style>
+        .main_header-phone span.i_phone {
+            background: url("{{ STATIC_URL }}images/icon_blue_ie6.png") 0 0 no-repeat;
+        }
+        .main_header-logo {
+            background-image: url('{{ STATIC_URL }}images/logo_ie6.png');
+        }
+    </style>
+    <section class="a-layout">
+        <header class="a-header_404">
+            <div class="a-header_404-container">
+                <h1>Вы используете устаревший браузер.
+                    Данный сайт построен на передовых, современных технологиях
+                    и не поддерживает текущую версию вашего браузера</h1>
+            </div>
+        </header>
+        <section class="s-section">
+            <div class="b-error-browsers">
+                <p class="second">Для просмотра сайта рекомендуем вам установить любой из современных браузеров. Это бесплатно и займет всего несколько минут.</p>
+            </div>
+            <div class="b-error-title">Современные браузеры</div>
+            <table class="b-table">
+                <tr>
+                    <td><a href="https://www.google.ru/intl/ru/chrome/"><img src="{{ STATIC_URL }}images/b-icon-chrome.png"><br><span>Google Chrome</span></a></td>
+                    <td><a href="http://www.opera.com/ru"><img src="{{ STATIC_URL }}images/b-icon-opera.png"><br><span>Opera</span></a></td>
+                    <td><a href="https://www.mozilla.org/ru/firefox/"><img src="{{ STATIC_URL }}images/b-icon-firefox.png"><br><span>Firefox</span></a></td>
+                    <td><a href="http://support.apple.com/downloads/#safari"><img src="{{ STATIC_URL }}images/b-icon-safari.png"><br><span>Safari</span></a></td>
+                    <td><a href="http://windows.microsoft.com/ru-ru/windows/upgrade-your-browser"><img src="{{ STATIC_URL }}images/b-icon-ie.png"><br><span>Internet Explorer</span></a></td>
+                </tr>
+            </table>
+        </section>
+    </section>
+

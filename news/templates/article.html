@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+
+{% block title %}
+    Статьи
+{% endblock %}   
+
+{% block head_title %}    
+    Полезные статьи{% if page != 1 and page %} | Страница {{ page }}{% endif %}
+{% endblock%}    
+           
+{% block content %} 
+<div class="container">
+    <h1 class="category">Статьи</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; Статьи
+    </div>
+
+    <div class="page">
+
+        {% for new in articles %}
+            {% if not articles|first == new %}<hr class="small-big">{% endif %}
+          	<div class='news_block{% if new.date > now_date %} superuser{% endif %}'>
+                <h2{% if new.background %} class="withimage"{% endif %}><a href="/article/{{ new.link }}/">{{ new.title }}</a></h2>
+                {% if new.background %}
+                    <div class="thumb-iamge">
+                        <a href="/article/{{ new.link }}/"><img src="{{ new.thumbnail.url }}"></a>
+                    </div>
+                {% endif %}
+
+                 <div class="news-body">
+                    <div class='date'>
+                        {{ new.date|ru_strftime:"%d %B %Y" }}
+                    </div>
+                    {% if new.short %}
+                        {{ new.short|safe }}
+                    {% else %}
+                        {{ new.body|safe }}
+                    {% endif %}
+                </div>
+                <br class="clear">
+        	</div>  
+        {% endfor %}
+        <div class="paginator">
+            {% if pages %}
+                {% if page_var.prev_page %}
+                    <a class="go_to_frst_page" data-page="1" href="/article/">В начало</a>
+                {% endif %}
+                <div class="paginator__number">
+                    {% if page_var.prev_page %}
+                        <a data-page="{{ page_var.prev_page }}" href="/article/?page={{ page_var.prev_page }}">&larr;</a>
+                    {% endif %}
+
+                    {% for iteration in page_var.pages %}
+                        <a data-page="{{ iteration }}"{% if iteration == page %} class="active"{% endif %} href="/article/?page={{ iteration }}">{{ iteration }}</a>
+                    {% endfor %}
+
+                    {% if page_var.next_page %}
+                        <a data-page="{{ page_var.next_page }}" href="/article/?page={{ page_var.next_page }}">&rarr;</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

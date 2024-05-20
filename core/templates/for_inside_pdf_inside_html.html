@@ -1,0 +1,102 @@
+{% load humanize %}  
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load intfilter %}
+{% load static %}
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <title>kostochka38</title>
+        <style>
+            html {
+                font-family: Tahoma, Verdana, Arial, Helvetica;
+            }
+
+            body, div {
+                font: normal 10px/20px Helvetica, sans-serif;
+                }
+            table {
+                border-collapse: collapse;
+                }
+            p.big{
+                font: normal 16px;
+                }
+            p.nobig{
+                font: normal 14px;
+                }
+            p{
+                line-height: 15px;
+                }
+
+            .head{
+                font-size: 9px;
+                line-height: 10px;
+                text-align: center;
+                padding: 5px 0;
+            }
+            table, td{
+                border: 1px solid #aaa;
+                border-collapse: collapse;
+                font-size: 9px;
+                line-height: 8px;
+            }
+            td{
+                padding: 3px 1px 3px 3px;
+            }
+            .white{
+                color: #fff;
+            }
+            td.title{
+                font-size: 8px;
+            }
+        </style>
+    </head>
+    <body>
+
+
+        <div id="HeaderContent">
+            Заказ #<big>{{ zakaz.id }}</big>
+        </div>
+        <p class="big">Поставщик {{ zakaz.segment_new.title }}</p>
+        <br>
+
+        <p style='text-align: right;'>
+            Сумма: {{ zakaz.cost|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i><br>
+        </p>
+        <table width='100%' id='cart_table' border='0' cellspacing='0' cellpadding='0'>
+            <tr>
+                <td class='head' width='4%' align='center'><center>№</center></td>
+                <td class='head' width='8%'>Код</td>
+                <td class='head' width='10%'></td>
+                <td class='head' width='25%'>Наименование</td>
+                <td class='head' width='10%' align='center'>Цена закупки</td>
+                <td class='head' width='8%' align='center'>Кол-во</td>
+                <td class='head' width='11%' align='center'>Сумма</td>
+            </tr>
+            {% for j in result %}
+                <tr>
+                    <td class='number' align='center'><small>#{{ forloop.counter }}</small></td>
+                    <td align='center'>{{ j.code }}<br>{{ j.article }}</td>
+                    <td class='head' width='10%'><img src="{{ j.image_url }}"></td>
+                    <td class='title'>
+                          {{ j.title|safe }} [{{ j.producer }}] ({{ j.weight }})
+                          {% if j.title_en %} {{ j.title_en|safe }}{% endif %}
+                    </td>
+                    <td align='center'>{{ j.real_price|intspace }} р.</td>
+                    <td>{{ j.quantity }} шт.</td>
+                    <td align='center' class='price'>{{ j.summ|floatformat:2|intspace }} р.</td>
+                </tr>
+            {% endfor%}
+
+        </table>
+        <p style='text-align: right; font-size: 200%; line-height: 2;'>
+            Сумма: {{ zakaz.cost|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i>
+        </p>
+
+    <div id="footerContent">
+        #<pdf:pagenumber />
+    </div>
+    </body>
+</html>

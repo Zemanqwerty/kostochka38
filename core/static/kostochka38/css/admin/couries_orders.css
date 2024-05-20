@@ -1,0 +1,77 @@
+body{
+    margin-top: 30px;
+}
+.color-outside{
+    background: #e7f9ff !important;
+}
+.color-kostochka38{
+    background: #ffeacc !important;
+}
+.color-kostochka38_movement{
+    background: #deffbc !important;
+}
+.color-bbox38{
+    background: #fdebf6 !important;
+}
+.color-motobro38{
+    background: #e9f7d3 !important;
+}
+
+.font-color-black{
+    color: #444;
+}
+.order-loader{
+    display: none;
+}
+.sortable-table.disable{
+    opacity: 0.3;
+}
+
+.panel-default>.panel-heading .badge {
+    color: #fff;
+    background-color: #777;
+}
+
+.container{
+    min-width: 890px;
+}
+
+tr.info{
+    font-weight: bold;
+}
+
+.table.sortable-table>tbody>tr>td{
+    vertical-align: middle;
+}
+
+.action-link a{
+    display: inline-block;
+    padding: 0;
+    background: #777;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+}
+    .action-link.action-link-big a{
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 24px;
+        background: rgb(111, 103, 0);
+    }
+.action-link a.status-complete{
+    background: #008f00;
+    font-size: 22px;
+}
+    .action-link a:hover{
+        color: #dffffa;
+    }
+
+
+.sorted-header{
+    cursor: pointer;
+}

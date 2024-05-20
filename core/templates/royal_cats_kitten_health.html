@@ -1,0 +1,151 @@
+{% extends "base.html" %}   
+{% load static %}
+       
+{% block title %}
+	Повседневный корм для котят
+{% endblock %} 
+
+{% block head_title %}
+    Повседневный корм для котят
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'royal/level2_cat.css' %}" type="text/css" />
+
+<div class="container">
+    <h1 class="category">Повседневный корм для котят</h1>
+    <div class='way'>
+        <a href='/'>Главная</a> &rarr; <span>Повседневный корм для котят</span>
+    </div>
+    <div class="page">
+
+
+        <div class="wrapper royal-level2">
+         
+                <hr class="header-rule">
+                <div class="header header--logo">
+                    <div class="row">
+                        <div class="col col--30">
+                            <img class="header__logo" src="{% static 'royal/level_3_kitten/logo.png' %}" alt="Logo">
+                        </div>
+                    </div>
+                </div>
+        
+              <div class="section section--intro brand-intro">
+                <div class="row brand-row-header">
+                    <div class="col col--50">
+                        <img src="{% static 'royal/level_3_kitten/kittens_header.png' %}" alt="kittens" />
+                    </div>
+                    
+                    <div class="col col--50">
+                        <h1 class="level3-heading">ПОВСЕДНЕВНЫЙ <span class="grey-heading">КОРМ ДЛЯ КОТЯТ</span></h1>
+                        <a href="/c/korm-dlya-koshek/?page=1&f-age=kotenok&producer_filter=royal-canin" class="button brand-button--header kitten-button button-kitten" for="accordion-trigger-1">
+                            ПОДОБРАТЬ КОРМ
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="header-separator-main">
+        
+              <!-- =================================================== -->
+              <!-- ACCORDION -->
+              <!-- =================================================== -->
+        
+              <input type="checkbox" id="accordion-trigger-1" class="accordion-trigger" />
+        
+            <div class="section section--accordion subsection-acc bg-subsection-pink-dark">
+                <div class="row subsection-row-main">
+                    <div class="col col--100 subsection-content subsection-head subsection-pink-dark">
+                    </div>
+                </div>
+        
+                <div class="row subsection-row-main">
+                    <div class="col col--50 subsection-pink-light subsection-content">
+                        <p>
+                            По мере роста котенка его организм претерпевает значительные изменения. Например, формирование его пищеварительной системы длится более трех месяцев. Специалисты Royal Canin точно знают, что необходимо вашему котенку в течении первого года жизни, от которого зависит его здоровье в будущем. Мы разработали специальное питание для котят, которое укрепляет их иммунитет, способствует правильному формированию нервной системы и костной массы на каждом этапе развития.
+                        </p>
+                    </div>
+                    <div class="col col--50 subsection-pink-light subsection-content">
+                        <img class="packaging" src="{% static 'royal/level_3_kitten/kitten_packs.png' %}" alt="kittens" />
+                    </div>
+                </div>
+            </div>
+             <div class="section section--accordion subsection-acc">
+                <div class="row subsection-row-main">
+                    <div class="col col--50 subsection-content">
+                        <div class="subsection-icon-container">
+                            <img src="{% static 'royal/level_3_kitten/cat_pack_icon_digestion.png' %}" alt="digestion" />
+                            <div class="icon-text">
+                                <h4>ЗДОРОВЬЕ ПИЩЕВАРИТЕЛЬНОЙ СИТЕМЫ</h4>
+                                <p>
+                                    В период роста пищеварительная система котенка еще не полностью сформирована. Комбинация высокоусвояемых белков и специальных видов клетчатки обеспечивает баланс кишечной флоры и нормализует стул.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col--50 subsection-content">
+                        <div class="subsection-icon-container">
+                            <img src="{% static 'royal/level_3_kitten/cat_pack_icon_growth.png' %}" alt="growth" />
+                            <div class="icon-text">
+                                <h4>РОСТ И КОНТРОЛЬ ВЕСА</h4>
+                                <p>
+                                    После стерилизации изменяются энергетические потребности котенка, поэтому возрастает риск появления лишнего веса. Формула продукта отличается умеренным содержанием жиров, помогая ограничить набор веса, не уменьшая при этом количество потребляемых белков, кальция и фосфора, необходимых для гармоничного роста.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row subsection-row-main">
+                    <div class="col col--50 subsection-content last-subsection" style="padding-bottom: 0">
+                        <div class="subsection-kibble-container">
+                            <img style="margin-top: -50px" src="{% static 'royal/level_3_kitten/kitten_bottom_left.png' %}" alt="kitten" />
+                            <div class="kibble-text">
+                                <img src="{% static 'royal/level_3_kitten/kitten_kibble.png' %}" alt="kibble" />
+                                <p>
+                                    Крокеты каждого продукта имеют определенную форму, размер, текстуру и плотность, в соответствии с потребностями вашего котенка
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mobile-separator">
+                    <div class="col col--50 subsection-content last-subsection">
+                        <h3>
+                            ПИТАНИЕ С УЧЕТОМ СПЕЦИАЛЬНЫХ ПОТРЕБНОСТЕЙ КОТЕНКА В ПЕРВЫЙ ГОД ЖИЗНИ
+                        </h3>
+                    </div>
+                </div>
+        
+        
+            </div>
+            <hr class="content-separator-main">
+            <div class="section section--accordion subsection-last footer-kitten">
+                <div class="row subsection-row-main">
+                    <div class="col col--50 subsection-content">
+                        
+
+                        <div class="footer-icon-cont-right">
+                            
+                             <a href="/c/korm-dlya-koshek/?page=1&f-age=period-otema&producer_filter=royal-canin" target="_blank">
+                                 <div class="footer-icon" id="footer-2"></div>
+                             </a>
+                        </div>
+                    
+                    </div>
+                    
+                    
+                     <div class="col col--50 subsection-footer-icons">
+                        <div class="footer-icon-cont">
+                            
+                            <a href="/c/korm-dlya-koshek/?page=1&f-age=period-rosta&producer_filter=royal-canin" target="_blank">
+                                <div class="footer-icon" id="footer-3"></div>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

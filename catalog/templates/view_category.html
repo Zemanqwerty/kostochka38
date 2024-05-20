@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+{% load pytils_dt %}
+{% load pytils_numeral %}
+{% load humanize %}
+{% load intfilter %}
+{% load static %}
+
+{% block head_title %}{% if seo_data %}{{ seo_data.title }}{% else %}{% if seo_enviroment.head_title %}{{ seo_enviroment.head_title }}{% else %}{% if category.html_title %}{{ category.html_title }}{% else %}Купить {{ category.title }} {{ category.get_section_display|lower }} в Иркутске{% if category.id != 12 and category.id != 5 and category.id != 13 and category.id != 14 and category.id != 15 and category.id != 1 and category.id != 6 and category.id != 2 %} | Товары {{ category.get_section_display|lower }} «Косточка38»{% endif %}{% endif %}{% if page != 1 and page %} | Страница {{ page }}{% endif %}{% endif %}{% endif %}{% endblock %}
+{% block meta_keywords %}{% if seo_data %}{{ seo_data.keywords }}{% else %}{% if seo_enviroment.meta_keywords %}{{ seo_enviroment.meta_keywords }}{% else %}{% if category.meta_keywords %}{{ category.meta_keywords }}{% else %}{{ category.title }}{% endif %}{% endif %}{% endif %}{% endblock %}
+{% block meta_descroption %}{% if seo_data %}{{ seo_data.title }}{% else %}{% if seo_enviroment.meta_descroption %}{{ seo_enviroment.meta_descroption }}{% else %}{% if category.meta_description %}{{ category.meta_description }}{% else %}{% if category.id != 12 and category.id != 5 and category.id != 13 and category.id != 14 and category.id != 15 and category.id != 1 and category.id != 6 and category.id != 2 %}Качественные {{ category.title|lower }} {{ category.get_section_display|lower }} с бесплатной доставкой по Иркутску и в регионы. Все {{ category.get_section_display|lower }} - интернет-магазин «Косточка38». Заказывайте!{% else %}{{ category.title }} {{ category.get_section_display|lower }} — от эконом до супер премиум класса. Более 500 видов кормов {{ category.get_section_display|lower }}, бесплатная доставка в Иркутске и регионах. Заказывайте!{% endif %}{% endif %}{% if page != 1 and page %} | Страница {{ page }}{% endif %}{% endif %}{% endif %}{% endblock %}
+
+{% block extra_head %}
+    {% if seo_data is None %}
+        {% if producer_filter or selected_filters %}
+            <link rel="canonical" href="http://kostochka38.ru/c/{{ category.link }}/" />
+        {% endif %}
+    {% endif %}
+
+    <meta property="vk:image"  content="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}" />
+    <meta name="title" content="{% if seo_data %}{{ seo_data.title }}{% elif seo_enviroment.head_title %}{{ seo_enviroment.head_title }}{% else %}{% if category.html_title %}{{ category.html_title }}{% else %}Купить {{ category.title }} {{ category.get_section_display|lower }} в Иркутске{% if category.id != 12 and category.id != 5 and category.id != 13 and category.id != 14 and category.id != 15 and category.id != 1 and category.id != 6 and category.id != 2 %} | Товары {{ category.get_section_display|lower }} «Косточка38»{% endif %}{% endif %}{% endif %}">
+    <link rel="image_src" href="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}">
+    <meta property="og:url" content="https://kostochka38.ru/">
+    <meta property="og:title" content="{% if seo_data %}{{ seo_data.title }}{% elif seo_enviroment.head_title %}{{ seo_enviroment.head_title }}{% else %}{% if category.html_title %}{{ category.html_title }}{% else %}Купить {{ category.title }} {{ category.get_section_display|lower }} в Иркутске{% if category.id != 12 and category.id != 5 and category.id != 13 and category.id != 14 and category.id != 15 and category.id != 1 and category.id != 6 and category.id != 2 %} | Товары {{ category.get_section_display|lower }} «Косточка38»{% endif %}{% endif %}{% endif %}" />
+    <meta property="og:description" content="{% if seo_data %}{{ seo_data.title }}{% elif seo_enviroment.meta_descroption %}{{ seo_enviroment.meta_descroption }}{% else %}{% if category.meta_description %}{{ category.meta_description }}{% else %}{% if category.id != 12 and category.id != 5 and category.id != 13 and category.id != 14 and category.id != 15 and category.id != 1 and category.id != 6 and category.id != 2 %}Качественные {{ category.title|lower }} {{ category.get_section_display|lower }} с бесплатной доставкой по Иркутску и в регионы. Все {{ category.get_section_display|lower }} - интернет-магазин «Косточка38». Заказывайте!{% else %}{{ category.title }} {{ category.get_section_display|lower }} — от эконом до супер премиум класса. Более 500 видов кормов {{ category.get_section_display|lower }}, бесплатная доставка в Иркутске и регионах. Заказывайте!{% endif %}{% endif %}{% endif %}" />
+
+    <meta name="twitter:image" content="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}">
+    <meta itemprop="image" content="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}">
+    <meta property="og:image" content="https://kostochka38.ru{% static 'kostochka38/images/kst-shr.jpg' %}">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1126">
+    <meta property="og:image:height" content="590">
+
+    <meta property="og:locale" content="ru_RU">
+{% endblock %}
+
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(function() {
+            let hide_by_trigger = false;
+            $(".collapse-toggler").on('click', function (){
+                let id = $(this).attr('data-id');
+                let collapse = $(`#${id}`);
+                hide_by_trigger = true;
+                collapse.collapse('toggle');
+            });
+            $(".panel-collapse").on('hidden.bs.collapse', function (event)
+            {
+                if (hide_by_trigger){
+                    hide_by_trigger = false;
+                    let active = $(this).attr('id');
+                    let panels= localStorage.panels === undefined ? new Array() : JSON.parse(localStorage.panels);
+                    if ($.inArray(active, panels)==-1) //check that the element is not in the array
+                        panels.push(active);
+                    localStorage.panels=JSON.stringify(panels);
+                }
+
+            });
+            $(".panel-collapse").on('shown.bs.collapse', function ()
+            {
+                let active = $(this).attr('id');
+                let panels= localStorage.panels === undefined ? new Array() : JSON.parse(localStorage.panels);
+                let elementIndex=$.inArray(active,panels);
+                if (elementIndex!==-1) //check the array
+                {
+                    panels.splice(elementIndex,1); //remove item from array
+                }
+                localStorage.panels=JSON.stringify(panels); //save array on localStorage
+            });
+            $(".list-group").on('hidden.bs.collapse', function ()
+            {
+                let active = $(this).attr('id');
+                let lists = localStorage.lists === undefined ? new Array() : JSON.parse(localStorage.lists);
+                let elementIndex=$.inArray(active, lists);
+                if (elementIndex!==-1) //check the array
+                {
+                    lists.splice(elementIndex,1); //remove item from array
+                }
+                localStorage.lists=JSON.stringify(lists); //save array on localStorage
+            });
+            $(".list-group").on('shown.bs.collapse', function ()
+            {
+                let active = $(this).attr('id');
+                let lists = localStorage.lists === undefined ? new Array() : JSON.parse(localStorage.lists);
+                if ($.inArray(active, lists)==-1) //check that the element is not in the array
+                    lists.push(active);
+                localStorage.lists = JSON.stringify(lists);
+            });
+            $('.item-filter-panel .list-group').each(function( index ) {
+                let group_id = $(this).attr('id');
+                if ($( this ).find('li.list-group-item').length > 5){
+                    $(this).append(`<span type="button" class=" category-more-link category-more-link-${group_id}" data-toggle="collapse" data-target=".${group_id}">+ Развернуть </span>`)
+                }
+                $( this ).find('li.list-group-item').each(function( index ) {
+                    if (index > 4){
+                        $(this).addClass('collapse '+group_id);
+                    }
+                });
+            });
+            activate_price_range({{ range_min|floatformat:0 }}, {{ range_max|floatformat:0 }}, {% if price_min != 0 %}{{ price_min }}{% else %}{{ range_min|floatformat:0 }}{% endif %}, {% if price_max != 0 %}{{ price_max }}{% else %}{{ range_max|floatformat:0 }}{% endif %});
+            let panels = localStorage.panels === undefined ? new Array() : JSON.parse(localStorage.panels); //get all panels
+            for (let i in panels){ //<-- panel is the name of the cookie
+                if ($("#"+panels[i]).hasClass('panel-collapse')) // check if this is a panel
+                {
+                    $(`#${panels[i]}`).removeClass("in");
+                    $($(`.heading-${panels[i]}`).find("i")).removeClass("fa-caret-down").addClass("fa-caret-right");
+                }
+            }
+            let lists = localStorage.lists === undefined ? new Array() : JSON.parse(localStorage.lists);
+            for (let list in lists){
+                let elem = $("#"+lists[list]);
+                if (elem.hasClass('list-group')) // check if this is a panel
+                {
+                    $(`.${lists[list]}`).addClass("in");
+                    $(elem.find("span")).text("- Свернуть");
+                }
+            }
+        });
+
+        function toggleChevron(e) {
+            $(e.target)
+                .prev('.panel-heading')
+                .find("i.indicator")
+                .toggleClass('fa-caret-down fa-caret-right');
+        }
+        function toggleChevronTitle1(e) {
+            let elem =  $(e.target).parent().find(".category-more-link");
+            elem.text('+ Развернуть');
+        }
+        function toggleChevronTitle2(e) {
+            let elem =  $(e.target).parent().find(".category-more-link");
+            elem.text('- Свернуть');
+        }
+        $('#accordion')
+            .on('hidden.bs.collapse', toggleChevron)
+            .on('shown.bs.collapse', toggleChevron);
+
+        $('.list-group')
+            .on('hidden.bs.collapse', toggleChevronTitle1)
+            .on('shown.bs.collapse', toggleChevronTitle2);
+
+    </script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+
+        <h1 class="category">{% if seo_data %}{{ seo_data.title }}{% elif seo_enviroment.title %}{{ seo_enviroment.title }}{% else %}{% if category.header %}{{ category.header }}{% else %}{{ category.title }} {{ category.get_section_display|lower }} в Иркутске{% endif %}{% endif %}</h1>
+        <div class='way'>
+            <a href='/' >Главная</a> &rarr;
+            <a href='/c/'>Каталог</a> &rarr;
+            {{ category.title }} {{ category.get_section_display|lower }}
+        </div>
+
+        <div class="page">
+            <div class="row">
+                <div class="hidden-sm hidden-md hidden-lg col-xs-12">
+                    <a href="#" class="btn btn-lg btn-info col-xs-12 show-filter">
+                        Фильтры
+                    </a>
+                    <br class="clear"><br>
+                </div>
+                <div class="col-xs-12 {% if catalog_group_view == 'group' %} disable{% endif %} sort_wrapper hidden-xs hidden">
+                    <div class="clearfix form-inline">
+                        Сортировать:
+                        <select class="form-select selectpicker">
+                            <option value="name" class="{% if catalog_sort == 'name' %} active{% endif %}" {% if catalog_sort == 'name' %}selected{% endif %}>
+                                Название
+                            </option>
+                            <option value="rate" class="{% if catalog_sort == 'rate' %} active{% endif %}" {% if catalog_sort == 'rate' %}selected{% endif %}>
+                                Популярность
+                            </option>
+                            <option value="price-desc" class="{% if catalog_sort == 'price-desc' %} active{% endif %}" {% if catalog_sort == 'price-desc' %}selected{% endif %}>
+                                Цена(по возрастанию)
+                            </option>
+                            <option value="price-asc" class="{% if catalog_sort == 'price-asc' %} active{% endif %}" {% if catalog_sort == 'price-asc' %}selected{% endif %}>
+                                Цена(по убыванию)
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin: -15px 0 35px" class="col-xs-12  {% if catalog_group_view == 'group' %} disable{% endif %}">
+                    <div class="panel item-filter-panel-tag" >
+                        {% for tag in tags %}
+                            <ul class="owl-carousel tags" style="display: inline-flex; float: right; padding: 5px 20px 0px;" id="list-group{{ tag.id }}">
+                                {% for filter in tag.filters|dictsortreversed:"count" %}
+                                    <li style="list-style-type: none; padding-left: 0" class="checkbox tags">
+                                        <div class="list-group-item{% if filter.count == 0 %}{% if not filter.checked %} disabled{% endif %}{% endif %} statistics {% if filter.checked %}active{% endif %}" >
+                                            <input hidden id="tag-{{ filter.id }}" data-id="{{ filter.id }}" onchange="this.closest('.list-group-item').classList.toggle('active')" {% if filter.count == 0 %}{% if not filter.checked %} disabled{% endif %}{% endif %} name="f-{{ tag.link }}" {% if filter.checked %}checked="checked"{% endif %} type="checkbox" value="{{ filter.link }}">
+                                            <label for="tag-{{ filter.id }}" >
+                                                {{ filter.title }}{% if tag.active != filter.link %}{% endif %}
+                                            </label>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-3 col-xs-12 hidden-xs filter-wrapper">
+                    <div id="accordion" class="panel panel-default behclick-panel item-filter-panel side-filter-panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Фильтры</h3>
+                            <a href="/c/{{ category.link }}/" class="clear-filter pull-right"><i class="fa fa-times"></i> очистить </a>
+                        </div>
+                        <div class="panel-body">
+
+                            {% if catalog_group_view != 'group' %}
+                                <div class="panel-heading active heading-collapse-price" >
+                                    <h4 class="panel-title">
+                                        <a class="collapse-toggler" data-id="collapse-price">
+                                            <i class="indicator fa fa-caret-down fa-fw" aria-hidden="true"></i> Цена
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div id="collapse-price" class="panel-collapse collapse in">
+                                    <input id="price-range" class="" tabindex="-1" readonly="">
+                                </div>
+                            {% endif %}
+
+                            {% for groupfilter in groupfilters %}
+                                <div class="panel-heading{% if groupfilter.active %} active{% endif %} heading-collapse{{ groupfilter.id }}" >
+                                    <h4 class="panel-title">
+                                        <a class="collapse-toggler" data-id="collapse{{ groupfilter.id }}">
+                                        <i class="indicator fa fa-caret-down fa-fw" aria-hidden="true"></i> {{ groupfilter.title }}
+                                    </a>
+                                  </h4>
+                                </div>
+
+                                <div id="collapse{{ groupfilter.id }}" class="panel-collapse collapse in" >
+                                    <ul class="list-group" id="list-group{{ groupfilter.id }}">
+                                        {% for filter in groupfilter.filters|dictsortreversed:"count" %}
+                                            <li class="list-group-item{% if filter.count == 0 %}{% if not filter.checked %} disabled{% endif %}{% endif %} statistics">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input data-id="{{ filter.id }}" {% if filter.count == 0 %}{% if not filter.checked %} disabled{% endif %}{% endif %} name="f-{{ groupfilter.link }}" {% if filter.checked %}checked="checked"{% endif %} type="checkbox" value="{{ filter.link }}">
+                                                        {{ filter.title }}{% if groupfilter.active != filter.link %} [{{ filter.count }}]{% endif %}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endfor %}
+
+                            {% if producer_filter_exists %}
+                                <div class="panel-heading heading-collapse0" >
+                                    <h4 class="panel-title">
+                                        <a class="collapse-toggler" data-id="collapse0">
+                                            <i class="indicator fa fa-caret-down fa-fw" aria-hidden="true"></i> Производитель
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div id="collapse0" class="panel-collapse collapse in" >
+                                    <ul class="list-group" id="list-group0">
+                                        {% for producer in producer_query|dictsort:"title"|dictsort:"sort" %}
+                                            <li class="list-group-item{% if producer.count == 0 %} disabled{% endif %}">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input {% if producer.count == 0 %} disabled{% endif %} name="producer_filter" {% if producer.checked %} checked="checked"{% endif %} type="checkbox" value="{{ producer.link }}">
+                                                        {{ producer.title }}{% if producer_filter != producer.link %} [{{ producer.count }}]{% endif %}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+{#                            <label class="switch">#}
+{#                                <input type="checkbox"{% if catalog_group_view == 'group' %} checked="checked"{% endif %} id="group-catalog-button">#}
+{#                                <span class="slider-round round"></span>#}
+{#                                <span class="switch-title">группировать товары</span>#}
+{#                            </label>#}
+{#                            <span class="toggle-group-comment">#}
+{#                                * группировать идентичные товары, различающиеся по весу, цвету и тд.<br>#}
+{#                                При включенной группировке не доступен фильтр и сортировка по цене.#}
+{#                            </span>#}
+
+                            {% if catalog_group_view != 'group' %}
+                                <label class="switch">
+                                    <input type="checkbox"{% if show_availability == 'show' %} checked="checked"{% endif %} id="show-availability-button">
+                                    <span class="slider-round round"></span>
+                                    <span class="switch-title">нет в наличии</span>
+                                </label>
+                                <span class="toggle-group-comment">
+                                    * во включенном режиме будут отображаться товары, которых нет в наличии в данный момент
+                                </span>
+                            {% endif %}
+
+                            <label class="switch">
+                                <input type="checkbox"{% if show_new == 'true' %} checked="checked"{% endif %} id="show-new-button">
+                                <span class="slider-round round"></span>
+                                <span class="switch-title">новинки</span>
+                            </label>
+                            <span class="toggle-group-comment"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="catalog-goods col-sm-6 col-md-9 col-xs-12">
+                    <div class="ajax-waiter">
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                        <span class="sr-only">Загрузка...</span>
+                    </div>
+
+                    {% if items %}
+                        <ul class="catalog-goods-container">
+                            {% if catalog_group_view == 'group' %}
+                                {% for item in items %}
+                                    {% include 'items_card.html' with item=item %}
+                                {% endfor %}
+                            {% else %}
+                                {% for item in items %}
+                                    {% include 'items_card_no_group.html' with item=item %}
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    {% else %}
+                        <ul class="catalog-goods-container">
+                            <li class="item_block">
+                                <p class="text-info">
+                                    <br><br>
+                                    К сожалению, с выбранными фильтрами ничего не найдено.<br> Пожалуйста, выберите другие фильтры.
+                                    <br><br>
+                                </p>
+                            </li>
+                        </ul>
+
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="load-next-page">
+                                {% if page_var.next_page %}
+                                    <a href="#">Показать еще</a>
+                                    <div class="loader">
+                                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                        <span class="sr-only">Загрузка...</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="paginator">
+                                {% if pages %}
+                                    {% if page_var.prev_page %}
+                                        <a class="go_to_frst_page ajax" data-page="1" href="/c/{{ category.link }}/?page=1{% for selected_filter in selected_filters %}&{{ selected_filter.name }}={{ selected_filter.link }}{% endfor %}">В начало</a>
+                                    {% endif %}
+                                    <div class="paginator__number">
+                                        {% if page_var.prev_page %}
+                                            <a class="ajax" data-page="{{ page_var.prev_page }}" href="#">&larr;</a>
+                                        {% endif %}
+
+                                        {% for iteration in page_var.pages %}
+                                            <a class="ajax{% if iteration == page %} active{% endif %}" data-page="{{ iteration }}" href="#">{{ iteration }}</a>
+                                        {% endfor %}
+
+                                        {% if page_var.next_page %}
+                                            <a class="ajax" data-page="{{ page_var.next_page }}" href="#">&rarr;</a>
+                                        {% endif %}
+                                    </div>
+                                    <br>
+                                    <span class="item-count-info">Показано {{ start_item|add:'1' }}-{{ end_item }} из {{ result_count }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="data-filters" value="{% for selected_filter in selected_filters %}{% if not selected_filters|first == selected_filter %}&{% endif %}{{ selected_filter.name }}={{ selected_filter.link }}{% endfor %}{% if price_min != 0 and price_max != 0 %}{% if selected_filters %}&{% endif %}price={{ price_min }}-{{ price_max }}{% endif %}">
+                <input type="hidden" id="data-page" value="{{ page_var.next_page }}">
+                <input type="hidden" id="data-link" value="/c/{{ category.link }}/">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content_before_slider %}
+    {% if category.seo_text %}
+        <section>
+            <div class="thin-container">
+                {{ category.seo_text|safe }}
+                <br>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

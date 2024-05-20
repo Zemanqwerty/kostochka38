@@ -1,0 +1,14 @@
+<br>
+{{ date }}
+{% for line in result.new_price_items %}
+    <div class='parser new_price_items'>
+        <i>прайс - {{ line.price_item.title }}</i><br>
+        сайт - [{{ line.base_item.deckitem.producer.title }}] {{ line.base_item.deckitem.title }} [{{ line.base_item.weight }}]
+        <br>
+        прайс - <i>арт[{{ line.price_item.article }}] код[{{ line.price_item.code }}] цена[{{ line.price_item.price }}]</i><br>
+        сайт - арт[{{ line.base_item.article }}] код[{{ line.base_item.code }}] цена[{{ line.base_item.real_price }}]<br>
+        Цена изменилась на <b>{{ line.diff_price }} <i class="far fa-ruble-sign"></i></b>
+        <a href="http://kostochka38.ru/DgJrfdJg/catalog/deckitem/{{ line.base_item.deckitem.id }}/" target="_blank">смотреть</a>
+    </div>
+    <br>
+{% endfor %}

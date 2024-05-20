@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load humanize %}
+{% load intfilter %}
+{% load get_left_humanized %}
+
+
+{% load static %}
+
+{% block head_title %}{% if item.html_title %}{{ item.html_title }}{% else %}{% if category.id != 12 and category.id != 5 and category.id != 13 and category.id != 14 and category.id != 15 and category.id != 1 and category.id != 6 and category.id != 2 %}Купить {{ item.title }} в Иркутске{% else %}{{ item.title }}{% endif %}{% endif %}{% endblock %}
+
+{% block meta_keywords %}{% if item.meta_keywords %}{{ item.meta_keywords }}{% else %}{{ item.title }}{% if item.title_en %}, {{ item.title_en }}{% endif %}{% endif %}{% endblock %}
+
+{% block meta_descroption %}{% if item.meta_description %}{{ item.meta_description }}{% else %}{% if category.id != 12 and category.id != 5 and category.id != 13 and category.id != 14 and category.id != 15 and category.id != 1 and category.id != 6 and category.id != 2 %}{{ item.title }} {{ category.get_section_display|lower }} за {{ item.items.0.current_price|intspace }} руб. с бесплатной доставкой по Иркутску и в регионы. Магазин зоотоваров «Kostochka38». Выбирайте и заказывайте!{% else %}{{ item.title }} за {{ item.items.0.current_price|intspace }} руб. с бесплатной доставкой по Иркутcку. «Kostochka38»{% endif %}{% endif %}{% endblock %}
+{% block extra_head %}
+    {% if use_canonical %}
+        <link rel="canonical" href="https://kostochka38.ru{{ item.get_absolute_url }}" />
+    {% endif %}
+
+    <meta name="title" content="{{ item.title }}">
+    <meta property="vk:image"  content="https://kostochka38.ru{{ item.photos.0.fullimage.url }}" />
+    <meta property="og:title" content="{{ item.title }}" />
+    <meta property="og:description" content="{{ item.description|striptags|truncatewords:'14' }}" />
+    <meta property="og:url" content="https://kostochka38.ru{{ item.get_absolute_url }}" />
+    <meta name="twitter:image" content="https://kostochka38.ru{{ item.photos.0.fullimage.url }}">
+    <meta property="og:image" content="https://kostochka38.ru{{ item.photos.0.fullimage.url }}" />
+{% endblock %}
+
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $('#comment_form input').keypress(function(){
+                $(this).removeClass('ierror');
+                $(this).parent().removeClass('ierror');
+            });
+            $('#comment_form textarea').keypress(function(){
+                $(this).removeClass('ierror');
+            });
+            let array = Array.from($(".light-text"));
+            array.forEach(element => {
+                let parent = $($(element).parent());
+                if (!parent.hasClass('active')){
+                    {#parent.find(".light-text").hide();#}
+                }
+            })
+
+    		$(".fancybox").fancybox();
+        });
+    </script>
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <h1 class="category">{% if item.header %}{{ item.header }}{% else %}{% if category.id != 12 and category.id != 5 and category.id != 13 and category.id != 14 and category.id != 15 and category.id != 1 and category.id != 6 and category.id != 2 %}{{ item.title }} в Иркутске{% else %}{{ item.title }}{% endif %}{% endif %}</h1>
+
+        <div class='way'>
+            <a href='/' >Главная</a> &rarr;
+            <a href='/c/'>Каталог</a> &rarr;
+            <a href ='/c/{{ category.link }}/'>{{ category.title }} {{ category.get_section_display|lower }}</a> &rarr;
+            {{ item.producer.title }}, {{ item.title }}
+        </div>
+
+        <div class="page clearfix view-item" id='item_block' itemscope itemtype="http://schema.org/Product">
+            <div class="item-card item_block" id='{{ item.id }}'>
+                <!-- Фотографии товара -->
+                <div class="item-card__images">
+                        <div class="labels_block">
+
+                        {% if active_item %}
+                            {% if active_item.current_sale_online_price %}
+                                <div class="label action visible"{% if active_item.get_sale_online_description %} title="{{ active_item.get_sale_online_description }}" data-toggle="tooltip" data-placement="bottom"{% endif %}>
+                                    -{{ active_item.get_sale_online }}%
+                                </div>
+                            {% elif active_item.get_action_online %}
+                                <a class="label action visible" title="{{ active_item.get_action_online.title }}" data-toggle="tooltip" data-placement="bottom" href="{% url 'action_inner' link=active_item.get_action_online.link %}">
+                                    %
+                                </a>
+                            {% endif %}
+
+                            <div class="label new{% if active_item.new %} visible{% endif %}">
+                                Новинка
+                            </div>
+                            <div class="label hit{% if active_item.hit %} visible{% endif %}">
+                                хит
+                            </div>
+                            <div class="label presale{% if active_item.availability == 20 %} visible{% endif %}">
+                                под заказ
+                            </div>
+                        {% else %}
+                            {% if item.items.0.current_sale_online_price %}
+                                <div class="label action visible"{% if item.items.0.get_sale_online_description %} title="{{ item.items.0.get_sale_online_description }}" data-toggle="tooltip" data-placement="bottom"{% endif %}>
+                                    -{{ item.items.0.get_sale_online }}%
+                                </div>
+                            {% elif item.items.0.get_action_online %}
+                                <a class="label action visible" title="{{ item.items.0.get_action_online.title }}" data-toggle="tooltip" data-placement="bottom" href="{% url 'action_inner' link=item.items.0.get_action_online.link %}">
+                                    %
+                                </a>
+                            {% endif %}
+
+                            <div class="label new{% if item.items.0.new %} visible{% endif %}">
+                                Новинка
+                            </div>
+                            <div class="label hit{% if item.items.0.hit %} visible{% endif %}">
+                                хит
+                            </div>
+                            <div class="label presale{% if item.items.0.availability == 20 %} visible{% endif %}">
+                                под заказ
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if item.photos %}
+                        <div class="item-card__images__image">
+
+                            <img alt="{% if item.title_en %}{{ item.title_en }}{% else %}{{ item.title }}{% endif %} {{ item.items.0.weight }}"
+                                 title="{% if item.title_en %}{{ item.title_en }}{% else %}{{ item.title }}{% endif %} {{ item.items.0.weight }}"
+                                 src=" {% if active_item and active_item.get_photo %}{{ active_item.get_photo.fullimage.url }}{% elif item.items.0.get_photo %}{{ item.items.0.get_photo.fullimage.url }}{% else %}{% static 'kostochka38/images/noimage.png' %}{% endif %}"
+                                 class="main-img">
+
+                            <div class="image-title{% if not item.photos.0.title or item.photos.0.title == 'None'  %} hidden{% endif %}">{% if item.photos.0.title and item.photos.0.title != 'None'  %}{{ item.photos.0.title }}{% endif %}</div>
+                            <link itemprop="image" href="https://kostochka38.ru{{ item.photos.0.fullimage.url }}"/>
+                            {% if item.meta_description %}<span class="invisible" itemprop="description">{{ item.meta_description }}</span>{% endif %}
+                        </div>
+                        <div class="item-card__images__disclaimer">Фото представлено для ознакомления, фактический вид товара может отличаться</div>
+                        <div class="item-card__images__thumbnales">
+                            <div class="item-card__images__thumbnales-wrapper">
+                                {% for photo in item.photos %}
+                                    <div class="item-card__images__thumbnales-wrapper__img-wrapper{% if item.photos|first == photo %} active{% endif %}"
+                                         data-src="{{ photo.fullimage.url }}" data-title="{% if photo.title and photo.title != 'None'  %}{{ photo.title }}{% endif %}">
+                                        <span><img src="{{ photo.thumbnail_item.url }}" title="{% if photo.title and photo.title != 'None'  %}{{ photo.title }}{% endif %}" alt="{% if photo.title and photo.title != 'None'  %}{{ photo.title }}{% endif %}"></span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="item-card__images__image">
+                            <img class="nophoto" src="{% static 'kostochka38/images/noimage.png' %}">
+                            <link itemprop="image" href="http://kostochka38.ru{{ item.items.0.fullimage.url }}"/>
+                        </div>
+                    {% endif %}
+
+                    <span class="invisible" itemprop="name" href='/c/{{ item.get_maintag.link }}/{{ item.id }}/'>{{ item.title }}</span>
+
+                    <meta itemprop="category" content="{{ category.title }} {{ category.get_section_display|lower }}">
+                    <meta itemprop="description" content="{{ item.producer }}, {{ item.title }}{% if item.title_en %}, {{ item.title_en }}{% endif %}">
+                    <div class="invisible" itemprop="brand" itemscope itemtype="http://schema.org/Brand">
+                        <span itemprop="name" href="/c/p/{{ item.producer.link }}/">{{ item.producer.title }}</span>
+                    </div>
+                </div>
+
+                <!-- Опсиание товара -->
+                <div class="item-card__informations clearfix" id='meta_line' itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                {% if request.user.is_staff %}
+                    <span style="display: inline-block; padding: 3px 5px; background: #fff; border: 1px solid #ddd; opacity: 0.8; border-radius: 5px; margin-bottom: 20px; float: right">
+                        <a href="/DgJrfdJg/catalog/deckitem/{{ item.id }}/change/" target="_blank" style="" class="text-warning lead"><i class="fa fa-pencil" aria-hidden="true"></i> открыть в админке</a>
+                    </span>
+                {% endif %}
+                    <!-- Подзаголовок и Кнопка -->
+                    <div class="item-card__informations__titles">
+                        <div class="item-card__informations__titles__title">
+                            <div>
+                                <div class="brand-title"><a href="/c/p/{{ item.producer.link }}/">{{ item.producer.title }}</a></div>
+                                {% if item.title_en %}<div class="title-en">{{ item.title_en|safe }}</div>{% endif %}
+                                <div class="filters">{% for tag in item.filters.all %}{% if tag != item.filters.all|first %}, {% endif %}{{ tag.title }}{% endfor %}</div>
+                            </div>
+                        </div>
+                        <div class="item-card__informations__titles__button">
+                            <span id='no_availability_{{ item.id }}' class='no_availability{% if not item.items.0.availability or item.items.0.temporarily_unavailable %} active{% endif %}'>
+                                <i class="fa fa-frown-o"></i> Нет в наличии
+                            </span>
+                            <span id='add_to_cart_{{ item.id }}' data-real_id='{{ item.id }}' class='add_to_cart{% if not item.items.0.availability or item.items.0.temporarily_unavailable %} notactive{% endif %}{% if item.items.0.availability == 20 %} presale{% endif %}{% if active_item.availability == 20 %} presale{% endif %}' data-item_id='{% if active_item %}{{ active_item.id }}{% else %}{{ item.items.0.id }}{% endif %}'>
+                                <i class="fa fa-cart-plus"></i> Добавить<br> в корзину
+                            </span>
+                            <span id='add_to_cart_waiter_{{ item.id }}' data-real_id='{{ item.id }}' class='add_to_cart_waiter' data-item_id='{% if active_item %}{{ active_item.id }}{% else %}{{ item.items.0.id }}{% endif %}'>
+                                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                <span class="sr-only">Загрузка...</span>
+                            </span>
+                            <span id='go_to_cart_{{ item.id }}'
+                                  class='go_to_cart'>
+                                <a href="/cart/"><i class="fa fa-arrow-circle-o-right"></i>Перейти<br> в корзину</a>
+                            </span>
+                        </div>
+                        <br class="clear">
+                    </div>
+
+                    <div class="label presale{% if item.items.0.availability == 20 %} visible{% endif %}{% if active_item.availability == 20 %} visible{% endif %} in_card">
+                        Обратите внимание!<br>
+                        Данный товар доступен под заказ. Срок доставки
+                        {% if item.segment_new.link == 'zebra' or item.segment_new.link == 'zoocat' or item.segment_new.link == 'aleiskzernoproduct' %}
+                            7-14
+                        {% else %}
+                            {% if item.segment_new.link == 'ivanko' %}
+                                14-21
+                            {% else %}
+                                14-21
+                            {% endif %}
+                        {% endif %}
+                        дней.<br>
+                        Уточняйте детали у операторов.
+                    </div>
+
+                    <!-- Кнопки Веса и Цена -->
+                    <div class="item-card__informations__types-wrapper clearfix">
+                        <noindex>
+                            <ul class='weight more item-card__informations__types-wrapper__types'>
+                                {% for i in item.items %}
+                                    <li class='{{ item.id }} {% if i.temporarily_unavailable %}availability-0{% else %}availability-{{ i.availability }}{% endif %}'>
+                                        <a data-availability="{% if i.temporarily_unavailable %}0{% else %}{{ i.availability }}{% endif %}"
+                                           data-img-src="{% if i.get_photo %}{{ i.get_photo.fullimage.url }}{% else %}{% static 'kostochka38/images/noimage.png' %}{% endif %}"
+                                           href="#{{ i.id }}"
+                                           data-deckitem-id='{{ item.id }}'
+                                           id='weight{{ i.id }}'
+                                           data-item_id='{{ i.id }}'
+                                           data-item-url='{{ item.get_absolute_url }}?item_id={{ i.id }}'
+                                           data-price='{{ i.current_price|floatformat:2|intspace }} руб'
+                                           data-sale-price="{{ i.current_sale_online_price|floatformat:2 }} руб"
+                                           data-sale-description="{% if i.current_sale_online_price %}{{ i.get_sale_online_description }}{% elif i.get_action_online %}{{ i.get_action_online.title }}{% endif %}"
+                                           data-sale-value="{% if i.current_sale_online_price %}-{{ i.get_sale_online }}%{% elif i.get_action_online %}%{% endif %}"
+                                           {% if i.get_action_online and not i.current_sale_online_price %}
+                                                data-action-link="{{ i.get_action_online.get_action_online_link }}"
+                                                data-action-description="{{ i.get_action_online.title }}"
+                                           {% endif %}
+                                           {% if i.new %}
+                                                data-is-new="true"
+                                           {% endif %}
+                                           class='change_url weight-link{% if active_item and active_item == i or not active_item and item.items.0 == i %} active{% endif %}{% if i.get_action_online and not i.current_sale_online_price %} active_action{% endif %}{% if i.current_sale_online_price %} action{% endif %}{% if i.hit %} is_hit{% endif %}{% if i.new %} is_new{% endif %}{% if i.availability == 20 %} presale{% endif %}'>
+
+                                          <div style="color: #818797; font-size: 21px" class="dark-text weight-val">{{ i.weight }}</div>
+                                          <div style="color: #fff; font-size: 21px" class="light-text weight-val">{{ i.weight }}</div>
+                                        <span class="item-card__informations__types__price" >
+                                            <span class="price{% if i.current_sale_online_price %} have_sale{% endif %}">{{ i.current_price|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i></span>
+                                            <span class='sale_price{% if i.current_sale_online_price %} visible{% endif %}'>{{ i.current_sale_online_price|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i></span>
+                                        </span>
+                                        </a>
+                                        {% if request.user.is_staff %}
+                                            <br>
+                                            <span style="display: inline-block; padding: 3px 5px; background: #fff; border: 1px solid #ddd; opacity: 0.8; border-radius: 5px;">
+                                                <span class="small {% if i.quantity_in_reserve == 0 %}text-danger{% endif %}">{{ i.item__quantity_in_reserve }}</span>
+                                                <br>
+                                                <span class="small {% if i.quantity_in_stock == 0 %}text-danger{% else %}{% if i.quantity_in_stock < 5 %}text-warning{% endif %}{% endif %}">ПСТ: {{ i.quantity_in_stock }}</span><br>
+                                                <a href="/DgJrfdJg/catalog/item/{{ i.id }}/change/" target="_blank" class="text-warning small"><i class="fa fa-pencil" aria-hidden="true"></i> ред.</a>
+                                            </span>
+                                        {% endif %}
+                                    </li>
+                                {% endfor%}
+                            </ul>
+                        </noindex>
+
+                        <meta itemprop="price" content="{{ item.items.0.current_price|floatformat:2|intspace }}">
+                        <meta itemprop="priceCurrency" content="RUB">
+                        <link itemprop="availability" href="http://schema.org/InStock">
+
+
+                        <br class="clear">
+                    </div>
+
+                    <div class="panel-group item-description" id="accordion">
+                        {% if item.description  %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#description">Описание</a>
+                                    </h4>
+                                </div>
+                                <div id="description" class="panel-collapse collapse{% if not errors %} in{% endif %}">
+                                    <div class="panel-body">
+                                        {{ item.description|safe }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if item.composition  %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">{{ item.composition_title }}</a>
+                                    </h4>
+                                </div>
+                                <div id="collapse2" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        {{ item.composition|safe }}
+                                        <br class='clear'>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if item.ration %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">{{ item.ration_title }}</a>
+                                    </h4>
+                                </div>
+                                <div id="collapse3" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        {{ item.ration|safe }}
+                                        <br class='clear'>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#availability">Наличие в магазинах</a>
+                                    </h4>
+                                </div>
+                                <div id="availability" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-availability">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        {% for warehouse in warehouse_list %}
+                                                            <th>
+                                                                <small>
+                                                                    {{ warehouse.name }}
+                                                                    <br>
+                                                                    <span>{{warehouse.full_name|safe }}</span>
+                                                                    <br>
+                                                                    {{ warehouse.is_opened|safe }}
+                                                                </small>
+                                                            </th>
+                                                        {% endfor %}
+                                                        <th><small>Поставщик</small><br><br><br></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for i in item.items %}
+                                                        <tr>
+                                                            <td>{{ i.weight }}</td>
+                                                            {% for warehouse in warehouse_list %}
+                                                                {{ i|get_left_humanized:warehouse|safe }}
+                                                            {% endfor %}
+                                                            {{ i|get_left_humanized|safe }}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br class='clear'>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#review">Отзывы ({{ comments.count }})</a>
+                                </h4>
+                            </div>
+                            <div id="review" class="panel-collapse collapse{% if errors %} in{% endif %}">
+                                <div class="panel-body">
+                                     {% if comments %}
+                                        {% for comment in comments %}
+                                            <div class='comment_block'>
+                                                {{ comment.text|safe }}
+                                                <span class="author">
+                                                    <span class='date'>{{ comment.date|ru_strftime:"%d %B %Y" }}  в {{ comment.date|date:"H:i" }}</span>, <b>{{ comment.name }}</b>
+                                                </span>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class='comment_block black'>
+                                            <br>
+                                            К сожалению, отзывов еще нет...
+                                            <br><br>
+                                        </div>
+                                    {% endif %}
+
+                                    <h2 class='sub'>Написать отзыв</h2>
+                                    {% if errors %}
+                                        <div class='alert alert-danger'>
+                                            Отзыв не отправлен! Исправьте ошибки ниже.
+                                        </div>
+                                    {% endif %}
+                                    <form id='comment_form' method='POST'>
+                                        {% csrf_token %}
+                                        Ваше имя<br>
+                                        <input {% if errors.name %}class='ierror'{% endif %} type='text' name='name' value='{{ data.name }}'><br>
+
+                                        Отзыв<br>
+                                        <textarea {% if errors.text %}class='ierror'{% endif %} name='text'>{{ data.text }}</textarea><br>
+
+                                        Введите символы с картинки<br>
+                                        <div class="captcha-block">
+                                        {% if errors.captcha %}<div class='ierror'>{% endif %}
+                                        {{ form.captcha }}<a href="#" class="refresh-captcha"><i class="fa fa-refresh"></i></a><br>
+                                        {% if errors.captcha %}</div>{% endif %}
+                                        </div>
+
+                                        <input type='submit' id='comment_button' class="white" value='Отправить'><br><br>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <br class="clear">
+                {% if item.super_description %}
+                    {{ item.super_description|safe }}
+                {% endif %}
+            </div>
+        </div>
+
+{% comment %} 
+        {% if item|similarities and active_similarities %}
+            <div class="page clearfix z-index-top">
+                <!-- ################################ -->
+                <!-- Похожие товары -->
+                <!-- ################################ -->
+                <div class="similaty-wrapper">
+                    {% with item|similarities:3 as similar %}
+                        {% include 'view_similary_item.html' with similar=similar title_verb='покупают' category=category %}
+                    {% endwith %}
+                </div>
+            </div>
+        {% endif %} {% endcomment %}
+
+
+{% endblock %}

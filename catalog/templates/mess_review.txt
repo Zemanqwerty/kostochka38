@@ -1,0 +1,8 @@
+Имя: {{ new_comment.name }}
+
+Отзыв:
+{{ new_comment.text }}
+
+
+ссылка:
+http://kostochka38.ru/DgJrfdJg/catalog/deckitem/{{ item_id }}/

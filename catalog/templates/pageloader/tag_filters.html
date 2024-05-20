@@ -1,0 +1,14 @@
+{% for tag in tags %}
+    <ul class="owl-carousel tags" style="display: inline-flex; float: right; padding: 5px 11px 0px;" id="list-group{{ tag.id }}">
+        {% for filter in tag.filters|dictsortreversed:"count" %}
+            <li style="list-style-type: none; padding-left: 0; margin-top: 0;" class="checkbox tags">
+                <div class="list-group-item{% if filter.count == 0 %}{% if not filter.checked %} disabled{% endif %}{% endif %} statistics {% if filter.checked %}active{% endif %}" >
+                    <input hidden id="tag-{{ filter.id }}" data-id="{{ filter.id }}" onchange="this.closest('.list-group-item').classList.toggle('active')" {% if filter.count == 0 %}{% if not filter.checked %} disabled{% endif %}{% endif %} name="f-{{ tag.link }}" {% if filter.checked %}checked="checked"{% endif %} type="checkbox" value="{{ filter.link }}">
+                    <label for="tag-{{ filter.id }}" >
+                        {{ filter.title }}{% if tag.active != filter.link %}{% endif %}
+                    </label>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endfor %}

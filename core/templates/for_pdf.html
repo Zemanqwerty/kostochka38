@@ -1,0 +1,223 @@
+{% load humanize %}  
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load intfilter %}
+{% load static %}
+
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <title>pdf {{ zakaz.id }}</title>
+        <style>
+            @font-face { font-family: sans-serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            @font-face { font-family: serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            @font-face { font-family: Helvetica; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            html {
+                font-family: Helvetica;
+                }
+
+            body, div {
+                font: normal 10px/20px Helvetica, sans-serif;
+                }
+            table {
+                border-collapse: collapse;
+                }
+            p.big{
+                font: normal 16px;
+                }
+            p.nobig{
+                font: normal 14px;
+                }
+            p{
+                line-height: 15px;
+                }
+            @page {
+              size: a4;
+              margin: 1cm 0.8cm 1cm 0.8cm;
+              @frame footer {
+                -pdf-frame-content: footerContent;
+                bottom: 0.3cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 1cm;
+                font-size: 9px;
+                color: #eee;
+              }
+              @frame header {
+                -pdf-frame-content: HeaderContent;
+                top: 1cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 2cm;
+                font-size: 9px;
+                color: #eee;
+              }
+            }
+
+            .head{
+                font-size: 9px;
+                line-height: 10px;
+                text-align: center;
+                padding: 3px 0;
+            }
+            table.border, table.border td{
+                border: 0.5px solid #aaa;
+                border-collapse: collapse;
+                font-size: 9px;
+                line-height: 8px;
+            }
+            td{
+                padding: 2px 1px 2px 2px;
+            }
+
+            .white{
+                color: #fff;
+            }
+            td.title{
+                font-size: 8px;
+            }
+        </style>
+    </head>
+    <body>
+            <p>
+                {% if zakaz.district_name %}{{ zakaz.district_name }}, {% endif %}{{ zakaz.city }}, {{ zakaz.street }}, {{ zakaz.dom }}{% if zakaz.appart %} - {{ zakaz.appart }}{% endif %}<br>
+                Контактные данные: {{ zakaz.phone }}{% if zakaz.fio %} - {{ zakaz.fio }}{% endif %}<br>
+                Курьер: {{ zakaz.courier.first_name }} {{ zakaz.courier.last_name }}<br>
+                {% if zakaz.desired_time %}Время доставки: {% if zakaz.real_desired_time %}{{ zakaz.real_desired_time|ru_strftime:"%d %B" }} в {% endif %}{{ zakaz.desired_time }}<br>{% endif %}
+                {% if zakaz.description %}Комментарий клиента: {{ zakaz.description }}<br>{% endif %}
+                {% if zakaz.extra %}Комментарий оператора: {{ zakaz.extra }}<br>{% endif %}
+            </p>
+               <p>
+                   Заказ №<big>{{ zakaz.id }}</big>
+               </p>
+
+                <p class='nobig' style='text-align: right;'>
+                    {{ zakaz.all_summ|floatformat:2|intspace }} руб.<br>
+                    {{ zakaz.paytype }}
+                </p>
+                <p style='text-align: right;'>
+                    Сдача: {{ zakaz.change|floatformat:2|intspace }} руб.
+                </p>
+
+                <table class="border" width='100%' id='cart_table' border='0.3px' cellspacing='0' cellpadding='2'>
+                    <tr>
+                        <td class='head' width='4%' align='center'><center>№</center></td>
+                        <td class='head' width='50%'>Наименование</td>
+                        <td class='head' width='11%' align='center'>Цена</td>
+                        <td class='head' width='9%' align='center'>Кол-во</td>
+                        <td class='head' width='12%' align='center'>Сумма</td>
+                        <td class='head' width='15%' align='center'>Кол-во на складе</td>
+                    </tr>
+                    {% for j in result %}
+                        <tr>
+                            <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                            <td class='title'>
+                                {{ j.goods.deckitem.title|safe }} [{{ j.goods.deckitem.producer.title }}] ({{ j.goods.weight }})
+                                {% if j.goods.deckitem.title_en %}<br>{{ j.goods.deckitem.title_en|safe }}{% endif %}
+                            </td>
+                            {% if not sale %}<td align='right'>{{ j.price|floatformat:2|intspace }}</td>{% endif %}
+                            {% if sale %}<td align='right'>{{ j.price_sale|floatformat:2|intspace }}<br>({% if j.sale %}{{ j.sale }}{% else %}{{ procent }}{% endif %}%)</td>{% endif %}
+                            <td align='center'>{{ j.quantity }} шт.</td>
+                            {% if not sale %}<td align='right' class='price'><b>{{ j.summ|floatformat:2|intspace }}</b></td>{% endif %}
+                            {% if sale %}<td align='right' class='price'>{{ j.summ_sale|floatformat:2|intspace }}</td>{% endif %}
+                            <td align='right' class='price'>{{ j.goods.quantity_in_reserve }} шт</td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+                <p class='nobig' style='text-align: right;'>
+                    {{ zakaz.all_summ|floatformat:2|intspace }} руб.<br>
+                    {{ zakaz.paytype }}
+                </p>
+                <p style='text-align: right;'>
+                    Сдача: {{ zakaz.change|floatformat:2|intspace }} руб.
+                </p>
+            <pdf:nextpage />
+
+        <table class="noborder" border='0' width='100%'>
+            <tr>
+                <td style="vertical-align: bottom;" class="superhead" width='35%' valign='bottom' align='center'>
+                    <p><span>+7(3952)</span> 50-40-38</p>
+                </td>
+                <td class="superhead logo" width='30%' align='center' style="text-align: center;">
+                    <img src="{{ path }}/static/kostochka38/images/new-logo.png"/>
+                </td>
+                <td style="vertical-align: bottom;" class="superhead" width='35%' valign='bottom' align='center'>
+                    <p>Kostochka38.ru</p>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <p>
+            Адрес доставки:&nbsp;&nbsp;&nbsp;{% if zakaz.district_name %}{{ zakaz.district_name }}, {% endif %}{{ zakaz.city }}, {{ zakaz.street }} {{ zakaz.dom }}{% if zakaz.appart %} - {{ zakaz.appart }}{% endif %}<br>
+            Контактные данные: {{ zakaz.phone }}{% if zakaz.fio %} - {{ zakaz.fio }}{% endif %}<br>
+            Курьер: {{ zakaz.courier.first_name }} {{ zakaz.courier.last_name }}<br>
+            Способ оплаты: {{ zakaz.paytype }}<br>
+            {% if zakaz.desired_time %}Время доставки: {% if zakaz.real_desired_time %}{{ zakaz.real_desired_time|ru_strftime:"%d %B" }} в {% endif %}{{ zakaz.desired_time }}<br>{% endif %}
+            {% if zakaz.description %}Комментарий клиента: {{ zakaz.description }}<br>{% endif %}
+        </p>
+           <p>
+               <big>Товарный чек №{{ zakaz.id }}</big>
+           </p>
+
+            <table class="border" width='100%' id='cart_table' border='0.3px' cellspacing='0' cellpadding='3'>
+                <tr>
+                    <td class='head' width='4%' align='center'><center>№</center></td>
+                    <td class='head' width='{% if sale %}35%{% else %}65%{% endif %}'>Наименование</td>
+                    <td class='head' width='11%' align='center'>Цена</td>
+                    {% if sale %}<td class='head' width='15%' align='center'>Цена со<br> скидкой</td>{% endif %}
+                    <td class='head' width='9%' align='center'>Кол-во</td>
+                    <td class='head' width='12%' align='center'>Сумма</td>
+                    {% if sale %}<td class='head' width='15%' align='center'>Сумма со<br>скидкой</td>{% endif %}
+                </tr>
+                {% for j in result %}
+                    <tr>
+                        <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                        <td class='title'>
+                            {{ j.goods.deckitem.title|safe }} [{{ j.goods.deckitem.producer.title }}] ({{ j.goods.weight }})
+                            {% if j.goods.deckitem.title_en %}<br>{{ j.goods.deckitem.title_en|safe }}{% endif %}
+                        </td>
+                        <td align='right'>{{ j.price|floatformat:2|intspace }}</td>
+                        {% if sale %}<td align='right'>{{ j.price_sale|floatformat:2|intspace }}<br>({% if j.sale %}{{ j.sale }}{% else %}{{ procent }}{% endif %}%)</td>{% endif %}
+                        <td align='center'>{{ j.quantity }} шт.</td>
+                        <td align='right' class='price'><b>{{ j.summ|floatformat:2|intspace }}</b></td>
+                        {% if sale %}<td align='right' class='price'>{{ j.summ_sale|floatformat:2|intspace }}</td>{% endif %}
+                    </tr>
+                {% endfor%}
+
+            </table>
+            <p class='nobig' style='text-align: right;'>
+                Итого к оплате: {{ zakaz.all_summ|floatformat:2|intspace }} руб.
+            </p>
+            <p style='text-align: right;'>
+                Сумма заказа: {{ zakaz.summ|floatformat:2|intspace }} руб.
+                <br>
+                Доставка: {{ dostavka|floatformat:2|intspace }} руб.
+                {% if sale %}
+                    <br>
+                    Скидка: {{ skidka|floatformat:2|intspace }} руб.
+                {% endif %}
+                {% if skidka_na_meloch %}
+                    <br>
+                    Скидка на мелочь: {{ skidka_na_meloch|floatformat:2|intspace }} руб.
+                {% endif %}
+            </p>
+
+            {% if signature %}
+                <br>
+                <table class="noborder" width='100%' id='cart_table' border='0' cellspacing='0' cellpadding='5'>
+                    <tr>
+                        <td width="50%" align="left">
+                            <br>
+                            МП&nbsp;_______/________________/
+                        </td>
+                        <td width="50%" align="right">
+                            <br>
+                            Подпись&nbsp;покупателя&nbsp;_______/________________/
+                        </td>
+                    </tr>
+                </table>
+            {% endif %}
+
+    </body>
+</html>

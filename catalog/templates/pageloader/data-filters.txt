@@ -1,0 +1,1 @@
+{% for selected_filter in selected_filters %}{% if not selected_filters|first == selected_filter %}&{% endif %}{{ selected_filter.name }}={{ selected_filter.link }}{% endfor %}{% if price_min != 0 %}{% if selected_filters %}&{% endif %}price={{ price_min }}-{{ price_max }}{% endif %}

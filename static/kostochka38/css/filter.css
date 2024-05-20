@@ -1,0 +1,8 @@
+#changelist-filter h2{
+    cursor: pointer;
+    background: #005700;
+}
+
+#changelist-filter h2:hover{
+    background: #00de00;
+}

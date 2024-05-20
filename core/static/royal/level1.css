@@ -1,0 +1,930 @@
+        @font-face
+        {
+            font-family: 'DINPro-Reg';
+            src: url('35DDC6_0_0.eot?#iefix') format('embedded-opentype'),
+                 url('35DDC6_0_0.woff') format('woff'),
+                 url('DINPro-Regular.otf') format('opentype');
+        }
+        @font-face
+        {
+            font-family: 'DINPro-Bold';
+            src: url('35DDC6_1_0.eot?#iefix') format('embedded-opentype'),
+                 url('35DDC6_1_0.woff') format('woff'),
+                 url('DINPro-Bold.otf') format('opentype');
+        }
+
+    .royal-brandzone h1, .royal-brandzone  var {
+        color: #E3001B;
+        font-size: 30px;
+        text-align: left;
+        max-width: 70%;
+        margin-top: 70px;
+    }
+    .royal-brandzone h1:after {
+        display: none;
+    }
+    .royal-brandzone .brand-row-header img{
+        max-height: 300px;
+    }
+        .royal-brandzone .col,
+        .royal-brandzone hr {
+            width: 100%
+        }
+
+        .royal-brandzone br:after {
+            clear: both
+        }
+
+        .royal-brandzone hr {
+            position: relative;
+            margin: 0 auto;
+            border: 0;
+            border-bottom: 2px solid #E3001B;
+            background: 0 0
+        }
+
+        .royal-brandzone form {
+            position: relative
+        }
+
+        .royal-brandzone form small {
+            margin: 0 5px 10px;
+            font-weight: 400
+        }
+
+        .royal-brandzone code,
+        .royal-brandzone kbd,
+        .royal-brandzone samp,
+        .royal-brandzone tt,
+        .royal-brandzone verbatim {
+            display: inline-block;
+            padding: 2px 4px;
+            max-width: 100%;
+            top: 5px;
+            line-height: 1;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #eee
+        }
+
+
+
+
+        .royal-brandzone .row {
+            position: relative;
+            margin: -30px;
+            font-size: 0
+        }
+
+        .royal-brandzone .col {
+            display: inline-block;
+            padding: 30px;
+            font-size: 1.2rem;
+            vertical-align: top
+        }
+
+        .royal-brandzone .bookmark__logo,
+        .royal-brandzone .header .col {
+            vertical-align: middle
+        }
+
+        .royal-brandzone .col--10 {
+            width: 10%
+        }
+
+        .royal-brandzone .col--20 {
+            width: 20%
+        }
+
+        .royal-brandzone .col--30 {
+            width: 30%
+        }
+
+        .royal-brandzone .col--40 {
+            width: 40%
+        }
+
+        .royal-brandzone .col--50 {
+            width: 50%
+        }
+
+        .royal-brandzone .col--60 {
+            width: 60%
+        }
+
+        .royal-brandzone .col--70 {
+            width: 70%
+        }
+
+        .royal-brandzone .col--80 {
+            width: 80%
+        }
+
+        .royal-brandzone .col--90 {
+            width: 90%
+        }
+
+        .royal-brandzone .anchor {
+            display: block;
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            width: 0;
+            height: 0;
+            visibility: hidden;
+            opacity: 0
+        }
+
+        .royal-brandzone .bookmark,
+        .royal-brandzone .button {
+            position: relative;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #fff
+        }
+
+        .royal-brandzone .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 15px;
+            font-size: 1.7rem;
+            background-color: #E3001B;
+            cursor: pointer
+        }
+
+        .royal-brandzone .button:hover {
+            background-color: #C30000
+        }
+
+        .royal-brandzone .button--icon {
+            padding-right: 46px;
+            background-size: 16px 16px!important;
+            background-position: 95% center;
+            background-repeat: no-repeat
+        }
+
+        .royal-brandzone .button--plus {
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAgMAAADXB5lNAAAADFBMVEUAAAD///////////84wDuoAAAAA3RSTlMAEB89vNt6AAAAKUlEQVQ4y2NggID6vwyoYFRg6AuEQsD+f1AGw380QBsBDGtH42XYCgAACtK/h/Y5heAAAAAASUVORK5CYII=)
+        }
+
+        .royal-brandzone .button--minus {
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAgMAAADXB5lNAAAACVBMVEUAAAD///////9zeKVjAAAAAnRSTlMAEGsk3VwAAAAcSURBVDhPY2AYBcMWhKIBhlVogDYCGNaOgmELABmCSmF3uR3RAAAAAElFTkSuQmCC)
+        }
+
+        .royal-brandzone .button--arrow-up {
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAABLFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////9PVkEkAAAAY3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBIVGBscHyIjJicrLzQ1ODo9P0NERUhKTk9UVVtiaG92fYWLjJKTmJmfoKWmq6yxsre4u7y9wcLFx8nM0NHV2d3g4eTn6u3w8fLz9ff5+vv8/f4Xhh4RAAABuElEQVR4Ae3UBXIjaxADYIXNbIeZmZnRYVPQbOv+d3hTf4dh6O1u0XwH6IKWhH/D4XB0deF/6cjlOvA/JLJkNgHb4mlq0nHYFE1RSUVhS+SWL24jsCF8wzc3YVgWvOIHV0FY5L/gJxd+WOJNUiwvUyS9sMB9SrEKrFKcumFa2xHFegPQsE5x1AaTWg4oNhugadikOGiBKc17FNuNUBq3KfaaYULjDsVuE1407VLsNMJQwxbFfgvetOxTbDXAQMMGxWErPmg9pNhogL41ihMXPnGdUKxB1wpF0oMvPEmKFehYeguuTriX8KvFt+ro1msRv1iguA7jR+FrigX8aP5tPgwnZh4/mKPBgMnIiTl8M1unko5BRyxNpT6LL2ZqVDIJ6EpkqNRm8Ml0lUquHQbac1Sq0/hgskLlrhOGOu+oVCbxZrxE5b4bJnTfUymN48VIkcpDD0zpeaBSHIEyVKDy2AuTeh+pFIagGchTee6Haf3PVPIDQN/Ty7VBWDBYoPLUh2MqxWFYMlykcozQJTWlMVg0VqLmMgQEzsnyBCybKJPnAWh8Z9Up2DBVPfNB8YzCllEP/hiHw/EfTWfH5z3eN8IAAAAASUVORK5CYII=)
+        }
+
+        .royal-brandzone .bookmark {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 25px 10px 15px;
+            width: 50%;
+            min-height: 65px;
+            font-size: 1.2rem;
+            text-align: left;
+            line-height: 36px;
+            white-space: nowrap;
+            background-color: #E3001B
+        }
+
+        .royal-brandzone .bookmark:after,
+        .royal-brandzone .bookmark__ears {
+            display: block;
+            position: absolute
+        }
+
+        .royal-brandzone .header,
+        .royal-brandzone .section,
+        .royal-brandzone .video,
+        .royal-brandzone .wrapper {
+            background-color: #fff
+        }
+
+        .royal-brandzone .bookmark:after {
+            width: 0;
+            height: 0;
+            border-style: solid
+        }
+
+        .royal-brandzone .bookmark__ears {
+            width: 15px;
+            height: 100%;
+            top: 0
+        }
+
+        .royal-brandzone .bookmark__ears:after,
+        .royal-brandzone .bookmark__ears:before {
+            display: block;
+            position: absolute;
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid
+        }
+
+        .royal-brandzone .bookmark--right {
+            margin-right: -10px;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, .15)
+        }
+
+        .royal-brandzone .bookmark--right:after {
+            top: -13px;
+            right: 0;
+            border-width: 13px 0 0 10px;
+            border-color: transparent transparent transparent #AF0314
+        }
+
+        .royal-brandzone .bookmark--right .bookmark__ears {
+            left: -15px
+        }
+
+        .royal-brandzone .bookmark--right .bookmark__ears:before {
+            top: 0;
+            right: 0;
+            border-width: 0 15px 28px 0;
+            border-color: transparent #E3001B transparent transparent
+        }
+
+        .royal-brandzone .bookmark--right .bookmark__ears:after {
+            bottom: 0;
+            right: 0;
+            border-width: 0 0 28px 15px;
+            border-color: transparent transparent #E3001B;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, .15)
+        }
+
+        .royal-brandzone .bookmark--left {
+            margin-left: -10px;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, .15)
+        }
+
+        .royal-brandzone .bookmark--left:after {
+            top: -15px;
+            left: 0;
+            border-width: 0 0 15px 10px;
+            border-color: transparent transparent #AF0314
+        }
+
+        .royal-brandzone .bookmark--left .bookmark__ears  {
+            right: -15px
+        }
+
+        .royal-brandzone .bookmark--left .bookmark__ears:before  {
+            top: 0;
+            left: 0;
+            border-width: 28px 15px 0 0;
+            border-color: #E3001B transparent transparent
+        }
+
+        .royal-brandzone .bookmark--left .bookmark__ears:after  {
+            bottom: 0;
+            left: 0;
+            border-width: 28px 0 0 15px;
+            border-color: transparent transparent transparent #E3001B;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, .15)
+        }
+
+        .royal-brandzone .bookmark__logo  {
+            display: inline-block;
+            float: left;
+            margin-right: 10px;
+            width: 100px
+        }
+
+        .royal-brandzone .header,
+        .royal-brandzone .video,
+        .royal-brandzone .video iframe,
+        .royal-brandzone .video:after,
+        .royal-brandzone .wrapper  {
+            display: block
+        }
+
+        .royal-brandzone .video  {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            width: 100%
+        }
+
+        .royal-brandzone .video:after  {
+            position: relative;
+            width: 0;
+            height: 0;
+            padding-bottom: 56.25%
+        }
+
+        .royal-brandzone .video iframe  {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        .royal-brandzone .header,
+        .royal-brandzone .header__content,
+        .royal-brandzone .header__logo,
+        .royal-brandzone .section,
+        .royal-brandzone .royal-brandzone .wrapper   {
+            position: relative
+        }
+
+        .royal-brandzone .header__content h1
+        {
+          text-transform: uppercase;
+        }
+
+        .royal-brandzone .wrapper  {
+            margin: 0 auto;
+            padding: 0;
+            max-width: 768px;
+            text-align: left;
+            /*border: 1px solid #DDD;
+            border-radius: 5px*/
+        }
+
+        .royal-brandzone .header  {
+            padding: 30px;
+            width: 100%
+        }
+
+        .royal-brandzone .header--logo  {
+            display: block;
+            padding-left: 0;
+        }
+
+        .royal-brandzone .header__logo  {
+            display: inline-block;
+            margin-right: 30px;
+            width: 100%
+        }
+
+        .royal-brandzone .header__content  {
+            display: block
+        }
+
+        .royal-brandzone .header .bookmark  {
+            margin-left: -40px;
+            width: 100%
+        }
+
+        .royal-brandzone .header .col:first-child  {
+            padding-right: 0;
+        }
+
+        .royal-brandzone .section  {
+            display: block;
+            margin: 0 auto;
+            padding: 0px
+        }
+
+        .royal-brandzone .section--blue  {
+            padding: 0;
+            background-color: #586b76;
+        }
+
+        .royal-brandzone .section--blue h1  {
+            margin: 0;
+            padding: 20px 30px;
+            color: #fff
+        }
+
+        .royal-brandzone .section--intro .col  {
+            vertical-align: top;
+            padding-bottom: 0;
+        }
+
+        .royal-brandzone .section--intro .col:first-child  {
+            padding-right: 0
+        }
+
+        .royal-brandzone .section--intro .col:last-child  {
+            padding-left: 30px;
+        }
+
+        .royal-brandzone .section--intro li  {
+            padding-left: 75px
+        }
+
+        .royal-brandzone .section--intro .list-icon  {
+            display: block;
+            position: absolute;
+            margin-top: -32px;
+            width: 64px;
+            height: 64px;
+            top: 50%;
+            left: 0;
+            border-radius: 100px;
+            background-color: transparent;
+        }
+
+        .royal-brandzone .button--accordion:before,
+        .royal-brandzone .row--accordion  {
+            background-color: #DDDEE0;
+            transition: all .25s cubic-bezier(.45, 0, .5, .95)
+        }
+
+        .royal-brandzone .section--intro .list-icon img  {
+            display: block;
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            right: 5%;
+            bottom: 5%;
+            left: 5%
+        }
+
+        .royal-brandzone .button--accordion  {
+            display: block;
+            position: absolute;
+            margin-left: 30px;
+            left: 50%;
+            right: 30px;
+            bottom: 5px
+        }
+
+        .royal-brandzone .button--accordion:before  {
+            display: block;
+            position: absolute;
+            height: 0;
+            left: 0;
+            right: 0;
+            bottom: -7px;
+            border-left: 2px solid #E3001B;
+            border-right: 2px solid #E3001B;
+            z-index: 10
+        }
+
+        .royal-brandzone .section--accordion .row  {
+            margin: -30px -30px 0
+        }
+
+        .royal-brandzone .section--accordion .row--accordion  {
+            margin: 0 -30px -30px
+        }
+
+        .royal-brandzone .product,
+        .royal-brandzone .table-graph,
+        .royal-brandzone .what {
+            margin: 0 auto
+        }
+
+        .royal-brandzone .row--accordion  {
+            max-height: 0;
+            border-top: 0 solid #E3001B;
+            overflow: hidden
+        }
+
+        .royal-brandzone input.accordion-trigger {
+            display: none
+        }
+
+        .royal-brandzone input.accordion-trigger:checked+.section--accordion>.row--accordion {
+            max-height: 100%;
+            border-top-width: 2px
+        }
+
+        .royal-brandzone input.accordion-trigger:checked+.section--accordion .button--accordion {
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAgMAAADXB5lNAAAACVBMVEUAAAD///////9zeKVjAAAAAnRSTlMAEGsk3VwAAAAcSURBVDhPY2AYBcMWhKIBhlVogDYCGNaOgmELABmCSmF3uR3RAAAAAElFTkSuQmCC)
+        }
+
+        .royal-brandzone input.accordion-trigger:checked+.section--accordion .button--accordion:before {
+            height: 7px
+        }
+
+        .royal-brandzone .product  {
+            margin: 0 auto;
+            height: 500px;
+        }
+
+        .royal-brandzone .what  {
+            width: 130px
+        }
+
+        .royal-brandzone .table-graph  {
+            width: 100%
+        }
+
+        .royal-brandzone .footer  {
+            display: block;
+            position: relative;
+            margin: 0;
+            padding: 10px 0;
+            width: 100%;
+            text-align: right;
+            background-color: #fff
+        }
+
+        .royal-brandzone .header-rule
+        {
+            border-bottom: 16px solid #E3001B
+        }
+
+        .royal-brandzone .brand-intro
+        {
+            padding: 0px;
+        }
+
+        .royal-brandzone .brand-intro h1
+        {
+            padding-top: 30px;
+        }
+        /* safari 10.1+ */
+        @media not all and (min-resolution:.001dpcm) { @supports (-webkit-appearance:none) { .brand-intro h1 { font-size: 3rem; } } }
+
+        .royal-brandzone .brand-row-header
+        {
+            margin-bottom: 0;
+        }
+
+        .royal-brandzone .brand-row-header p
+        {
+            font-size: 1.4rem;
+            text-align: left;
+        }
+
+        .royal-brandzone .brand-acc
+        {
+            padding-top: 30px;
+            overflow: hidden;
+        }
+
+        .royal-brandzone .brand-button--header
+        {
+            display: block;
+            text-align: center;
+            width: 150px;
+            float: left;
+            font-size: 1.2rem;
+            margin-top: 48px;
+            margin-right: 10px;
+        }
+
+        .royal-brandzone .brand-grey-bg
+        {
+            background-color: #DDDEE0;
+            padding: 20px;
+        }
+
+        .royal-brandzone .brand-grey-bg p
+        {
+            text-align: justify;
+            font-size: 1.3rem;
+        }
+
+        .royal-brandzone .brand-row-main
+        {
+            margin: 0 0 30px !important;
+        }
+
+        .royal-brandzone .brand-content
+        {
+            padding: 20px;
+        }
+
+        .royal-brandzone .brand-content ul
+        {
+            display: inline-block;
+            list-style: none;
+            text-align: center;
+            margin: 0 auto;
+            width: -webkit-fit-content;
+            width: -moz-fit-content;
+            width: fit-content;
+        }
+
+        .royal-brandzone .brand-content li
+        {
+            display: block;
+            position: relative;
+            float: left;
+            text-align: center;
+            width: 60px;
+            margin: 0 5px 0 0;
+        }
+
+        .royal-brandzone .brand-content li img
+        {
+            width: 50px;
+            padding: 0;
+            margin: 0 0 7px 5px;
+        }
+
+        .royal-brandzone .brand-content li p
+        {
+            font-size: 0.7rem;
+            color: #E3001B;
+        }
+
+        .royal-brandzone .icon-container
+        {
+            padding-top: 18px;
+        }
+
+        .royal-brandzone .brand-footer h3
+        {
+            font-size: 2rem;
+            font-family: "DINPro-Bold",Helvetica,Arial,sans-serif;
+            color: rgb(51,51,51);
+            float: left;
+            padding: 0;
+            margin: 10px 0 0 30px;
+
+        }
+
+        .royal-brandzone .brand-footer img
+        {
+            float: right;
+            width: 60px;
+        }
+
+        .royal-brandzone .brand-footer-logo
+        {
+            padding: 10px 20px 0;
+        }
+
+        .royal-brandzone .pack-row-main
+        {
+            margin: 0 !important;
+        }
+
+        .royal-brandzone .pack-content
+        {
+            padding: 20px 20px 0;
+        }
+
+        .royal-brandzone .brand-pack
+        {
+            width: 136px;
+            /*height: 160px;*/
+            text-align: center;
+            float: left;
+            margin-right: 60px;
+        }
+
+        .royal-brandzone .brand-pack:last-of-type
+        {
+            margin-right: 0;
+        }
+
+        .royal-brandzone .brand-pack p
+        {
+            margin-top: 10px;
+        }
+
+        .royal-brandzone .pack-button
+        {
+            width: inherit;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .royal-brandzone .health-pack-cat
+        {
+            background-color: rgb(203,204,204);
+        }
+
+        .royal-brandzone .health-pack-cat:hover {
+            background-color: rgb(150, 150, 150);
+        }
+
+        .royal-brandzone .breed-pack-cat
+        {
+            background-color: rgb(226,187,128);
+        }
+
+        .royal-brandzone .breed-pack-cat:hover
+        {
+            background-color: rgb(195,162,112);
+        }
+
+        .royal-brandzone .care-pack-cat
+        {
+            background-color: rgb(102,130,138);
+        }
+
+        .royal-brandzone .care-pack-cat:hover
+        {
+            background-color: rgb(89,115,122);
+        }
+
+        .royal-brandzone .health-pack-kitten
+        {
+            background-color: rgb(246,196,205);
+        }
+
+        .royal-brandzone .health-pack-kitten:hover
+        {
+            background-color: rgb(219,176,184);
+        }
+
+        .royal-brandzone .animal-pink-bg-main
+        {
+            background-color: rgb(246,196,205);
+            padding: 10px;
+        }
+
+        .royal-brandzone .animal-pink-bg
+        {
+            background-color: rgba(246,196,205,0.25);
+        }
+
+        .royal-brandzone .mobile-separator
+        {
+            display: none;
+        }
+
+        .royal-brandzone .header-separator-main
+        {
+            display: block;
+        }
+
+        /*
+        RC Responsive Styles
+        STARTS
+        */
+                
+        @media only screen and (min-width: 280px) and (max-width: 550px){
+          
+            .royal-brandzone .rc--left{
+                width: 100%;
+            }
+            
+            .royal-brandzone .rc--right{
+                width: 100%;
+                padding-top:0;
+                padding-bottom:0;
+            }
+            
+            .royal-brandzone .rc--full{
+                width: 100%;
+            }
+
+            .royal-brandzone .header--logo
+            {
+                padding: 20px 0 0 0;
+            }
+
+            .royal-brandzone .header-separator-main
+            {
+                display: none;
+            }
+
+            .royal-brandzone .mobile-separator
+            {
+                display: block;
+                width: 87%;
+            }
+
+            .royal-brandzone .brand-acc
+            {
+                padding-top: 20px;
+            }
+
+            .royal-brandzone .brand-grey-bg
+            {
+                padding: 20px 30px;
+            }
+
+            .royal-brandzone .brand-grey-bg:first-of-type
+            {
+                padding-bottom: 0;
+            }
+
+            .royal-brandzone .header--logo .row
+            {
+                /*text-align: center;*/
+                margin: 0;
+            }
+
+            .royal-brandzone .header .col:first-child
+            {
+                padding-top: 0;
+                padding-right: 30px;
+            }
+
+            .royal-brandzone .header--logo .col--30
+            {
+                width: 50%;
+            }
+
+            .royal-brandzone .col--50
+            {
+                width: 100%;
+            }
+
+            .royal-brandzone .section--intro .col:first-child
+            {
+                padding: 10px 60px 0;
+            }
+
+            .royal-brandzone .section--intro .col:last-child
+            {
+                padding: 0 60px;
+            }
+
+            .royal-brandzone .brand-row-header
+            {
+                margin-bottom: 20px;
+            }
+
+            .royal-brandzone .brand-intro h1
+            {
+                font-size: 3rem;
+            }
+
+            .royal-brandzone .brand-button--header
+            {
+                margin-top: 30px;
+                width: 130px;
+                padding: 12px 12px;
+            }
+
+            .royal-brandzone .brand-row-header .col label:first-of-type
+            {
+                margin-left: 25px;
+                margin-right: 20px;
+            }
+
+            .royal-brandzone .brand-row-main
+            {
+                margin: 0 !important
+            }
+
+            .royal-brandzone .brand-content
+            {
+                padding: 20px 30px;
+            }
+
+            .brand-content:last-of-type
+            {
+                padding: 20px 30px 0;
+            }
+
+            .royal-brandzone .brand-content h2
+            {
+                font-size: 2.2rem;
+            }
+
+            .royal-brandzone .icon-container ul li
+            {
+                margin-right: 8px;
+            }
+
+            .royal-brandzone .icon-container ul li:last-of-type
+            {
+                margin-right: 0;
+            }
+
+            .royal-brandzone .footer
+            {
+                text-align: left;
+            }
+
+            .royal-brandzone .brand-footer .col--80
+            {
+                width: 100%;
+            }
+
+            .royal-brandzone .brand-footer-logo
+            {
+                padding: 0;
+            }
+
+            .royal-brandzone .brand-footer-logo h3
+            {
+                margin: 27px 0 0 2px;
+                font-size: 1.4rem;
+            }
+
+            .royal-brandzone .brand-footer-logo img
+            {
+                float: left;
+                margin: 8px 0 0 15px;
+            }
+        }  
+            
+                
+        @media only screen and (min-width: 550px) and (max-width: 1800px){
+            
+            .royal-brandzone .rc--left{
+                width: 70%;
+            }
+            
+            .royal-brandzone .rc--right{
+                width: 30%;
+            }
+            
+            .royal-brandzone .rc--full{
+                width: 100%;
+            } 
+        } 
+
+        
+                
+        /*
+        RC Responsive Styles
+        ENDS
+        */

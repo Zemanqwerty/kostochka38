@@ -1,0 +1,299 @@
+{% load humanize %}  
+{% load pytils_numeral %}
+{% load pytils_dt %}
+{% load intfilter %}
+
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <title>kostochka38</title>
+        <style>
+            @font-face { font-family: sans-serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            @font-face { font-family: serif; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+            @font-face { font-family: Helvetica; src: url("{{ path }}/static/kostochka38/fonts/droidsansmono.ttf");}
+
+            html {
+                font-family: Helvetica;
+                }
+
+            body, div {
+                font: normal 10px/20px Helvetica, sans-serif;
+                }
+            table {
+                border-collapse: collapse;
+                }
+            p.big{
+                font: normal 16px;
+                }
+            p.nobig{
+                font: normal 14px;
+                }
+            p{
+                line-height: 15px;
+                }
+            @page {
+              size: a5 landscape;
+              margin: 2cm 1cm 1cm 1cm;
+              margin-bottom: 2.5cm;
+              @frame footer {
+                -pdf-frame-content: footerContent;
+                bottom: 0.3cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 1cm;
+                font-size: 9px;
+                color: #eee;
+              }
+              @frame header {
+                -pdf-frame-content: HeaderContent;
+                top: 1cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 2cm;
+                font-size: 9px;
+                color: #eee;
+              }
+            }
+
+            .head{
+                font-size: 9px;
+                line-height: 10px;
+                text-align: center;
+                padding: 5px 0;
+            }
+            table, td{
+                border: 1px solid #aaa;
+                border-collapse: collapse;
+                font-size: 9px;
+                line-height: 8px;
+            }
+            td{
+                padding: 3px 1px 3px 3px;
+            }
+            .white{
+                color: #fff;
+            }
+            td.title{
+                font-size: 8px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="HeaderContent">
+            Заказ #<big>{{ zakaz.id }}</big>
+        </div>
+
+
+
+        <br>
+        <p>
+            Адрес доставки:&nbsp;&nbsp;&nbsp;{% if zakaz.index %}{{ zakaz.index }}, {% endif %}{% if zakaz.city %}{{ zakaz.city }}, {% endif %} {{ zakaz.street }} {{ zakaz.dom }}{% if zakaz.appart %} - {{ zakaz.appart }}{% endif %}<br>
+            Контактные данные:&nbsp;&nbsp;&nbsp;{{ zakaz.phone }}{% if zakaz.fio %} - {{ zakaz.fio }}{% endif %}<br>
+        </p>
+        <p>
+            Дата заказа:&nbsp;&nbsp;&nbsp;{{ zakaz.date|ru_strftime:"%d %B %Y" }} в {{ zakaz.date|date:"H:i" }}<br>
+            E-mial (login):&nbsp;&nbsp;&nbsp;{{ zakaz.owner.email }}<br>
+            Форма оплаты:&nbsp;{{ zakaz.paytype }},&nbsp;&nbsp;&nbsp;Способ доставки:&nbsp;{{ zakaz.dostavkatype }},&nbsp;&nbsp;&nbsp;Курьер:&nbsp;{{ zakaz.courier }}<br>
+        </p>
+        <p class="white">.</p>
+        <p class="big" style='text-align: right;'>
+        {% if result.purina.result or result.purina.result_reserv %}Purina: {{ result.purina.segment_summ_k_oplate }} руб<br>{% endif %}
+        </p>
+        <p class="big" style='text-align: right;'>
+        {% if result.royal.result or result.royal.result_reserv %}Royal Canin: {{ result.royal.segment_summ_k_oplate }} руб<br>{% endif %}
+        </p>
+        <p class="big" style='text-align: right;'>
+        {% if result.avrora.result or result.avrora.result_reserv %}Avrora: {{ result.avrora.segment_summ_k_oplate }} руб<br>{% endif %}
+        </p>
+        <p class="white">.</p>
+        <p  style='text-align: right;'>
+            Итого сумма заказа для клиента: {{ zakaz.all_summ|floatformat:2|intspace }} руб.
+        </p>
+        <p style='text-align: right;'>
+            Сумма заказа: {{ zakaz.summ|floatformat:2|intspace }} руб<br>
+            Доставка: {{ dostavka }} рублей<br>
+            Скидка постоянного покупателя: {{ skidka|floatformat:2 }} руб. ({{ procent }}%)
+        </p>
+        <p class='nobig' style='text-align: right;'>
+            Сумма к оплате поставщику: {{ summ_k_oplate|floatformat:2|intspace }} руб.
+        </p>
+        <p style='text-align: right;'>
+            Доходность: {{ revenue|floatformat:2|intspace }} руб.
+        </p>
+
+<pdf:nextpage />
+            {% if result.royal.result or result.royal.result_reserv  %}
+                Royal Canin
+                <table width='100%' id='cart_table' border='0' cellspacing='0' cellpadding='0'>
+                    <tr>
+                        <td class='head' width='4%' align='center'><center>№</center></td>
+                        <td class='head' width='8%'>Артикл</td>
+                        <td class='head' width='32%'>Наименование</td>
+                        <td class='head' width='9%' align='center'>Цена закупки</td>
+                        <td class='head' width='10%' align='center'>Цена</td>
+                        <td class='head' width='10%' align='center'>Цена со<br> скидкой</td>
+                        <td class='head' width='6%' align='center'>Кол-во</td>
+                        <td class='head' width='11%' align='center'>Сумма</td>
+                        <td class='head' width='11%' align='center'>Сумма со<br>скидкой</td>
+                    </tr>
+                    {% for j in result.royal.result %}
+                        <tr>
+                            <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                            <td align='center'>{{ j.article }}</td>
+                            <td class='title'>
+                                  {{ j.title|safe }} [{{ j.producer }}] ({{ j.weight }})
+                                  {% if j.title_en %} {{ j.title_en|safe }}{% endif %}
+                            </td>
+                            <td align='center'>{{ j.real_price|intspace }} р.</td>
+                            <td align='center'>{{ j.price|intspace }} р.</td>
+                            <td align='center'>{{ j.price_sale|intspace }} р.</td>
+                            <td>{{ j.quantity }} шт.</td>
+                            <td align='center' class='price'>{{ j.summ|intspace }} р.</td>
+                            <td align='center' class='price'>{{ j.summ_sale|intspace }} р.</td>
+                        </tr>
+                    {% endfor%}
+                    {% if result.royal.result_reserv %}
+                        <tr><td colspan="9">Из резерва</td></tr>
+                    {% endif %}
+                    {% for j in result.royal.result_reserv %}
+                        <tr>
+                            <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                            <td align='center'>{{ j.article }}</td>
+                            <td class='title'>
+                                  {{ j.title|safe }} [{{ j.producer }}] ({{ j.weight }})
+                                  {% if j.title_en %} {{ j.title_en|safe }}{% endif %}
+                            </td>
+                            <td align='center'>{{ j.real_price|intspace }} р.</td>
+                            <td align='center'>{{ j.price|intspace }} р.</td>
+                            <td align='center'>{{ j.price_sale|intspace }} р.</td>
+                            <td>{{ j.quantity }} шт.</td>
+                            <td align='center' class='price'>{{ j.summ|intspace }} р.</td>
+                            <td align='center' class='price'>{{ j.summ_sale|intspace }} р.</td>
+                        </tr>
+                    {% endfor%}
+
+                </table>
+                <p style='text-align: right;'>
+                    Сумма к оплате поставщику: {{ result.royal.segment_summ_k_oplate }} руб
+                </p>
+
+            {% endif %}
+
+            {% if result.purina.result or result.purina.result_reserv %}
+                {% if result.royal.result or result.royal.result_reserv %}<pdf:nextpage />{% endif %}
+                Purina
+                <table width='100%' id='cart_table' border='0' cellspacing='0' cellpadding='5'>
+                    <tr>
+                        <td class='head' width='4%' align='center'><center>№</center></td>
+                        <td class='head' width='8%'>Артикл</td>
+                        <td class='head' width='32%'>Наименование</td>
+                        <td class='head' width='9%' align='center'>Цена закупки</td>
+                        <td class='head' width='10%' align='center'>Цена</td>
+                        <td class='head' width='10%' align='center'>Цена со<br> скидкой</td>
+                        <td class='head' width='6%' align='center'>Кол-во</td>
+                        <td class='head' width='11%' align='center'>Сумма</td>
+                        <td class='head' width='11%' align='center'>Сумма со<br>скидкой</td>
+                    </tr>
+                    {% for j in result.purina.result %}
+                        <tr>
+                            <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                            <td align='center'>{{ j.article }}</td>
+                            <td class='title'>
+                                  {{ j.title|safe }} [{{ j.producer }}] ({{ j.weight }})
+                                  {% if j.title_en %}<br>{{ j.title_en|safe }}{% endif %}
+                            </td>
+                            <td align='center'>{{ j.real_price|intspace }} р.</td>
+                            <td align='center'>{{ j.price|intspace }} р.</td>
+                            <td align='center'>{{ j.price_sale|intspace }} р.</td>
+                            <td>{{ j.quantity }} шт.</td>
+                            <td align='center' class='price'>{{ j.summ|intspace }} р.</td>
+                            <td align='center' class='price'>{{ j.summ_sale|intspace }} р.</td>
+                        </tr>
+                    {% endfor%}
+                    {% if result.purina.result_reserv %}
+                        <tr><td colspan="9">Из резерва</td></tr>
+                    {% endif %}
+                    {% for j in result.purina.result_reserv %}
+                        <tr>
+                            <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                            <td align='center'>{{ j.article }}</td>
+                            <td class='title'>
+                                  {{ j.title|safe }} [{{ j.producer }}] ({{ j.weight }})
+                                  {% if j.title_en %}<br>{{ j.title_en|safe }}{% endif %}
+                            </td>
+                            <td align='center'>{{ j.real_price|intspace }} р.</td>
+                            <td align='center'>{{ j.price|intspace }} р.</td>
+                            <td align='center'>{{ j.price_sale|intspace }} р.</td>
+                            <td>{{ j.quantity }} шт.</td>
+                            <td align='center' class='price'>{{ j.summ|intspace }} р.</td>
+                            <td align='center' class='price'>{{ j.summ_sale|intspace }} р.</td>
+                        </tr>
+                    {% endfor%}
+
+                </table>
+                <p style='text-align: right;'>
+                    Сумма к оплате поставщику: {{ result.purina.segment_summ_k_oplate }} руб
+                </p>
+            {% endif %}
+
+            {% if result.avrora.result or result.avrora.result_reserv %}
+                {% if result.royal.result or result.royal.result_reserv  or result.purina.result_reserv  or result.purina.result_reserv %}<pdf:nextpage />{% endif %}
+                Avrora
+                <table width='100%' id='cart_table' border='0' cellspacing='0' cellpadding='5'>
+                    <tr>
+                        <td class='head' width='4%' align='center'><center>№</center></td>
+                        <td class='head' width='8%'>Артикл</td>
+                        <td class='head' width='32%'>Наименование</td>
+                        <td class='head' width='9%' align='center'>Цена закупки</td>
+                        <td class='head' width='10%' align='center'>Цена</td>
+                        <td class='head' width='10%' align='center'>Цена со<br> скидкой</td>
+                        <td class='head' width='6%' align='center'>Кол-во</td>
+                        <td class='head' width='11%' align='center'>Сумма</td>
+                        <td class='head' width='11%' align='center'>Сумма со<br>скидкой</td>
+                    </tr>
+                    {% for j in result.avrora.result %}
+                        <tr>
+                            <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                            <td align='center'>{{ j.code }}</td>
+                            <td class='title'>
+                                  {{ j.title|safe }} [{{ j.producer }}] ({{ j.weight }})
+                                  {% if j.title_en %}<br>{{ j.title_en|safe }}{% endif %}
+                            </td>
+                            <td align='center'>{{ j.real_price|intspace }} р.</td>
+                            <td align='center'>{{ j.price|intspace }} р.</td>
+                            <td align='center'>{{ j.price_sale|intspace }} р.</td>
+                            <td>{{ j.quantity }} шт.</td>
+                            <td align='center' class='price'>{{ j.summ|intspace }} р.</td>
+                            <td align='center' class='price'>{{ j.summ_sale|intspace }} р.</td>
+                        </tr>
+                    {% endfor%}
+                    {% if result.avrora.result_reserv %}
+                        <tr><td colspan="9">Из резерва</td></tr>
+                    {% endif %}
+                    {% for j in result.avrora.result_reserv %}
+                        <tr>
+                            <td class='number' align='center'><small>#{{ j.number }}</small></td>
+                            <td align='center'>{{ j.code }}</td>
+                            <td class='title'>
+                                  {{ j.title|safe }} [{{ j.producer }}] ({{ j.weight }})
+                                  {% if j.title_en %}<br>{{ j.title_en|safe }}{% endif %}
+                            </td>
+                            <td align='center'>{{ j.real_price|intspace }} р.</td>
+                            <td align='center'>{{ j.price|intspace }} р.</td>
+                            <td align='center'>{{ j.price_sale|intspace }} р.</td>
+                            <td>{{ j.quantity }} шт.</td>
+                            <td align='center' class='price'>{{ j.summ|intspace }} р.</td>
+                            <td align='center' class='price'>{{ j.summ_sale|intspace }} р.</td>
+                        </tr>
+                    {% endfor%}
+
+                </table>
+                <p style='text-align: right;'>
+                    Сумма к оплате поставщику: {{ result.purina.segment_summ_k_oplate }} руб
+                </p>
+            {% endif %}
+    <div id="footerContent">
+        #<pdf:pagenumber />
+    </div>
+    </body>
+</html>

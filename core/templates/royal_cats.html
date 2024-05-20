@@ -1,0 +1,184 @@
+{% extends "base.html" %}   
+{% load static %}
+       
+{% block title %}
+	Здоровое питание для котят и кошек
+{% endblock %} 
+
+{% block head_title %}
+    Здоровое питание для котят и кошек
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'royal/level2_cat.css' %}" type="text/css" />
+
+<div class="container">
+    <h1 class="category">Здоровое питание для котят и кошек</h1>
+    <div class='way'>
+        <a href='/'>Главная</a> &rarr; <span>Здоровое питание для котят и кошек</span>
+    </div>
+    <div class="page">
+
+
+        <div class="wrapper royal-level2">
+                <a href="#" id="top" class="anchor">&nbsp;</a>
+                <hr class="header-rule">
+                <div class="header header--logo">
+                    <div class="row">
+                        <div class="col col--30">
+                            <img class="header__logo" src="{% static 'royal/level_2_cat/logo.png' %}" alt="Logo">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =================================================== -->
+                <!-- Manipulate the sections below until the END comment -->
+                <!-- =================================================== -->
+
+                <!-- =================================================== -->
+                <!-- INTRO -->
+                <!-- =================================================== -->
+
+              <div class="section section--intro brand-intro">
+                <div class="row brand-row-header">
+                    <div class="col col--50">
+                        <img src="{% static 'royal/level_2_cat/cat_header.png' %}" alt="cat">
+                    </div>
+                    <hr class="mobile-separator">
+                    <div class="col col--50">
+                        <h1 class="level2-heading">ЗДОРОВОЕ ПИТАНИЕ ДЛЯ <span class="grey-heading">КОТЯТ И КОШЕК</span></h1>
+                    </div>
+                </div>
+            </div>
+            <hr class="header-separator-main">
+
+              <!-- =================================================== -->
+              <!-- ACCORDION -->
+              <!-- =================================================== -->
+
+              <input type="checkbox" id="accordion-trigger-1" class="accordion-trigger" />
+
+              <div class="section section--accordion brand-acc">
+                <div class="row pack-row-main">
+                    <div class="col col--100 pack-content">
+                        <h2><center>4 ГАММЫ ПРОДУКТОВ ДЛЯ КОТЯТ И КОШЕК И НАЗНАЧЕНИЕ КАЖДОЙ ИЗ НИХ</center></h2>
+                    </div>
+                </div>
+                <div class="row pack-row-main">
+                    <div class="col col--50 pack-content">
+                        <div class="brand-pack">
+                            <img src="{% static 'royal/level_2_cat/feline_health.png' %}" alt="feline_health"/>
+                            <a href="{% url 'royal_cats_health' %}" class="button pack-button health-pack-cat">
+                                FELINE HEALTH
+                            </a>
+                        </div>
+                        <div class="brand-pack">
+                            <img src="{% static 'royal/level_2_cat/feline_breed.png' %}" alt="feline_breed"/>
+                            <a href="{% url 'royal_cats_breed' %}" class="button pack-button breed-pack-cat">
+                                FELINE BREED
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col--50 pack-content">
+                        <div class="brand-pack">
+                            <img src="{% static 'royal/level_2_cat/feline_care.png' %}" alt="feline_care"/>
+                            <a href="{% url 'royal_cats_care' %}" class="button pack-button care-pack-cat">
+                                FELINE CARE
+                            </a>
+                        </div>
+                        <div class="brand-pack">
+                            <img src="{% static 'royal/level_2_cat/kitten_health.png' %}" alt="kitten_health"/>
+                            <a href="{% url 'royal_cats_kitten_health' %}" class="button pack-button health-pack-kitten">
+                                KITTEN HEALTH
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+              <div class="section section--accordion brand-acc">
+
+                <div class="row brand-row-main">
+                    <div class="col col--50 brand-grey-bg">
+                        <p>
+                            ROYAL CANIN&reg; занимается разработкой все более точных диетологических решений для удовлетворения специфических потребностей домашних животных.
+                        </p>
+                        <p>
+                            Мы проявляем уважение к природным особенностям кошек и собак и опираемся на их подлинные потребности, заботясь об их здоровье и благополучии.
+                        </p>
+                    </div>
+                    <div class="col col--50 brand-grey-bg">
+                        <p>
+                            Именно поэтому нам доверяют хозяева домашних животных по всему миру.
+                        </p>
+                        <p>
+                            Совместно с ветеринарными врачами, заводчиками и экспертами в области ухода за домашними животными мы изучаем нутриенты, чтобы получить идеальную формулу для вашего питомца.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="row brand-row-main last-row">
+                    <div class="col col--50 brand-content">
+                        <h2>РАЗРАБАТЫВАЯ ФОРМУЛУ, МЫ УЧИТЫВАЕМ ВОЗРАСТ, ПОРОДУ И РАЗМЕР ЖИВОТНОГО.</h2>
+
+                        <div class="icon-container">
+                            <ul>
+                                <li>
+                                    <img src="{% static 'royal/level_2_cat/cat_icon_1.png' %}" alt="list item 1" />
+                                    <p>ПОЛНОЦЕННОЕ ПИТАНИЕ ДЛЯ КОШЕК И СОБАК</p>
+                                </li>
+                                <li>
+                                    <img src="{% static 'royal/level_2_cat/cat_icon_2.png' %}" alt="list item 2" />
+                                    <p>УВАЖЕНИЕ К ЖИВОТНЫМ</p>
+                                </li>
+                                <li>
+                                    <img src="{% static 'royal/level_2_cat/cat_icon_3.png' %}" alt="list item 3" />
+                                    <p>ТЩАТЕЛЬНЫЙ ОТБОР КОМПОНЕНТОВ</p>
+                                </li>
+                                <li>
+                                    <img src="{% static 'royal/level_2_cat/cat_icon_4.png' %}" alt="list item 4" />
+                                    <p>ОПЫТ</p>
+                                </li>
+                                <li>
+                                    <img src="{% static 'royal/level_2_cat/cat_icon_5.png' %}" alt="list item 5" />
+                                    <p>ПРЕДАННОСТЬ СВОЕМУ ДЕЛУ</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col col--50 brand-content">
+                        <img src="{% static 'royal/level_2_cat/cats.png' %}" alt="cats"/>
+                    </div>
+                </div>
+
+
+
+        <!-- #RC# CIRCLE 2.2.18 -->
+                <!-- =================================================== -->
+                <!-- TEXT -->
+                <!-- =================================================== -->
+
+
+
+                <!-- =================================================== -->
+                <!-- END -->
+
+                <div class="footer brand-footer">
+                    <hr>
+                    <div class="col col--80 brand-footer-logo">
+                        <h3>ОСОБЕННЫЙ РАЦИОН ДЛЯ КАЖДОЙ ПОРОДЫ</h3>
+                        <img src="{% static 'royal/level_2_cat/footer_crown.png' %}" alt="Royal Canin"/>
+                    </div>
+                </div>
+            </div>
+
+
+
+              </div>
+            </div>
+    </div>
+</div>
+{% endblock %}

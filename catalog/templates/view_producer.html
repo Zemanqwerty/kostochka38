@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% load pytils_dt %}
+{% load pytils_numeral %}
+{% load humanize %}
+{% load intfilter %}
+
+{% block head_title %}{% if producer.html_title %}{{ producer.html_title }}{% else %}Купить зоотовары {{ producer.title }} в Иркутске | Цены | Товары для животных {{ producer.title }} в «Косточка38»{% endif %}{% if page != 1 and page %} | Страница {{ page }}{% endif %}{% endblock %}
+
+{% block meta_keywords %}{% if producer.meta_keywords %}{{ producer.meta_keywords }}{% else %}{{ producer.title }}{% endif %}{% endblock %}
+
+{% block meta_descroption %}{% if producer.meta_description %}{{ producer.meta_description }}{% else %}Купить аксессуары для животных от {{ producer.title }} в Иркутске. Огромный выбор зоотоваров {{ producer.title }}, бесплатная доставка, низкие цены, отзывы.{% endif %}{% if page != 1 and page %} | Страница {{ page }}{% endif %}{% endblock %}
+
+
+{% block content %} 
+<div class="container">
+
+    <h1 class="category">{% if producer.header %}{{ producer.header }}{% else %}{{ producer.title }} в Иркутске{% endif %}</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <a href='/c/'>Каталог</a> &rarr; {{ producer.title }}
+    </div>
+
+    <div class="page">
+        <div class="row">
+            <div class="catalog-goods col-sm-12 producer-goods">
+                <div class="ajax-waiter">
+                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                    <span class="sr-only">Загрузка...</span>
+                </div>
+                {% if items %}
+                    <ul class="catalog-goods-container">
+                        {% for item in items %}
+                            {% include 'items_card.html' with item=item %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>
+                        <br><br>
+                        В данной категории товар временно отсутствует.<br><br>
+                        Попробуйте зайти позже.<br>
+                        <br><br>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <input type="hidden" id="data-filters" value="">
+        <input type="hidden" id="data-page" value="{{ page_var.next_page }}">
+        <input type="hidden" id="data-link" value="/c/p/{{ producer.link }}/">
+
+        <div class="load-next-page producer">
+            {% if page_var.next_page %}
+                <a href="#">Показать еще</a>
+                <div class="loader">
+                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                    <span class="sr-only">Загрузка...</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="paginator producer">
+            {% if pages %}
+                {% if page_var.prev_page %}
+                    <a class="go_to_frst_page ajax" data-page="1" href="/c/{{ category.link }}/?page=1{% for selected_filter in selected_filters %}&{{ selected_filter.name }}={{ selected_filter.link }}{% endfor %}">В начало</a>
+                {% endif %}
+                <div class="paginator__number">
+                    {% if page_var.prev_page %}
+                        <a class="ajax" data-page="{{ page_var.prev_page }}" href="#">&larr;</a>
+                    {% endif %}
+
+                    {% for iteration in page_var.pages %}
+                        <a class="ajax{% if iteration == page %} active{% endif %}" data-page="{{ iteration }}" href="#">{{ iteration }}</a>
+                    {% endfor %}
+
+                    {% if page_var.next_page %}
+                        <a class="ajax" data-page="{{ page_var.next_page }}" href="#">&rarr;</a>
+                    {% endif %}
+                </div>
+                <br>
+                <span class="item-count-info">Показано {{ start_item|add:'1' }}-{{ end_item }} из {{ result_count }}</span>
+            {% endif %}
+        </div>
+
+        {% if producer.seo_text %}
+            <hr class="big">
+            <div class="producer-description">
+                {{ producer.seo_text|safe }}
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

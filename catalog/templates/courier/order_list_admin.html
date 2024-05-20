@@ -1,0 +1,604 @@
+{% load static %}
+{% load intfilter %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'kostochka38/css/bootstrap.min.css' %}">
+    <link type="image/x-icon" href="/favicon.ico" rel="icon"/>
+    <link type="image/x-icon" href="/favicon.ico" rel="shortcut icon"/>
+    <link rel="apple-touch-icon" href="{% static 'apple-touch/apple-touch-icon.png' %}" />
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'apple-touch/apple-touch-icon-57x57.png' %}" />
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'apple-touch/apple-touch-icon-72x72.png' %}" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'apple-touch/apple-touch-icon-76x76.png' %}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'apple-touch/apple-touch-icon-114x114.png' %}" />
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'apple-touch/apple-touch-icon-120x120.png' %}" />
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'apple-touch/apple-touch-icon-144x144.png' %}" />
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'apple-touch/apple-touch-icon-152x152.png' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch/apple-touch-icon-180x180.png' %}" />
+
+    <link rel="stylesheet" href="{% static 'kostochka38/css/admin/couries_orders.css' %}?v3">
+    <title>Заказы курьера - {{ user.first_name }}</title>
+      {% if map %}
+          <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+          <script type="text/javascript">
+              ymaps.ready(init);
+              var myMap, myPlacemark_1;
+
+                function init() {
+                    var myMap = new ymaps.Map("map", {
+                        center: [52.28524918, 104.30474608],
+                        zoom: 12
+                    });
+
+                    BalloonContentLayout = ymaps.templateLayoutFactory.createClass(
+                    '<div class="map-baloon">' +
+                        '<span class="baloon-icon" style="margin-right: 5px; display: inline-block; position: relative; top: -2px"><img width="16px"" src="{% templatetag openvariable %}properties.icon{% templatetag closevariable %}"></span>' +
+                        '<b class="text-upercase">{% templatetag openvariable %}properties.time{% templatetag closevariable %}</b><br />' +
+                        '<p>{% templatetag openvariable %}properties.address{% templatetag closevariable %}</p>' +
+                    '</div>');
+
+                    myMap.behaviors.disable(['scrollZoom']);
+
+
+                    {% for i in data.today|dictsort:"order" reversed %}
+                        ymaps.geocode('{{ i.address }}', {
+                            results: 1,
+                        }).then(
+                            function (res) {
+
+                                var placemark = res.geoObjects.get(0);
+
+                                placemark.options.set({
+                                    balloonContentLayout: BalloonContentLayout,
+                                    preset: 'islands#StretchyIcon',
+                                    iconColor: '{% if i.marker_type == 1 %}#95b600{% else %}#035cb6{% endif %}'
+                                });
+                                placemark.properties.set({
+                                    iconContent: '{{ i.order }}',
+                                    icon: '/static/kostochka38/images/i_oplata_{{ i.paytype }}.png',
+                                    time: '{{ i.desired_time }}, {{ i.first_hour }}',
+                                    address: '{{ i.address }}'
+                                });
+                                console.log(placemark)
+
+                                myMap.geoObjects.add(placemark);
+                            }
+                        )
+                    {% endfor %}
+                }
+          </script>
+      {% endif %}
+  </head>
+  <body>
+
+
+    <div class="container">
+        {% if admin %}
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    {% for courier in courier_buttons %}
+                        <a href="?user={{ courier.user.username }}" class="btn {% if user.id == courier.user.id %}btn-info{% else %}btn-default{% endif %} btn-sm">
+                            {{ courier.user.first_name }} {{ courier.user.last_name }}
+                            {% if user.id != courier.user.id %}(<span class="text-success">{{ courier.count }}</span>/
+                            <span class="text-primary">{{ courier.count_bbox }}</span>/
+                            <span class="text-warning">{{ courier.count_outside }}</span>)
+                            {% endif %}
+                        </a>
+                    {% endfor %}
+                    {% if user.id == 5316 %}
+                        <a href="?user={{ user.username }}" class="btn {% if user.id == user.id %}btn-info{% else %}btn-default{% endif %} btn-sm">
+                            {{ user.first_name }} {{ user.last_name }}
+                        </a>
+                    {% endif %}
+                </div>
+                <br><br>
+            </div>
+            <div class="row hidden-sm">
+                <div class="col-md-12">
+                    {% if edit %}
+                        <a href="?user={{ user.username }}{% if map %}&map{% endif %}" class="btn btn-success btn-sm">Выключить редактирование порядка</a>
+                    {% else %}
+                        <a href="?user={{ user.username }}&edit{% if map %}&map{% endif %}" class="btn btn-danger btn-sm">Включить редактирование порядка</a>
+                    {% endif %}
+
+                    {% if map %}
+                        <a href="?user={{ user.username }}{% if edit %}&edit{% endif %}" class="btn btn-warning btn-sm">Выключить карту</a>
+                    {% else %}
+                        <a href="?user={{ user.username }}{% if edit %}&edit{% endif %}&map" class="btn btn-warning btn-sm">Включить карту</a>
+                    {% endif %}
+                </div>
+                <br><br>
+            </div>
+        {% endif %}
+
+        {% if map %}
+            <div class="row">
+                <div id="map" style="width: 100%; height: 400px"></div>
+            <br><br>
+            </div>
+        {% endif %}
+
+        <!-- Заказы на сегодня -->
+        <div class="panel{% if edit %} panel-danger{% else %} panel-default{% endif %}">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            Заказы на сегодня ({{ today|date:'j N' }}) <span class="order-loader text-info"> <i class="fa fa-refresh fa-spin fa-fw"></i> сохраняю...</span>
+                        </div>
+                        {% if admin %}
+                            <div class="btn-group store-type pull-right" data-toggle="buttons">
+                              <label class="btn btn-default btn-xs active"><input type="radio" name="store" id="all" checked="checked">Все заказы <span class="badge">{{ count.all_today }}</span></label>
+                              <label class="btn btn-default color-kostochka38 btn-xs"><input type="radio" name="store" id="kostochka38">Kostochka38 <span class="badge">{{ count.kostochka38_today }}</span></label>
+                              <label class="btn btn-default color-bbox38 btn-xs"><input type="radio" name="store" id="bbox38">Bbox38 <span class="badge">{{ count.bbox38_today }}</span></label>
+                              <label class="btn btn-default color-outside btn-xs"><input type="radio" name="store" id="outside">Сторонние <span class="badge">{{ count.outside_today }}</span></label>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if not data.today %}<div class="panel-body text-muted">Нет заказов</div>{% endif %}
+            <table class="table sortable-table">
+                <tbody>
+                    {% for i in data.today|dictsort:"order" %}
+                        <tr data-orderNumber="{{ i.order }}" data-orderId="{{ i.id }}" class="sortable {{ i.type }} {% if i.status == 2 %}success{% endif %}{% if i.status == 3 %}warning{% endif %}{% if i.status == 4 or i.status == 31 %}info{% endif %}{% if i.status == 7 or i.status == 81 or i.status == 82 %}danger{% endif %}">
+                            <td class="color-{{ i.type }} text-muted order{% if edit %} sorted-header{% endif %}">{% if admin %}<i class="fa fa-sort" aria-hidden="true"></i> {% endif %}<small class="order_num">{{ i.order }}</small></td>
+                            {% if courier %}
+                                <td class="action-link" align="center">
+                                    {% if i.status != 4 %}
+                                        <a href="{{ i.status_link }}" onclick="return confirm('Выезжаешь на заказ {{ i.address }}?')"><i class="fa fa-truck" aria-hidden="true"></i></a>
+                                    {% endif %}
+                                    {% if i.status == 4 %}
+                                        <a class="status-complete" href="{{ i.status_link }}" onclick="return confirm('Заказ {{ i.address }} доставлен?')"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                            <td class="color-{{ i.type }} order-id{% if edit %} sorted-header{% endif %}">{{ i.id }}</td>
+                            <td>
+                                {% if i.status == 2 %}<i class="fa fa-calendar-check-o" aria-hidden="true"></i>{% endif %}
+                                {% if i.status == 3 %}<i class="fa fa-archive" aria-hidden="true"></i>{% endif %}
+                                {% if i.status == 4 %}<i class="fa fa-truck" aria-hidden="true"></i>{% endif %}
+                                {% if i.status == 31 %}<i class="fa fa-universal-access" aria-hidden="true"></i>{% endif %}
+                                {% if i.status == 81 or i.status == 82 %}<i class="fa fa-question-circle-o" aria-hidden="true"></i>{% endif %}
+                                {% if i.status == 10 or i.status == 7 %}<i class="fa fa-frown-o" aria-hidden="true"></i>{% endif %}
+                            </td>
+                            <td>{{ i.desired_time }}</td>
+                            <td>{% if i.need_call %}<i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i>{% endif %}</td>
+                            {% if courier %}
+                                <td class="action-link action-link-big" align="center">
+                                    {% if i.phone %}
+                                        <a href="tel:{{ i.phone }}"><i class="fa fa-phone" aria-hidden="true"></i></a>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                            <td>{% if i.phone %}{{ i.phone }}{% else %} - {% endif %}</td>
+                            <td><small>{% if i.district %}{{ i.district }}{% endif %}</small></td>
+                            <td><small>{{ i.address|safe }}</small>
+                                {% if i.description %}<br>
+                                <small>{{ i.description }}</small>{% endif %}
+                            </td>
+                            <td class="text-right">
+                                {% if i.paytype or i.paytype == 0 or i.paytype == '0'  %}
+                                    <img src="/static/kostochka38/images/i_oplata_{{ i.paytype }}.png" {% if admin %}width="16px"{% endif %} {% if courier %}width="32px"{% endif %}>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td class="lead text-right">
+                                {{ i.k_oplate|intspace }} ₽
+                            </td>
+                            {% if admin %}
+                                <td>{% if i.edit_link %}<a href="{{ i.edit_link }}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>{% endif %}</td>
+                            {% endif %}
+                            {% if courier %}
+                                <td>{% if i.pdf_link %}<a href="{{ i.pdf_link }}" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>{% endif %}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Заказы долгосрочные -->
+        {% if user.id == 5316 %}
+            <div class="panel{% if edit %} panel-danger{% else %} panel-default{% endif %}">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-left">
+                                Заказы долгосрочные <span class="order-loader text-info"> <i class="fa fa-refresh fa-spin fa-fw"></i> сохраняю...</span>
+                            </div>
+                            {% if admin %}
+                                <div class="btn-group store-type pull-right" data-toggle="buttons">
+                                  <label class="btn btn-default btn-xs active"><input type="radio" name="store" id="all" checked="checked">Все заказы <span class="badge">{{ count.all_today }}</span></label>
+                                  <label class="btn btn-default color-kostochka38 btn-xs"><input type="radio" name="store" id="kostochka38">Kostochka38 <span class="badge">{{ count.kostochka38_today }}</span></label>
+                                  <label class="btn btn-default color-bbox38 btn-xs"><input type="radio" name="store" id="bbox38">Bbox38 <span class="badge">{{ count.bbox38_today }}</span></label>
+                                  <label class="btn btn-default color-outside btn-xs"><input type="radio" name="store" id="outside">Сторонние <span class="badge">{{ count.outside_today }}</span></label>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if not data.long %}<div class="panel-body text-muted">Нет заказов</div>{% endif %}
+                <table class="table sortable-table">
+                    <tbody>
+                        {% for i in data.long|dictsort:"order" %}
+                            <tr data-orderNumber="{{ i.order }}" data-orderId="{{ i.id }}" class="sortable {{ i.type }} {% if i.status == 2 %}success{% endif %}{% if i.status == 3 %}warning{% endif %}{% if i.status == 4 or i.status == 31 %}info{% endif %}{% if i.status == 7 or i.status == 81 or i.status == 82 %}danger{% endif %}">
+                                <td class="color-{{ i.type }} text-muted order{% if edit %} sorted-header{% endif %}">{% if admin %}<i class="fa fa-sort" aria-hidden="true"></i> {% endif %}<small class="order_num">{{ i.order }}</small></td>
+                                {% if courier %}
+                                    <td class="action-link" align="center">
+                                        {% if i.status != 4 %}
+                                            <a href="{{ i.status_link }}" onclick="return confirm('Приступаешь к выполнению?')"><i class="fa fa-truck" aria-hidden="true"></i></a>
+                                        {% endif %}
+                                        {% if i.status == 4 %}
+                                            <a class="status-complete" href="{{ i.status_link }}" onclick="return confirm('Задача #{{ i.id }} выполнена?')"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                                <td class="color-{{ i.type }} order-id{% if edit %} sorted-header{% endif %}">{{ i.id }}</td>
+                                <td>
+                                    {% if i.status == 2 %}<i class="fa fa-calendar-check-o" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 3 %}<i class="fa fa-archive" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 4 %}<i class="fa fa-truck" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 31 %}<i class="fa fa-universal-access" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 81 or i.status == 82 %}<i class="fa fa-question-circle-o" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 10 or i.status == 7 %}<i class="fa fa-frown-o" aria-hidden="true"></i>{% endif %}
+                                </td>
+                                <td style="white-space: nowrap">{{ i.real_desired_time|date:"d M (D)" }}</td>
+                                <td style="white-space: nowrap">{{ i.desired_time }}</td>
+
+                                {% if courier %}
+                                    <td class="action-link action-link-big" align="center">
+                                        {% if i.phone %}
+                                            <a href="tel:{{ i.phone }}"><i class="fa fa-phone" aria-hidden="true"></i></a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                                <td style="white-space: nowrap">{% if i.phone %}{{ i.phone }}{% else %} - {% endif %}</td>
+                                <td><small>{% if i.district %}{{ i.district }}{% endif %}</small></td>
+                                <td>
+                                    <small>{{ i.address|safe }}</small><br>
+                                    <small>{{ i.description }}</small>
+                                </td>
+                                <td class="text-right">
+                                    {% if i.paytype or i.paytype == 0 or i.paytype == '0'  %}
+                                        <img src="/static/kostochka38/images/i_oplata_{{ i.paytype }}.png" {% if admin %}width="16px"{% endif %} {% if courier %}width="32px"{% endif %}>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td class="lead text-right">
+                                    {{ i.k_oplate|intspace }} ₽
+                                </td>
+                                {% if admin %}
+                                    <td>{% if i.edit_link %}<a href="{{ i.edit_link }}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>{% endif %}</td>
+                                {% endif %}
+                                {% if courier %}
+                                    <td>{% if i.pdf_link %}<a href="{{ i.pdf_link }}" target="_blank"><i class="fa fa-3x fa-file-pdf-o" aria-hidden="true"></i></a>{% endif %}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            Доставленные заказы
+                        </div>
+                        {% if admin %}
+                            <div class="btn-group pull-right store-type-finished" data-toggle="buttons">
+                              <label class="btn btn-default active btn-xs"><input type="radio" name="store" id="all" checked="checked">Все заказы <span class="badge">{{ count.all_finished }}</span></label>
+                              <label class="btn btn-default color-kostochka38 btn-xs"><input type="radio" name="store" id="kostochka38">Kostochka38 <span class="badge">{{ count.kostochka38_finished }}</span></label>
+                              <label class="btn btn-default color-bbox38 btn-xs"><input type="radio" name="store" id="bbox38">Bbox38 <span class="badge">{{ count.bbox38_finished }}</span></label>
+                              <label class="btn btn-default color-outside btn-xs"><input type="radio" name="store" id="outside">Сторонние <span class="badge">{{ count.outside_finished }}</span></label>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if not data.finished %}<div class="panel-body text-muted">Нет заказов</div>{% endif %}
+            <table class="table table-condensed">
+                <tbody>
+                    {% for i in data.finished|dictsort:"last_edit" %}
+                        <tr data-orderNumber="{{ i.order }}" data-orderId="{{ i.id }}" class="text-muted sortable-finished {{ i.type }}">
+                            {% if admin %}<td><strong>{{ i.last_edit }}</strong></td>{% endif %}
+                            <td class="color-{{ i.type }} order-id">{{ i.id }}</td>
+                            <td><small>{{ i.real_desired_time|date:"d M (D)" }}</small></td>
+                            <td><small>{{ i.desired_time }}</small></td>
+                            <td><small>{% if i.need_call %}<i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i>{% endif %}</small></td>
+                            <td><small>{% if i.phone %}{{ i.phone }}{% else %}-{% endif %}</small></td>
+                            <td><small>{% if i.district %}{{ i.district }}{% endif %}</small></td>
+                            <td>
+                                <small>{{ i.address|safe }}</small>
+                                {% if i.description %}<br>
+                                <small>{{ i.description }}</small>{% endif %}
+                            </td>
+                            <td>
+                                {% if i.paytype or i.paytype == 0 or i.paytype == '0' %}<img src="/static/kostochka38/images/i_oplata_{{ i.paytype }}.png" width="16px">{% else %}-{% endif %}
+                            </td>
+                            {% if admin %}
+                                <td align="center">{% if i.edit_link %}<a href="{{ i.edit_link }}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>{% endif %}</td>
+                            {% endif %}
+                            {% if courier %}
+                                <td align="center">{% if i.pdf_link %}<a href="{{ i.pdf_link }}" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>{% endif %}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            Будущие заказы
+                        </div>
+                        {% if admin %}
+                            <div class="btn-group pull-right store-type-another" data-toggle="buttons">
+                              <label class="btn btn-default active btn-xs"><input type="radio" name="store" id="all" checked="checked">Все заказы <span class="badge">{{ count.all_another }}</span></label>
+                              <label class="btn btn-default color-kostochka38 btn-xs"><input type="radio" name="store" id="kostochka38">Kostochka38 <span class="badge">{{ count.kostochka38_another }}</span></label>
+                              <label class="btn btn-default color-bbox38 btn-xs"><input type="radio" name="store" id="bbox38">Bbox38 <span class="badge">{{ count.bbox38_another }}</span></label>
+                              <label class="btn btn-default color-outside btn-xs"><input type="radio" name="store" id="outside">Сторонние <span class="badge">{{ count.outside_another }}</span></label>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if not data.another %}<div class="panel-body text-muted">Нет заказов</div>{% endif %}
+            <table class="table table-condensed">
+                <tbody>
+                    {% regroup data.another by real_desired_time as data_another %}
+
+                    {% for j in data_another %}
+
+                        <tr>
+                            <td colspan="5">{{ j.grouper|date:"d M (D)" }}</td>
+                        </tr>
+
+                        {% for i in j.list|dictsort:"desired_time" %}
+                            <tr data-orderNumber="{{ i.order }}" data-orderId="{{ i.id }}" class="sortable-another {{ i.type }} {% if i.status == 2 or i.status == 0 %}success{% endif %}{% if i.status == 3 or i.status == 31 %}warning{% endif %}{% if i.status == 4 %}info{% endif %}{% if i.status == 7 %}danger{% endif %}">
+                                <td class="" align="center" width="2%">#{{ forloop.counter }}</td>
+                                <td class="color-{{ i.type }} order-id">{{ i.id }}</td>
+                                <td>
+                                    {% if i.status == 0 %}<i class="fa fa-list-alt" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 2 %}<i class="fa fa-calendar-check-o" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 3 %}<i class="fa fa-archive" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 4 %}<i class="fa fa-truck" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 31 %}<i class="fa fa-universal-access" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 81 or i.status == 82 %}<i class="fa fa-question-circle-o" aria-hidden="true"></i>{% endif %}
+                                    {% if i.status == 10 or i.status == 7 %}<i class="fa fa-frown-o" aria-hidden="true"></i>{% endif %}
+                                </td>
+                                <td>{{ i.real_desired_time|date:"d M (D)" }}</td>
+                                <td>{{ i.desired_time }}</td>
+                                <td>{% if i.need_call %}<i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i>{% endif %}</td>
+                                <td><small>{% if i.phone %}{{ i.phone }}{% else %}-{% endif %}</small></td>
+                                <td><small>{% if i.district %}{{ i.district }}{% endif %}</small></td>
+                                <td><small>{{ i.address|safe }}</small>
+                                    {% if i.description %}<br>
+                                    <small>{{ i.description }}</small>{% endif %}
+                                </td>
+                                <td>
+                                    {% if i.paytype or i.paytype == 0 or i.paytype == '0' %}<img src="/static/kostochka38/images/i_oplata_{{ i.paytype }}.png" width="16px">{% else %} - {% endif %}
+                                </td>
+                                {% if admin %}
+                                    <td align="center">{% if i.edit_link %}<a href="{{ i.edit_link }}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>{% endif %}</td>
+                                {% endif %}
+                                {% if courier %}
+                                    <td align="center">{% if i.pdf_link %}<a href="{{ i.pdf_link }}" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>{% endif %}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12"><h3>Заказы у поставщиков Kostochka38</h3></div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            Заказы у поставщиков на сегодня
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if not data.inside_today %}<div class="panel-body text-muted">Нет заказов</div>{% endif %}
+            <table class="table">
+                <tbody>
+                    {% for i in data.inside_today %}
+                        <tr class="{% if i.status == 0 %}success{% endif %}{% if i.status == 2 %}warning{% endif %}{% if i.status == 4 %}info{% endif %}">
+                            <td>{{ i.id }}</td>
+                            {% if courier %}
+                                <td class="action-link" align="center">
+                                    <a class="status-complete" href="/manage/{{ i.id }}/change_status_inside/4/" onclick="return confirm('Заказ {{ i.id }} получен?')"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                </td>
+                            {% endif %}
+                            <td>
+                                {% if i.status == 0 %}<i class="fa fa-file-o" aria-hidden="true"></i>{% endif %}
+                                {% if i.status == 2 %}<i class="fa fa-calendar-check-o" aria-hidden="true"></i>{% endif %}
+                            </td>
+                            <td>{{ i.segment_new.title }}</td>
+                            <td>{{ i.date_pickup|date:"d M (D)" }}</td>
+                            <td align="right">{{ i.cost|intspace }} <i class="far fa-ruble-sign"></i></td>
+
+                            {% if admin %}
+                                <td align="center"><a href="/DgJrfdJg/catalog/insidezakaz/{{ i.id }}/" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                            {% endif %}
+                            {% if courier %}
+                                <td align="center"><a href="/manage/{{ i.id }}/inside_pdf_inside/?html" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            Полученные заказы
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if not data.inside_finished %}<div class="panel-body text-muted">Нет заказов</div>{% endif %}
+            <table class="table table-condensed">
+                <tbody>
+                    {% for i in data.inside_finished|dictsort:"last_edit" %}
+                        <tr class="text-muted">
+                            {% if admin %}<td><strong>{{ i.last_edit|date:"H:i" }}</strong></td>{% endif %}
+                            <td>{{ i.id }}</td>
+                            <td>{{ i.date_pickup|date:"d M (D)" }}</td>
+                            <td>{{ i.segment_new.title }}</td>
+                            <td align="right">{{ i.cost|intspace }} <i class="far fa-ruble-sign"></i></td>
+
+                            {% if admin %}
+                                <td align="center"><a href="/DgJrfdJg/catalog/insidezakaz/{{ i.id }}/" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                            {% endif %}
+                            {% if courier %}
+                                <td align="center"><a href="/manage/{{ i.id }}/inside_pdf_inside/?html" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            Будущие заказы
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if not data.inside_another %}<div class="panel-body text-muted">Нет заказов</div>{% endif %}
+            <table class="table table-condensed">
+                <tbody>
+                    {% for i in data.inside_another %}
+                        <tr class="text-muted {% if i.status == 0 %}success{% endif %}{% if i.status == 2 %}warning{% endif %}{% if i.status == 4 %}info{% endif %}"">
+                            <td>{{ i.id }}</td>
+                            <td>{{ i.date_pickup|date:"d M (D)" }}</td>
+                            <td>
+                                {% if i.status == 0 %}<i class="fa fa-file-o" aria-hidden="true"></i>{% endif %}
+                                {% if i.status == 2 %}<i class="fa fa-calendar-check-o" aria-hidden="true"></i>{% endif %}
+                                {% if i.status == 7 %}<i class="fa fa-frown-o" aria-hidden="true"></i>{% endif %}
+                            </td>
+                            <td>{{ i.segment_new.title }}</td>
+                            <td align="right">{{ i.cost|intspace }} <i class="far fa-ruble-sign"></i></td>
+
+                            {% if admin %}
+                                <td align="center"><a href="/DgJrfdJg/catalog/insidezakaz/{{ i.id }}/" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                            {% endif %}
+                            {% if courier %}
+                                <td align="center"><a href="/manage/{{ i.id }}/inside_pdf_inside/?html" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
+    <!-- Сначала jQuery, затем Bootstrap JS. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'kostochka38/js/jquery-ui.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'kostochka38/css/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kostochka38/css/font-awesome.min.css' %}">
+
+    <script>
+      $( function() {
+        //$('.sortable-table tr.sortable').sort(function(a, b) {
+        //    return +$(a).attr('data-orderNumber') - +$(b).attr('data-orderNumber');
+        //}).appendTo('.sortable-table tbody')
+        {% if admin %}
+            {% if edit %}
+                $( ".sortable-table" ).sortable({
+                    placeholder: "ui-state-highlight",
+                    items: ".sortable",
+                    handle: "td.sorted-header",
+                    stop: function( event, ui ) {
+
+                        $( ".sortable-table" )
+                                .addClass('disable')
+                                .sortable( "disable" );
+                        $( ".order-loader" ).show();
+
+                        var order_date = '';
+                        $('.sortable').each(function(index){
+                           $(this).find('.order small').text(index+1);
+                            order_date += $(this).attr('data-orderId') + ':' + (index+1) + ','
+                        });
+                        $.ajax({
+                            url: '/order/sort/',
+                            type: "POST",
+                            data: 'order_date=' + order_date,
+                            success: function(msg){
+                                $( ".sortable-table" ).removeClass('disable').sortable( "enable" );
+                                $( ".order-loader" ).hide();
+                            }
+                        });
+                    }
+                });
+            {% endif %}
+            // $( ".sortable-table" ).disableSelection();
+
+            $('.store-type label').click(function(){
+              var id = $(this).find('input').attr('id');
+              console.log(id);
+              if (id == 'all'){
+                  $('tr.sortable').show();
+                  {% if edit %}$( ".sortable-table" ).sortable( "enable" );{% endif %}
+              } else {
+                  $('tr.sortable').hide();
+                  $('tr.sortable.'+id).show();
+                  {% if edit %}$( ".sortable-table" ).sortable( "disable" );{% endif %}
+              }
+            });
+            $('.store-type-finished label').click(function(){
+              var id = $(this).find('input').attr('id');
+              console.log(id);
+              if (id == 'all'){
+                  $('tr.sortable-finished').show();
+              } else {
+                  $('tr.sortable-finished').hide();
+                  $('tr.sortable-finished.'+id).show();
+              }
+            });
+            $('.store-type-another label').click(function(){
+              var id = $(this).find('input').attr('id');
+              console.log(id);
+              if (id == 'all'){
+                  $('tr.sortable-another').show();
+              } else {
+                  $('tr.sortable-another').hide();
+                  $('tr.sortable-another.'+id).show();
+              }
+            });
+          {% endif %}
+      } );
+  </script>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+{% extends "base.html" %}   
+{% load static %}
+       
+{% block title %}
+	Здоровое питание для кошек
+{% endblock %} 
+
+{% block head_title %}
+    Здоровое питание для кошек
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'royal/level2_cat.css' %}" type="text/css" />
+
+<div class="container">
+    <h1 class="category">Здоровое питание для кошек</h1>
+    <div class='way'>
+        <a href='/'>Главная</a> &rarr; <span>Здоровое питание для кошек</span>
+    </div>
+    <div class="page">
+
+
+        <div class="wrapper royal-level2">
+ 
+                <hr class="header-rule">
+                <div class="header header--logo">
+                    <div class="row">
+                        <div class="col col--30">
+                            <img class="header__logo" src="{% static 'royal/level_3_cat_health/logo.png' %}" alt="Logo">
+                        </div>
+                    </div>
+                </div>
+
+            <div class="section section--intro brand-intro">
+                <div class="row brand-row-header">
+                    <div class="col col--50">
+                        <img src="{% static 'royal/level_3_cat_health/cat_header.png' %}" alt="dog" />
+                    </div>
+
+                    <div class="col col--50">
+                        <h1 class="level3-heading">ЗДОРОВОЕ ПИТАНИЕ<br/><span class="grey-heading">ДЛЯ КОШЕК</span></h1>
+                        <a href="/c/korm-dlya-koshek/?page=1&f-other=feline-health" class="button nutrition-button--header ">
+                            ПОДОБРАТЬ КОРМ
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="header-separator-main">
+
+              <!-- =================================================== -->
+              <!-- ACCORDION -->
+              <!-- =================================================== -->
+
+              <input type="checkbox" id="accordion-trigger-1" class="accordion-trigger" />
+
+            <div class="section section--accordion subsection-acc">
+                <div class="row subsection-row-main">
+                    <div class="col col--100 subsection-content subsection-head subsection-grey-dark">
+                    </div>
+                </div>
+
+                <div class="row subsection-row-main bg-gray">
+                    <div class="col col--50 subsection-grey-light subsection-content">
+                        <p>
+                            Эксперты Royal Canin разработали широкую гамму кормов для кошек, чтобы вы могли подобрать правильное питание для своего животного исходя из его индивидуальных особенностей: стерилизована ли кошка или нет, проводит ли она большую часть времени дома или же на улице. Чтобы животное чувствовало себя хорошо и оставалось здоровым, ему необходимо получать нужное количество различных нутриентов на всех этапах жизни, поэтому его питание всегда должно быть сбалансированным.
+                        </p>
+                    </div>
+                    <div class="col col--50 subsection-grey-light subsection-content">
+                        <img class="packaging" src="{% static 'royal/level_3_cat_health/cat_packs2.png' %}" alt="cat food packets" />
+                    </div>
+                </div>
+
+                <div class="row subsection-row-main">
+                    <div class="col col--50 subsection-content">
+                        <div class="subsection-icon-container">
+                            <img src="{% static 'royal/level_3_cat_health/icon_left.png' %}" alt="scales" />
+                            <div class="icon-text">
+                                <h4>ПИТАНИЕ, ПОДОБРАННОЕ ИСХОДЯ ИЗ ВОЗРАСТА КОШКИ</h4>
+                                <p>
+                                    В организме вашего питомца с возрастом происходят важные перемены. Формулы Royal Canin поддержат здоровье кошки на любом этапе ее жизни, поскольку они полностью удовлетворяют специальные потребности животного.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col--50 subsection-content">
+                        <div class="subsection-icon-container">
+                            <img src="{% static 'royal/level_3_cat_health/icon_right.png' %}" alt="scales" />
+                            <div class="icon-text">
+                                <h4>КАСТРИРОВАННЫЕ КОТЫ И СТЕРИЛИЗОВАННЫЕ КОШКИ</h4>
+                                <p>
+                                    Стерилизация продлевает срок жизни вашей кошки, однако часто после этой процедуры животные набирают вес. Из-за гормональных изменений в организме потребность в энергии может снизиться до 30%, при этом аппетит увеличивается на 20%. Питание ROYAL CANIN помогает поддерживать нормальный вес у кастрированных котов и стерилизованных кошек.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row subsection-row-main">
+                    <div class="col col--50 subsection-content last-subsection">
+                        <div class="subsection-kibble-container">
+                            <img src="{% static 'royal/level_3_cat_health/cat_bottom_left2.png' %}" alt="cat" />
+                            <div class="kibble-text">
+                                <img src="{% static 'royal/level_3_cat_health/kitten_kibble.png' %}" alt="kibble" />
+                                <p>
+                                    Крокеты каждого продукта имеют определенную форму, размер, текстуру и плотность, в соответствии с потребностями вашей кошки
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mobile-separator">
+                    <div class="col col--50 subsection-content last-subsection">
+                        <h3>
+                           ОЧЕНЬ ВАЖНО ПОДОБРАТЬ ДЛЯ ВАШЕЙ КОШКИ ПРАВИЛЬНОЕ ПИТАНИЕ В ЗАВИСИМОСТИ ОТ ЕЕ ВОЗРАСТА И ОБРАЗА ЖИЗНИ
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <hr class="content-separator-main">
+            <div class="section section--accordion subsection-last footer-cat-health">
+                <div class="row subsection-row-main">
+                    <div class="col col--50 subsection-footer-icons">
+                        <div class="footer-icon-cont">
+                            <a href="/c/korm-dlya-koshek/?page=1&f-other=nizkaya-aktivnost-koshki,vyisokaya-aktivnost-koshki&producer_filter=royal-canin">
+                                <div class="footer-icon" id="footer-1"></div>
+                                <!--<h3>JOINT CARE</h3>-->
+                                <p>домашний и активный <br> образ жизни</p>
+                            </a>
+                        </div>
+                        <div class="footer-icon-cont">
+                            <a href="/c/korm-dlya-koshek/?page=1&f-age=vzroslaya-koshka&f-other=feline-health,sterilizovannyie-koshki&producer_filter=royal-canin">
+                                <div class="footer-icon" id="footer-2"></div>
+                                <!--<h3>DIGESTIVE CARE</h3>-->
+                                <p>повседневнoe питаниe <br> для взрослых <br> и стерилизованных кошек</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col--50 subsection-footer-icons">
+                        <div class="footer-icon-cont">
+                            <a href="/c/korm-dlya-koshek/?page=1&f-other=priveredlivyie&producer_filter=royal-canin">
+                                <div class="footer-icon" id="footer-3"></div>
+                                <!--<h3>DERMACOMFORT</h3>-->
+                                <p>привередливоcть <br> в питании</p>
+                            </a>
+                        </div>
+                        <div class="footer-icon-cont">
+                            <a href="/c/korm-dlya-koshek/?page=1&f-age=pozhilaya-koshka&f-other=feline-health">
+                                <div class="footer-icon" id="footer-4"></div>
+                                <!--<h3>LIGHT WEIGHT CARE</h3>-->
+                                <p>пожилой возраст</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

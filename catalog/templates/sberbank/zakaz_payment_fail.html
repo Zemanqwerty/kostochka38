@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head_title %} Оплата отклонена{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="category">Оплата отклонена</h1>
+    <div class='way'>
+        <a href='/' >Главная</a> &rarr; <a href='/account/'>Личный кабинет</a> &rarr; <a href='/account/orders/'>История заказов</a> &rarr; <a href='/account/order/{{ current_payment.payservice.id }}/'>Заказ №{{ current_payment.payservice.id }}</a> &rarr; <span>Оплата отклонена</span>
+    </div>
+
+    <div class='page' id="comment_form">
+        {% if request.user.is_authenticated %}
+            <div class="text-center sberbank-error">
+                <big><span class="text-danger">Оплата отклонена</span>,  заказ №{{ current_payment.payservice.id }}.</big>
+
+
+                <br><br>
+                К сожалению, Ваш платеж не был совершен. Попробуйте пройти процедуру оплаты еще раз или выберите другой метод оплаты.
+                <br>
+                При возникновении вопросов, пожалуйста, свяжитесь с оператором по телефону <a href="+73952504038">8 (3952) 50-40-38</a>
+                и назовите номер Вашего заказа.
+            </div>
+        {% else %}
+            {% include 'need_autirozed.html' %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

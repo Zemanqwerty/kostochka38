@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_title %}
+Ошибка 500 - Интернет-магазин зоотоваров Kostochka38.ru
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <h1>Ошибка 500, внутренняя ошибка сервера</h1>
+
+            <div class="page">
+                <div class="bright">
+                    <p>
+                        К сожалению, что-то пошло не так.<br>
+                        Мы уже в курсе и скорее всего наши специалисты уже решают проблему.<br><br>
+                        Пожалуйста, попробуйте зайти позже.
+                    </p>
+                    <p class='meta'>Попробуйте перейти на <a href="/">главную страницу</a></p>
+                </div>
+                <div class="bleft">
+                    <img src="{% static 'kostochka38/images/500.png' %}">
+                </div>
+
+                <br class="clear">
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+    <channel>
+        <title>Kostochka38.ru</title>
+        <link>https://kostochka38.ru/</link>
+        <description>Выгрузка товаров для Facebook</description>
+
+        {% for i in items %}
+            <item>
+                <g:id>{{ i.id }}</g:id>
+                <g:gtin>{% if i.barcode %}{{ i.barcode }}{% else %}{% if i.code %}{{ i.code }}{% else %}{{ i.article }}{% endif %}{% endif %}</g:gtin>
+                <g:title>{{ i.deckitem.producer.title }}, {{ i.deckitem.title }}, {{ i.weight }}</g:title>
+
+                <g:link>https://kostochka38.ru/c/i/{{ i.deckitem.link }}/#{{ i.id }}</g:link>
+                <g:image_link>https://kostochka38.ru{{ i.deckitem.photos.0.fullimage.url }}</g:image_link>
+                <g:brand>{{ i.deckitem.producer.title }}</g:brand>
+
+                <g:description> {{ i.deckitem.description|striptags|truncatewords:20 }} </g:description>
+
+                <g:condition>new</g:condition>
+                <g:availability>in stock</g:availability>
+
+                <g:price>{{ i.current_price }} RUB</g:price>
+
+            </item>
+        {% endfor %}
+
+    </channel>
+</rss>

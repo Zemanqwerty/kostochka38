@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load pytils_numeral %}
+{% load intfilter %}
+{% load static %}
+
+{% block title %}
+    Корзина
+{% endblock %}
+
+{% block head_title %}
+    Корзина
+{% endblock %}
+
+{% block way %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <h1 class="category">Корзина</h1>
+        <div id='cart_way' class='step1'>
+            <span class='active'><span class="text">Корзина</span><span class="background-icon"><i class="fa fa-pencil"></i></span></span> <i class="fa fa-long-arrow-right"></i>
+            <span><span class="text">Оформление заказа</span></span>
+        </div>
+        <div class="page">
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade in" role="alert">
+                        {{ message|safe }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Скрыть">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+            <form name='my_cart_form' action='' id='my_cart_form' method='POST'>
+                {% if result %}
+                    <table width='100%' id='cart_table' cellspacing='0' cellpadding='0'>
+                        {% for j in result %}
+                            <tr id="line_{{ j.id }}" class="cart_line items{% if j.presale == 1 %} noborder{% endif %}{% if j.basket_of_good %} basket-of-goods{% endif %}"{% if j.goods.availability == 0 %} style="background: #f5f5f5; opacity: 0.5;"{% elif j.summ_changed is True %} style="background: #fcf8e3;"{% endif %}>
+                                <td class='number' align='center'><div>#{{ j.number }}</div></td>
+                                <td class="photo{% if not j.goods.deckitem.cover %} noimage{% endif %}">
+                                    <a href='{{ j.goods.deckitem.get_absolute_url }}#{{ j.goods.id }}'>
+                                        <img alt="{{ j.goods.deckitem.title }} {{ j.goods.weight }}"
+                                             title="{{ j.goods.deckitem.title }} {{ j.goods.weight }}"
+                                             src="{% if j.goods.get_photo %}{{ j.goods.get_photo.cart_thumbnail.url }}{% else %}{% static 'kostochka38/images/noimage.png' %}{% endif %}"
+                                    </a>
+                                </td>
+                                <td class='title'>
+                                    <div>
+                                       <div class="labels_block cart_labels hidden-xs hidden-sm hidden-md">
+                                            {% if j.goods.availability != 0 %}
+                                                {% if j.sale %}
+                                                    <div class="label action">
+                                                        -{{ j.sale }}%
+                                                    </div>
+                                                {% else %}
+                                                    {% if procent %}
+                                                        <div class="label action">
+                                                            -{{ procent }}%
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+
+                                        <a href='{{ j.goods.deckitem.get_absolute_url }}#{{ j.goods.id }}'>{{ j.goods.deckitem.producer.title }}, {{ j.goods.deckitem.title|safe }}</a>
+                                        <span class="hidden-lg">
+                                            {% if j.goods.availability != 0 %}
+                                                {% if j.sale %}
+                                                    <span class="label label-warning">
+                                                        -{{ j.sale }}%
+                                                    </span>
+                                                {% else %}
+                                                    {% if procent %}
+                                                        <span class="label label-warning">
+                                                            -{{ procent }}%
+                                                        </span>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        </span>
+                                        <div style="font-style: normal; font-weight: bold; font-size: 16px">{{ j.goods.weight }}</div>
+
+                                        {% if j.presale is True %}
+                                            <div class="label presale visible in_cart">
+                                                Обратите внимание!
+                                                Данный товар доступен под заказ. Срок доставки
+                                                {% if j.goods.deckitem.segment_new.link == 'zebra' or j.goods.deckitem.segment_new.link == 'zoocat' or j.goods.deckitem.segment_new.link == 'aleiskzernoproduct' %}
+                                                    7-14
+                                                {% else %}
+                                                    {% if j.goods.deckitem.segment_new.link == 'ivanko' %}
+                                                        14-21
+                                                    {% else %}
+                                                        14-21
+                                                    {% endif %}
+                                                {% endif %}
+                                                дней. Уточняйте детали у операторов.
+                                            </div>
+                                        {% elif j.basket_of_good is True %}
+                                            <div class="label presale visible in_cart">
+                                                Товар для корзины добра
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td class="td-count">
+                                    <div>
+                                        <input data-lineid='{{ j.id }}' class="count{% if j.goods.availability == 0 %} disabled{% elif j.summ_changed is True %} price-changed{% endif %}" type='text' value='{{ j.quantity }}' name='quantity_{{ j.number }}' size='1' id='quantity_{{ j.number }}'{% if j.goods.availability == 0 %} disabled{% endif %}>
+                                        <span onselectstart="return false" onmousedown="return false" class="count-plus{% if j.goods.availability == 0 %} disabled{% endif %}">+</span>
+                                        <span onselectstart="return false" onmousedown="return false" class="count-minus{% if j.goods.availability == 0 %} disabled{% endif %}">–</span>
+                                    </div>
+                                    <input type='hidden' value='{{ j.id }}' name='id_goods_{{ j.number }}'>
+                                    <input type='hidden' value='{{ j.hash }}' id='hash_goods_{{ j.number }}' name='hash_goods_{{ j.number }}'>
+                                </td>
+                                <td align='right' class='price'>
+                                    {% if j.goods.availability != 0 %}
+                                        <div>
+                                            {% if j.sale or procent %}<span class="real_price">{{ j.real_sum|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i></span><br>{% endif %}
+                                            <span class="price_price {% if j.sale or procent %}price_sale{% endif %}">{{ j.summ|floatformat:2|intspace }} <i class="far fa-ruble-sign"></i></span>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td class='manage delete' align='center' number='{{ j.number }}' id='cart_remove' data-lineid='{{ j.id }}'>
+                                    <i class="fa fa-times" alt="Удалить товар из корзины" title="Удалить товар из корзины"></i>
+                                </td> 
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+                    <div class="all_summ_block">
+                        <div class="all-summ">
+                            Итого<span class="hidden500"> к оплате</span>: <big><b><span id="summ_so_skidkoi">{{ summ_so_skidkoi|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i></b></big>
+                        </div>
+                        <br class='clear'>
+                        <br class='clear'>
+                        <div class="default-summ">
+                            Сумма заказа: <span id="summ_s_dostavkoy">{{ real_zakaz_sum|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i>
+                        </div>
+                        <br class='clear'>
+
+                        <div class="default-summ">
+                            Доставка: <span id="dostavka">{{ dostavka|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i>
+                        </div>
+                        <br class='clear'>
+
+                        {% if skidka %}
+                            <div class="default-summ">
+                                Скидка: <span id="skidka">{{ skidka|floatformat:2|intspace }}</span> <i class="far fa-ruble-sign"></i>
+                            </div>
+                            <br class='clear'>
+                        {% endif %}
+
+                        <br class='clear'>
+
+                        <div>
+                            <div onclick='full_submit()' id='cart_button'>Перейти к оформлению заказа</div>
+                        </div>
+
+                        <br class='clear'>
+                    </div>
+
+                    {% if not basket_of_goods and basket_of_good_items.count > 0 %}
+                        <div class="goods_items_block">
+                            <div class="goods_items_block_title">
+                            <h3>Корзина добра</h3>
+                            <a href="#" data-toggle="modal" data-target="#aboutBasketOfGood" type="button" name="button" class="btn btn-link btn-sm backet-of-goods-toggler">Что это такое?</a>
+                            </div>
+                            <p></p>
+                            <ul class="owl-carousel owl-theme basket_of_good_card_view">
+                            {% for good_item in basket_of_good_items %}
+                                {% include 'items_card_basket_of_good.html' with item=good_item.item %}
+                            {% endfor %}
+                            </ul>
+                            <div class="dont_show_again">
+                                <button class="btn btn-link dont_show_again_button_account" type="button" name="button">Больше не показывать</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                <input type='hidden' name='count' value='{{ count }}'>
+                <input type='hidden' name='type' id='type' value='0'>
+            </form>
+
+
+            <div class="alert alert-warning" {% if not empty %}style='display: none;'{% endif %}>
+                Ваша корзина пуста!
+            </div>
+        </div>
+    </div>
+{% endblock %}
