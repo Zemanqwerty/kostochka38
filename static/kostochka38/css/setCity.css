@@ -22,3 +22,7 @@
   background-color: rgb(240, 240, 240);
   color: #ff8f40;
 }
+
+.alert-danger {
+  display: none;
+}
