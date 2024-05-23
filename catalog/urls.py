@@ -2,6 +2,8 @@
 from django.conf.urls import *
 from django.urls import re_path
 from catalog.views import views
+from core.views import static
+from kostochka38 import settings
 
 urlpatterns = [
     re_path(r'^$', views.catalog_view, name='catalog'),
@@ -60,5 +62,5 @@ urlpatterns = [
     re_path(r'^get_item_availability_table/$', views.get_item_availability_table),
 
     re_path(r'^(?P<category_link>.*)/$', views.view_category),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

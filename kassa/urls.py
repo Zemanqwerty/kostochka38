@@ -2,9 +2,11 @@ from django.urls import re_path
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 
+from core.views import static
 from kassa.views.cart_views import autocomplete, autocomplete_customers, add_item_to_cart, clear_cart, update_cart, remove_from_cart
 from kassa.views.duty_views import open_duty, change_warehouse, close_duty, logout_user, add_encashment, accept_movement#, delete_encashment
 from kassa.views.order_views import OrderListView, OrderCreateView, OrderView, disband, refund, PickupOrderView
+from kostochka38 import settings
 
 urlpatterns = [
     re_path(r'^login/$', LoginView.as_view(template_name='admin/login.html'), name='kassa_login'),
@@ -28,4 +30,4 @@ urlpatterns = [
     re_path(r'^add_encashment/$', add_encashment, name='kassa_add_encashment'),
     #re_path(r'^del_encashment/$', delete_encashment, name='kassa_del_encashment'),
     re_path(r'^accept_movement/(?P<movement_id>[0-9]+)$', accept_movement, name='accept_movement')
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -2,6 +2,8 @@ from django.urls import re_path
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 
+from core.views import static
+from kostochka38 import settings
 from sklad.views.duty_views import open_duty, change_warehouse, close_duty, logout_user, add_encashment
 from sklad.views.order_views import OrderListView
 
@@ -17,4 +19,4 @@ urlpatterns = [
     re_path(r'^add_encashment/$', add_encashment, name='sklad_add_encashment'),
     # re_path(r'^del_encashment/$', delete_encashment, name='sklad_del_encashment'),
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
